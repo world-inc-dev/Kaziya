@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kaziya — Where business gets moving.">
+<title>Kaziya — Where Business Gets Moving</title>
+
+<style>
+:root{
+  --navy:#081426;
+  --navy2:#0d1d35;
+  --lime:#b7f34a;
+  --white:#fff;
+  --muted:#8fa0b8;
+  --line:rgba(255,255,255,.09);
+  --card:rgba(255,255,255,.055);
+  --shadow:0 24px 70px rgba(0,0,0,.25);
+  --radius:22px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--navy);
+  color:var(--white);
+  line-height:1.5;
+}
+
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.container{
+  width:min(1160px,92%);
+  margin:auto;
+}
+
+/* NAVIGATION */
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(8,20,38,.86);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:25px;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:-1.5px;
+}
+
+.logo span{color:var(--lime)}
+
+.navlinks{
+  display:flex;
+  gap:25px;
+  color:#c8d2e0;
+  font-size:14px;
+  font-weight:700;
+}
+
+.navlinks a:hover{color:var(--lime)}
+
+.actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:12px 18px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.btn-outline{
+  background:transparent;
+  color:white;
+  border:1px solid var(--line);
+}
+
+.btn-primary{
+  background:var(--lime);
+  color:#142000;
+}
+
+.menu{
+  display:none;
+  background:none;
+  border:0;
+  color:white;
+  font-size:28px;
+}
+
+/* HERO */
+.hero{
+  padding:76px 0 55px;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  background:rgba(183,243,74,.10);
+  filter:blur(90px);
+  border-radius:50%;
+  right:-180px;
+  top:-180px;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:55px;
+  align-items:center;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(183,243,74,.1);
+  border:1px solid rgba(183,243,74,.2);
+  color:var(--lime);
+  padding:8px 12px;
+  border-radius:30px;
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+}
+
+h1{
+  font-size:clamp(44px,6vw,76px);
+  line-height:.98;
+  letter-spacing:-4px;
+  margin:20px 0;
+}
+
+h1 span{color:var(--lime)}
+
+.hero p{
+  font-size:18px;
+  color:#aebbd0;
+  max-width:620px;
+}
+
+.search{
+  display:flex;
+  gap:10px;
+  margin-top:30px;
+  background:white;
+  padding:7px;
+  border-radius:16px;
+  max-width:620px;
+}
+
+.search input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:12px 14px;
+  font-size:15px;
+  color:#182333;
+}
+
+.search button{
+  border:0;
+  background:var(--navy);
+  color:white;
+  border-radius:11px;
+  padding:0 22px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.hero-note{
+  display:flex;
+  gap:18px;
+  margin-top:20px;
+  color:#91a1b7;
+  font-size:13px;
+}
+
+.hero-note b{color:white}
+
+/* HERO DASHBOARD CARD */
+.mock{
+  background:linear-gradient(145deg,#122744,#091628);
+  border:1px solid var(--line);
+  border-radius:30px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  transform:rotate(1deg);
+}
+
+.mock-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.live{
+  font-size:12px;
+  color:#c5d0df;
+}
+
+.dot{
+  display:inline-block;
+  width:7px;
+  height:7px;
+  background:var(--lime);
+  border-radius:50%;
+  margin-right:6px;
+}
+
+.balance{
+  background:rgba(255,255,255,.06);
+  border:1px solid var(--line);
+  padding:20px;
+  border-radius:20px;
+}
+
+.balance small{color:#93a3b9}
+
+.balance strong{
+  display:block;
+  font-size:30px;
+  margin:4px 0 15px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.stat{
+  background:rgba(255,255,255,.045);
+  border:1px solid var(--line);
+  padding:15px;
+  border-radius:16px;
+}
+
+.stat small{color:#8293aa}
+.stat b{display:block;margin-top:5px}
+
+/* SECTIONS */
+section{padding:70px 0}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:28px;
+  gap:20px;
+}
+
+.section-head h2{
+  font-size:34px;
+  letter-spacing:-1.5px;
+}
+
+.section-head p{
+  color:var(--muted);
+  max-width:550px;
+}
+
+/* CATEGORIES */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.category{
+  padding:22px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  transition:.2s;
+}
+
+.category:hover{
+  border-color:rgba(183,243,74,.35);
+  transform:translateY(-4px);
+}
+
+.icon{
+  width:45px;
+  height:45px;
+  display:grid;
+  place-items:center;
+  border-radius:14px;
+  background:rgba(183,243,74,.1);
+  font-size:22px;
+  margin-bottom:15px;
+}
+
+.category h3{font-size:16px}
+
+.category p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+/* PRODUCTS */
+.product{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.product-img{
+  height:185px;
+  background:linear-gradient(135deg,#1b304d,#102039);
+  display:grid;
+  place-items:center;
+  font-size:54px;
+}
+
+.product-body{padding:17px}
+
+.tag{
+  color:var(--lime);
+  font-size:11px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+
+.product h3{
+  font-size:16px;
+  margin:6px 0;
+}
+
+.price{
+  font-size:19px;
+  font-weight:900;
+}
+
+.seller{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:6px;
+}
+
+/* SERVICES */
+.service{
+  background:#f4f7fb;
+  color:#102039;
+  border-radius:23px;
+  padding:24px;
+  border:1px solid #e6ebf2;
+}
+
+.service .icon{
+  background:#eaf7cf;
+}
+
+.service p{
+  color:#64738a;
+  font-size:13px;
+  margin-top:6px;
+}
+
+/* BUSINESSES */
+.businesses{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.biz{
+  display:flex;
+  gap:15px;
+  align-items:center;
+  padding:18px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+}
+
+.avatar{
+  width:52px;
+  height:52px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#b7f34a,#e8ffae);
+  color:#172300;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.biz small{
+  display:block;
+  color:var(--muted);
+}
+
+/* DEALS */
+.deal{
+  background:linear-gradient(110deg,#b7f34a,#dfff91);
+  color:#142000;
+  border-radius:28px;
+  padding:42px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:25px;
+}
+
+.deal h2{
+  font-size:38px;
+  letter-spacing:-2px;
+}
+
+.deal p{
+  max-width:580px;
+  margin-top:8px;
+}
+
+.deal .btn{
+  background:var(--navy);
+  color:white;
+}
+
+/* STEPS */
+.steps{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.step{
+  padding:25px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+
+.number{
+  font-size:12px;
+  color:var(--lime);
+  font-weight:900;
+}
+
+.step h3{margin:10px 0 5px}
+
+.step p{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* TESTIMONIALS */
+.testimonials{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.quote{
+  padding:24px;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+
+.quote p{
+  color:#c3cfde;
+  font-size:14px;
+}
+
+.person{
+  margin-top:18px;
+  font-weight:800;
+}
+
+.person small{
+  display:block;
+  color:var(--muted);
+  font-weight:500;
+}
+
+/* SELLER CTA */
+.seller-cta{
+  background:#101f36;
+  border:1px solid var(--line);
+  border-radius:28px;
+  padding:45px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.seller-cta h2{
+  font-size:35px;
+  letter-spacing:-1.5px;
+}
+
+.seller-cta p{
+  color:var(--muted);
+  max-width:620px;
+  margin-top:8px;
+}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);
+  padding:45px 0 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,1fr);
+  gap:30px;
+}
+
+footer p,
+footer a{
+  color:#8190a5;
+  font-size:13px;
+}
+
+footer h4{margin-bottom:12px}
+
+footer a{
+  display:block;
+  margin:8px 0;
+}
+
+.copy{
+  border-top:1px solid var(--line);
+  margin-top:35px;
+  padding-top:20px;
+  color:#63738a;
+  font-size:12px;
+}
+
+/* TOAST */
+.toast{
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translate(-50%,20px);
+  opacity:0;
+  background:white;
+  color:#122039;
+  padding:12px 18px;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+  z-index:200;
+  transition:.3s;
+  font-weight:700;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* TABLET */
+@media(max-width:900px){
+
+  .navlinks{display:none}
+
+  .menu{display:block}
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .businesses,
+  .testimonials{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .steps{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero{
+    padding-top:50px;
+  }
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+  .nav{height:68px}
+
+  .actions .btn-outline{
+    display:none;
+  }
+
+  .hero{
+    padding:45px 0 25px;
+  }
+
+  h1{
+    letter-spacing:-2.5px;
+  }
+
+  .search{
+    flex-direction:column;
+    background:transparent;
+    padding:0;
+  }
+
+  .search input{
+    border-radius:12px;
+  }
+
+  .search button{
+    height:48px;
+  }
+
+  .grid,
+  .businesses,
+  .testimonials,
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-head{
+    display:block;
+  }
+
+  .section-head h2{
+    font-size:28px;
+    margin-bottom:8px;
+  }
+
+  .deal,
+  .seller-cta{
+    display:block;
+    padding:30px;
+  }
+
+  .deal h2,
+  .seller-cta h2{
+    font-size:29px;
+    margin-bottom:18px;
+  }
+
+  .mock{
+    transform:none;
+  }
+
+  .hero-note{
+    flex-wrap:wrap;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+<header>
+  <div class="container nav">
+
+    <a class="logo" href="#">
+      Kazi<span>ya</span>
+    </a>
+
+    <nav class="navlinks">
+      <a href="#marketplace">Marketplace</a>
+      <a href="#services">Services</a>
+      <a href="#businesses">Businesses</a>
+      <a href="#deals">Deals</a>
+      <a href="#sell">Sell on Kaziya</a>
+    </nav>
+
+    <div class="actions">
+
+      <button class="btn btn-outline"
+      onclick="toast('Sign in will be connected to the Kaziya account system.')">
+        Sign in
+      </button>
+
+      <button class="btn btn-primary"
+      onclick="toast('Registration will be connected to the Kaziya account system.')">
+        Create account
+      </button>
+
+      <button class="menu" aria-label="Menu">
+        ☰
+      </button>
+
+    </div>
+  </div>
+</header>
+
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="container hero-grid">
+
+    <div>
+
+      <div class="eyebrow">
+        🇺🇬 Built for modern African commerce
+      </div>
+
+      <h1>
+        Where business<br>
+        gets <span>moving.</span>
+      </h1>
+
+      <p>
+        Discover products, services and trusted businesses in one simple
+        marketplace. Shop, book, sell and grow with Kaziya.
+      </p>
+
+      <div class="search">
+
+        <input
+          id="searchBox"
+          type="search"
+          placeholder="What are you looking for?"
+        >
+
+        <button onclick="searchSite()">
+          Search
+        </button>
+
+      </div>
+
+      <div class="hero-note">
+
+        <span>
+          ✓ <b>Local businesses</b>
+        </span>
+
+        <span>
+          ✓ <b>Secure checkout</b>
+        </span>
+
+        <span>
+          ✓ <b>Seller tools</b>
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- PLATFORM PREVIEW -->
+    <div class="mock">
+
+      <div class="mock-top">
+
+        <strong>Kaziya Overview</strong>
+
+        <span class="live">
+          <i class="dot"></i>
+          Live marketplace
+        </span>
+
+      </div>
+
+      <div class="balance">
+
+        <small>Marketplace activity</small>
+
+        <strong>Growing every day</strong>
+
+        <span class="tag">
+          Thousands of opportunities
+        </span>
+
+      </div>
+
+      <br>
+
+      <div class="stats">
+
+        <div class="stat">
+          <small>Products</small>
+          <b>Discover</b>
+        </div>
+
+        <div class="stat">
+          <small>Services</small>
+          <b>Book</b>
+        </div>
+
+        <div class="stat">
+          <small>Businesses</small>
+          <b>Connect</b>
+        </div>
+
+        <div class="stat">
+          <small>Deals</small>
+          <b>Save</b>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- CATEGORIES -->
+<section id="categories">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+        <h2>Explore categories</h2>
+        <p>
+          Everything you need, organized for faster discovery.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="grid">
+
+      <a class="category" href="#marketplace">
+        <div class="icon">👗</div>
+        <h3>Fashion</h3>
+        <p>Clothes, shoes & accessories</p>
+      </a>
+
+      <a class="category" href="#marketplace">
+        <div class="icon">📱</div>
+        <h3>Electronics</h3>
+        <p>Phones, gadgets & tech</p>
+      </a>
+
+      <a class="category" href="#services">
+        <div class="icon">💄</div>
+        <h3>Beauty</h3>
+        <p>Salons, makeup & wellness</p>
+      </a>
+
+      <a class="category" href="#services">
+        <div class="icon">💻</div>
+        <h3>Digital services</h3>
+        <p>Design, websites & more</p>
+      </a>
+
+      <a class="category" href="#marketplace">
+        <div class="icon">🏠</div>
+        <h3>Home</h3>
+        <p>Furniture & household goods</p>
+      </a>
+
+      <a class="category" href="#services">
+        <div class="icon">🔧</div>
+        <h3>Repairs</h3>
+        <p>Find skilled professionals</p>
+      </a>
+
+      <a class="category" href="#services">
+        <div class="icon">🍔</div>
+        <h3>Food</h3>
+        <p>Restaurants & local food</p>
+      </a>
+
+      <a class="category" href="#businesses">
+        <div class="icon">🚗</div>
+        <h3>Transport</h3>
+        <p>Transport & vehicle services</p>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MARKETPLACE -->
+<section id="marketplace">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+        <h2>Trending marketplace</h2>
+        <p>
+          Products featured by sellers on Kaziya.
+        </p>
+      </div>
+
+      <button
+        class="btn btn-outline"
+        onclick="toast('The full marketplace will be connected to live stock.')">
+        View all
+      </button>
+
+    </div>
+
+
+    <div class="grid">
+
+      <article class="product">
+
+        <div class="product-img">
+          👟
+        </div>
+
+        <div class="product-body">
+
+          <span class="tag">
+            Trending
+          </span>
+
+          <h3>
+            Urban Sneakers
+          </h3>
+
+          <div class="price">
+            UGX 85,000
+          </div>
+
+          <div class="seller">
+            Kampala Streetwear
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <article class="product">
+
+        <div class="product-img">
+          🎧
+        </div>
+
+        <div class="product-body">
+
+          <span class="tag">
+            Popular
+          </span>
+
+          <h3>
+            Wireless Headphones
+          </h3>
+
+          <div class="price">
+            UGX 120,000
+          </div>
+
+          <div class="seller">
+            TechPoint Uganda
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <article class="product">
+
+        <div class="product-img">
+          👜
+        </div>
+
+        <div class="product-body">
+
+          <span class="tag">
+            New
+          </span>
+
+          <h3>
+            Classic Handbag
+          </h3>
+
+          <div class="price">
+            UGX 65,000
+          </div>
+
+          <div class="seller">
+            Style Avenue
+          </div>
+
+        </div>
+
+      </article>
+
+
+      <article class="product">
+
+        <div class="product-img">
+          ⌚
+        </div>
+
+        <div class="product-body">
+
+          <span class="tag">
+            Deal
+          </span>
+
+          <h3>
+            Smart Watch
+          </h3>
+
+          <div class="price">
+            UGX 95,000
+          </div>
+
+          <div class="seller">
+            Gadget Hub
+          </div>
+
+        </div>
+
+      </article>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SERVICES -->
+<section id="services">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+        <h2>Book a service</h2>
+
+        <p>
+          Connect with professionals and local service providers.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="grid">
+
+      <div class="service">
+
+        <div class="icon">💇</div>
+
+        <h3>
+          Salon & Beauty
+        </h3>
+
+        <p>
+          Book hair, makeup, nails and beauty services.
+        </p>
+
+      </div>
+
+
+      <div class="service">
+
+        <div class="icon">💻</div>
+
+        <h3>
+          Web Development
+        </h3>
+
+        <p>
+          Find developers for websites and applications.
+        </p>
+
+      </div>
+
+
+      <div class="service">
+
+        <div class="icon">📸</div>
+
+        <h3>
+          Photography
+        </h3>
+
+        <p>
+          Book photographers for events and brands.
+        </p>
+
+      </div>
+
+
+      <div class="service">
+
+        <div class="icon">🛠️</div>
+
+        <h3>
+          Home Repairs
+        </h3>
+
+        <p>
+          Connect with trusted technicians near you.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- BUSINESSES -->
+<section id="businesses">
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+
+        <h2>
+          Popular businesses
+        </h2>
+
+        <p>
+          Discover businesses building their presence on Kaziya.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="businesses">
+
+      <div class="biz">
+
+        <div class="avatar">
+          KS
+        </div>
+
+        <div>
+          <b>Kampala Streetwear</b>
+          <small>Fashion · Kampala</small>
+        </div>
+
+      </div>
+
+
+      <div class="biz">
+
+        <div class="avatar">
+          TP
+        </div>
+
+        <div>
+          <b>TechPoint Uganda</b>
+          <small>Electronics · Kampala</small>
+        </div>
+
+      </div>
+
+
+      <div class="biz">
+
+        <div class="avatar">
+          SA
+        </div>
+
+        <div>
+          <b>Style Avenue</b>
+          <small>Fashion · Entebbe</small>
+        </div>
+
+      </div>
+
+
+      <div class="biz">
+
+        <div class="avatar">
+          GH
+        </div>
+
+        <div>
+          <b>Gadget Hub</b>
+          <small>Technology · Kampala</small>
+        </div>
+
+      </div>
+
+
+      <div class="biz">
+
+        <div class="avatar">
+          MB
+        </div>
+
+        <div>
+          <b>Modern Beauty</b>
+          <small>Beauty · Wakiso</small>
+        </div>
+
+      </div>
+
+
+      <div class="biz">
+
+        <div class="avatar">
+          DS
+        </div>
+
+        <div>
+          <b>Digital Studio</b>
+          <small>Creative · Kampala</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DEALS -->
+<section id="deals">
+
+  <div class="container">
+
+    <div class="deal">
+
+      <div>
+
+        <h2>
+          Deals worth finding.
+        </h2>
+
+        <p>
+          Give customers a reason to shop today with promotions,
+          featured listings and limited-time offers.
+        </p>
+
+      </div>
+
+      <button
+        class="btn"
+        onclick="toast('Deals will be connected to live stock.')">
+        Explore deals →
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section>
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+
+        <h2>
+          How Kaziya works
+        </h2>
+
+        <p>
+          Simple for customers. Powerful for businesses.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="steps">
+
+      <div class="step">
+
+        <span class="number">
+          01 / DISCOVER
+        </span>
+
+        <h3>
+          Find what you need
+        </h3>
+
+        <p>
+          Search products, services and businesses by category
+          and location.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <span class="number">
+          02 / CONNECT
+        </span>
+
+        <h3>
+          Choose confidently
+        </h3>
+
+        <p>
+          Compare listings, view business profiles and contact sellers.
+        </p>
+
+      </div>
+
+
+      <div class="step">
+
+        <span class="number">
+          03 / GROW
+        </span>
+
+        <h3>
+          Buy, book or sell
+        </h3>
+
+        <p>
+          Complete transactions and help local businesses grow
+          their digital presence.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TESTIMONIALS -->
+<section>
+
+  <div class="container">
+
+    <div class="section-head">
+
+      <div>
+
+        <h2>
+          What people are saying
+        </h2>
+
+        <p>
+          A testimonial area ready for verified customer feedback.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="testimonials">
+
+      <div class="quote">
+
+        <p>
+          “Kaziya makes it much easier to discover local businesses
+          without searching through dozens of pages.”
+        </p>
+
+        <div class="person">
+          Aisha M.
+          <small>Kampala</small>
+        </div>
+
+      </div>
+
+
+      <div class="quote">
+
+        <p>
+          “The seller tools give small businesses a professional
+          way to showcase what they offer.”
+        </p>
+
+        <div class="person">
+          Daniel K.
+          <small>Business owner</small>
+        </div>
+
+      </div>
+
+
+      <div class="quote">
+
+        <p>
+          “I like having products and services in one place.
+          It feels simple and modern.”
+        </p>
+
+        <div class="person">
+          Sarah N.
+          <small>Customer</small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SELLER CTA -->
+<section id="sell">
+
+  <div class="container">
+
+    <div class="seller-cta">
+
+      <div>
+
+        <h2>
+          Turn what you do into a digital business.
+        </h2>
+
+        <p>
+          Create a seller profile, showcase your products or
+          services and reach customers through Kaziya.
+        </p>
+
+      </div>
+
+      <button
+        class="btn btn-primary"
+        onclick="toast('Seller registration will be connected to the backend.')">
+        Become a seller
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <a class="logo" href="#">
+          Kazi<span>ya</span>
+        </a>
+
+        <p style="margin-top:12px;max-width:300px">
+          A modern marketplace connecting customers,
+          businesses and opportunities.
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h4>Platform</h4>
+
+        <a href="#marketplace">
+          Marketplace
+        </a>
+
+        <a href="#services">
+          Services
+        </a>
+
+        <a href="#businesses">
+          Businesses
+        </a>
+
+        <a href="#deals">
+          Deals
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>Business</h4>
+
+        <a href="#sell">
+          Become a seller
+        </a>
+
+        <a href="#">
+          Business plans
+        </a>
+
+        <a href="#">
+          Advertising
+        </a>
+
+        <a href="#">
+          Help centre
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h4>Company</h4>
+
+        <a href="#">
+          About Kaziya
+        </a>
+
+        <a href="#">
+          Contact
+        </a>
+
+        <a href="#">
+          Privacy
+        </a>
+
+        <a href="#">
+          Terms
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copy">
+
+      © 2026 Kaziya. All rights reserved.
+      Built for commerce, services and local business.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<!-- TOAST -->
+<div id="toast" class="toast"></div>
+
+
+<script>
+
+function toast(message){
+
+  const el=document.getElementById("toast");
+
+  el.textContent=message;
+
+  el.classList.add("show");
+
+  setTimeout(()=>{
+    el.classList.remove("show");
+  },2800);
+
+}
+
+
+function searchSite(){
+
+  const q=document
+    .getElementById("searchBox")
+    .value
+    .trim();
+
+  if(!q){
+
+    toast(
+      "Enter a product, service or business to search."
+    );
+
+    return;
+  }
+
+  toast(
+    'Searching Kaziya for "'+q+'"...'
+  );
+
+}
+
+
+/* MOBILE MENU */
+
+document
+.querySelector(".menu")
+.addEventListener("click",()=>{
+
+  const nav=document.querySelector(".navlinks");
+
+  const open=nav.style.display==="flex";
+
+  nav.style.display=open
+    ?"none"
+    :"flex";
+
+  if(!open){
+
+    nav.style.position="absolute";
+    nav.style.top="68px";
+    nav.style.left="0";
+    nav.style.right="0";
+
+    nav.style.padding="18px 4%";
+
+    nav.style.background="#0b1930";
+
+    nav.style.flexDirection="column";
+
+    nav.style.borderBottom=
+      "1px solid rgba(255,255,255,.09)";
+  }
+
+});
+
+</script>
+
+</body>
+</html>
