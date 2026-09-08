@@ -46,12 +46,123 @@ button{
   cursor:pointer;
 }
 
+.hidden{
+  display:none !important;
+}
+
+/* ================= LOGIN ================= */
+
+#loginScreen{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(183,243,74,.10),transparent 30%),
+    radial-gradient(circle at 80% 80%,rgba(77,163,255,.08),transparent 30%),
+    var(--navy);
+}
+
+.login-box{
+  width:min(430px,100%);
+  background:rgba(16,31,51,.96);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:32px;
+  box-shadow:0 30px 100px rgba(0,0,0,.4);
+}
+
+.login-logo{
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  background:var(--lime);
+  color:var(--navy);
+  display:grid;
+  place-items:center;
+  font-size:30px;
+  font-weight:900;
+  margin:0 auto 18px;
+}
+
+.login-box h1{
+  text-align:center;
+  font-size:25px;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  margin:7px 0 28px;
+}
+
+.login-group{
+  margin-bottom:16px;
+}
+
+.login-group label{
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  margin-bottom:7px;
+}
+
+.login-input{
+  width:100%;
+  background:#0b192a;
+  border:1px solid var(--border);
+  color:white;
+  padding:13px;
+  border-radius:11px;
+  outline:none;
+}
+
+.login-input:focus{
+  border-color:rgba(183,243,74,.5);
+}
+
+.login-btn{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:14px;
+  background:var(--lime);
+  color:var(--navy);
+  font-weight:900;
+  margin-top:6px;
+}
+
+.login-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.login-error{
+  background:rgba(255,93,108,.10);
+  color:#ff9aa5;
+  border:1px solid rgba(255,93,108,.2);
+  padding:11px;
+  border-radius:9px;
+  font-size:11px;
+  margin-bottom:15px;
+  display:none;
+}
+
+.login-info{
+  text-align:center;
+  color:#62748d;
+  font-size:10px;
+  line-height:1.6;
+  margin-top:20px;
+}
+
+/* ================= APP ================= */
+
 .app{
   display:flex;
   min-height:100vh;
 }
-
-/* SIDEBAR */
 
 .sidebar{
   width:260px;
@@ -149,7 +260,7 @@ button{
   place-items:center;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
 
 .main{
   margin-left:260px;
@@ -235,7 +346,7 @@ button{
   padding:30px;
 }
 
-/* PAGES */
+/* ================= PAGES ================= */
 
 .page{
   display:none;
@@ -245,7 +356,7 @@ button{
   display:block;
 }
 
-/* STATS */
+/* ================= STATS ================= */
 
 .stats{
   display:grid;
@@ -295,7 +406,7 @@ button{
   color:var(--success);
 }
 
-/* CARDS */
+/* ================= CARDS ================= */
 
 .grid-2{
   display:grid;
@@ -327,7 +438,7 @@ button{
   font-size:11px;
 }
 
-/* CHART */
+/* ================= CHART ================= */
 
 .chart{
   height:260px;
@@ -355,7 +466,7 @@ button{
   font-size:9px;
 }
 
-/* QUICK */
+/* ================= QUICK ================= */
 
 .quick-grid{
   display:grid;
@@ -388,7 +499,7 @@ button{
   color:var(--muted);
 }
 
-/* TABLE */
+/* ================= TABLE ================= */
 
 .table-wrap{
   overflow-x:auto;
@@ -471,7 +582,7 @@ tr:hover td{
   color:var(--blue);
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
 
 .btn{
   border:0;
@@ -508,7 +619,7 @@ tr:hover td{
   flex-wrap:wrap;
 }
 
-/* TOOLBAR */
+/* ================= TOOLBAR ================= */
 
 .toolbar{
   display:flex;
@@ -545,7 +656,7 @@ tr:hover td{
   min-width:150px;
 }
 
-/* APPROVAL CARDS */
+/* ================= APPROVALS ================= */
 
 .approvals{
   display:grid;
@@ -570,7 +681,7 @@ tr:hover td{
   margin:6px 0 14px;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
@@ -612,25 +723,7 @@ tr:hover td{
   font-size:22px;
 }
 
-.form-group{
-  margin-bottom:15px;
-}
-
-.form-group label{
-  display:block;
-  font-size:11px;
-  color:var(--muted);
-  margin-bottom:7px;
-}
-
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:20px;
-}
-
-/* EMPTY */
+/* ================= EMPTY ================= */
 
 .empty{
   padding:45px 20px;
@@ -644,7 +737,7 @@ tr:hover td{
   margin-bottom:7px;
 }
 
-/* TOAST */
+/* ================= TOAST ================= */
 
 .toast{
   position:fixed;
@@ -665,7 +758,7 @@ tr:hover td{
   display:block;
 }
 
-/* LOADING */
+/* ================= LOADING ================= */
 
 .loading{
   text-align:center;
@@ -673,7 +766,7 @@ tr:hover td{
   color:var(--muted);
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 .mobile-menu{
   display:none;
@@ -698,6 +791,7 @@ tr:hover td{
 }
 
 @media(max-width:800px){
+
   .sidebar{
     transform:translateX(-100%);
     transition:.25s;
@@ -735,24 +829,99 @@ tr:hover td{
   .page-title h1{
     font-size:18px;
   }
+
+  .login-box{
+    padding:25px 20px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
+
+<div id="loginScreen">
+
+  <div class="login-box">
+
+    <div class="login-logo">K</div>
+
+    <h1>Kaziya CEO</h1>
+
+    <div class="login-subtitle">
+      Administrator Control Center
+    </div>
+
+    <div class="login-error" id="loginError"></div>
+
+    <form id="loginForm">
+
+      <div class="login-group">
+        <label>Email Address</label>
+        <input
+          type="email"
+          id="loginEmail"
+          class="login-input"
+          placeholder="CEO email address"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="login-group">
+        <label>Password</label>
+        <input
+          type="password"
+          id="loginPassword"
+          class="login-input"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <button
+        type="submit"
+        class="login-btn"
+        id="loginBtn"
+      >
+        Sign in to Admin
+      </button>
+
+    </form>
+
+    <div class="login-info">
+      Kaziya CEO Control Center<br>
+      Authorized administrators only.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================
+     APPLICATION
+========================================================= -->
+
+<div class="app hidden" id="app">
 
 <!-- SIDEBAR -->
 
 <aside class="sidebar" id="sidebar">
 
   <div class="brand">
+
     <div class="logo">K</div>
+
     <div class="brand-text">
       <strong>Kaziya</strong>
       <span>CEO CONTROL CENTER</span>
     </div>
+
   </div>
 
   <nav class="nav">
@@ -846,6 +1015,7 @@ tr:hover td{
     </button>
 
   </nav>
+
 </aside>
 
 
@@ -856,31 +1026,53 @@ tr:hover td{
 <header class="topbar">
 
   <div style="display:flex;align-items:center;gap:14px;">
-    <button class="mobile-menu" id="mobileMenu">☰</button>
+
+    <button
+      class="mobile-menu"
+      id="mobileMenu"
+    >
+      ☰
+    </button>
 
     <div class="page-title">
       <h1 id="pageTitle">CEO Overview</h1>
       <p>Kaziya marketplace administration</p>
     </div>
+
   </div>
 
   <div class="top-actions">
 
-    <button class="icon-btn" id="refreshBtn" title="Refresh">
+    <button
+      class="icon-btn"
+      id="refreshBtn"
+      title="Refresh"
+    >
       ↻
     </button>
 
-    <button class="icon-btn" id="notificationBtn">
+    <button
+      class="icon-btn"
+      id="notificationBtn"
+    >
       🔔
       <span class="notification-dot"></span>
     </button>
 
     <div class="ceo">
-      <div class="avatar" id="ceoAvatar">C</div>
+
+      <div
+        class="avatar"
+        id="ceoAvatar"
+      >
+        C
+      </div>
+
       <div>
         <strong id="ceoName">CEO</strong>
         <small>Administrator</small>
       </div>
+
     </div>
 
   </div>
@@ -898,39 +1090,68 @@ tr:hover td{
   <div class="stats">
 
     <div class="stat-card">
+
       <div class="stat-top">
         <span class="stat-label">Total Users</span>
         <span class="stat-icon">👥</span>
       </div>
+
       <div class="stat-value" id="totalUsers">0</div>
-      <div class="stat-change">Registered accounts</div>
+
+      <div class="stat-change">
+        Registered accounts
+      </div>
+
     </div>
 
+
     <div class="stat-card">
+
       <div class="stat-top">
         <span class="stat-label">Active Sellers</span>
         <span class="stat-icon">🏪</span>
       </div>
+
       <div class="stat-value" id="totalSellers">0</div>
-      <div class="stat-change">Kaziya businesses</div>
+
+      <div class="stat-change">
+        Kaziya businesses
+      </div>
+
     </div>
 
+
     <div class="stat-card">
+
       <div class="stat-top">
         <span class="stat-label">Orders</span>
         <span class="stat-icon">🛒</span>
       </div>
+
       <div class="stat-value" id="totalOrders">0</div>
-      <div class="stat-change">Marketplace orders</div>
+
+      <div class="stat-change">
+        Marketplace orders
+      </div>
+
     </div>
 
+
     <div class="stat-card">
+
       <div class="stat-top">
         <span class="stat-label">Platform Revenue</span>
         <span class="stat-icon">💰</span>
       </div>
-      <div class="stat-value" id="platformRevenue">UGX 0</div>
-      <div class="stat-change">Commission earned</div>
+
+      <div class="stat-value" id="platformRevenue">
+        UGX 0
+      </div>
+
+      <div class="stat-change">
+        Commission earned
+      </div>
+
     </div>
 
   </div>
@@ -941,14 +1162,21 @@ tr:hover td{
     <div class="card">
 
       <div class="card-header">
+
         <div>
           <h3>Platform Sales</h3>
           <span>Recent order activity</span>
         </div>
+
       </div>
 
-      <div class="chart" id="salesChart">
-        <div class="loading">Loading sales...</div>
+      <div
+        class="chart"
+        id="salesChart"
+      >
+        <div class="loading">
+          Loading sales...
+        </div>
       </div>
 
     </div>
@@ -957,33 +1185,47 @@ tr:hover td{
     <div class="card">
 
       <div class="card-header">
+
         <div>
           <h3>Quick Management</h3>
           <span>Common CEO actions</span>
         </div>
+
       </div>
 
       <div class="quick-grid">
 
-        <div class="quick" data-go="products">
+        <div
+          class="quick"
+          data-go="products"
+        >
           <div>📦</div>
           <strong>Review Products</strong>
           <span>Approve seller listings</span>
         </div>
 
-        <div class="quick" data-go="sellers">
+        <div
+          class="quick"
+          data-go="sellers"
+        >
           <div>🏪</div>
           <strong>Manage Sellers</strong>
           <span>Review businesses</span>
         </div>
 
-        <div class="quick" data-go="withdrawals">
+        <div
+          class="quick"
+          data-go="withdrawals"
+        >
           <div>🏦</div>
           <strong>Withdrawals</strong>
           <span>Process requests</span>
         </div>
 
-        <div class="quick" data-go="orders">
+        <div
+          class="quick"
+          data-go="orders"
+        >
           <div>🛒</div>
           <strong>Orders</strong>
           <span>Monitor transactions</span>
@@ -999,30 +1241,70 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Pending Approvals</h3>
         <span>Items requiring CEO attention</span>
       </div>
+
     </div>
 
     <div class="approvals">
 
       <div class="approval">
+
         <h4>📦 Products</h4>
-        <p><span id="pendingProducts">0</span> products waiting for approval.</p>
-        <button class="btn btn-primary" data-go="products">Review Products</button>
+
+        <p>
+          <span id="pendingProducts">0</span>
+          products waiting for approval.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          data-go="products"
+        >
+          Review Products
+        </button>
+
       </div>
 
+
       <div class="approval">
+
         <h4>🏪 Sellers</h4>
-        <p><span id="pendingSellers">0</span> seller businesses waiting for review.</p>
-        <button class="btn btn-primary" data-go="sellers">Review Sellers</button>
+
+        <p>
+          <span id="pendingSellers">0</span>
+          seller businesses waiting for review.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          data-go="sellers"
+        >
+          Review Sellers
+        </button>
+
       </div>
 
+
       <div class="approval">
+
         <h4>🏦 Withdrawals</h4>
-        <p><span id="pendingWithdrawals">0</span> withdrawal requests pending.</p>
-        <button class="btn btn-primary" data-go="withdrawals">Review Withdrawals</button>
+
+        <p>
+          <span id="pendingWithdrawals">0</span>
+          withdrawal requests pending.
+        </p>
+
+        <button
+          class="btn btn-primary"
+          data-go="withdrawals"
+        >
+          Review Withdrawals
+        </button>
+
       </div>
 
     </div>
@@ -1033,12 +1315,19 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Recent Orders</h3>
         <span>Latest marketplace activity</span>
       </div>
 
-      <button class="btn btn-secondary" data-go="orders">View All</button>
+      <button
+        class="btn btn-secondary"
+        data-go="orders"
+      >
+        View All
+      </button>
+
     </div>
 
     <div class="table-wrap">
@@ -1057,7 +1346,12 @@ tr:hover td{
 
         <tbody id="recentOrdersBody">
           <tr>
-            <td colspan="5" class="loading">Loading...</td>
+            <td
+              colspan="5"
+              class="loading"
+            >
+              Loading...
+            </td>
           </tr>
         </tbody>
 
@@ -1077,25 +1371,38 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Users</h3>
         <span>Registered Kaziya accounts</span>
       </div>
+
     </div>
 
     <div class="toolbar">
-      <input class="input search" id="userSearch" placeholder="Search users...">
-      <select class="select" id="userRoleFilter">
+
+      <input
+        class="input search"
+        id="userSearch"
+        placeholder="Search users..."
+      >
+
+      <select
+        class="select"
+        id="userRoleFilter"
+      >
         <option value="">All roles</option>
         <option value="customer">Customers</option>
         <option value="seller">Sellers</option>
         <option value="admin">Admins</option>
       </select>
+
     </div>
 
     <div class="table-wrap">
 
       <table>
+
         <thead>
           <tr>
             <th>User</th>
@@ -1109,9 +1416,15 @@ tr:hover td{
 
         <tbody id="usersBody">
           <tr>
-            <td colspan="6" class="loading">Loading users...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading users...
+            </td>
           </tr>
         </tbody>
+
       </table>
 
     </div>
@@ -1149,6 +1462,7 @@ tr:hover td{
 
   </div>
 
+
   <div class="card">
 
     <div class="card-header">
@@ -1159,15 +1473,24 @@ tr:hover td{
     </div>
 
     <div class="toolbar">
-      <input class="input search" id="sellerSearch" placeholder="Search businesses...">
 
-      <select class="select" id="sellerStatusFilter">
+      <input
+        class="input search"
+        id="sellerSearch"
+        placeholder="Search businesses..."
+      >
+
+      <select
+        class="select"
+        id="sellerStatusFilter"
+      >
         <option value="">All statuses</option>
         <option value="pending">Pending</option>
         <option value="approved">Approved</option>
         <option value="rejected">Rejected</option>
         <option value="suspended">Suspended</option>
       </select>
+
     </div>
 
     <div class="table-wrap">
@@ -1187,7 +1510,12 @@ tr:hover td{
 
         <tbody id="sellersBody">
           <tr>
-            <td colspan="6" class="loading">Loading sellers...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading sellers...
+            </td>
           </tr>
         </tbody>
 
@@ -1232,17 +1560,26 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Product Management</h3>
         <span>Approve and manage seller listings</span>
       </div>
+
     </div>
 
     <div class="toolbar">
 
-      <input class="input search" id="productSearch" placeholder="Search products...">
+      <input
+        class="input search"
+        id="productSearch"
+        placeholder="Search products..."
+      >
 
-      <select class="select" id="productStatusFilter">
+      <select
+        class="select"
+        id="productStatusFilter"
+      >
         <option value="">All statuses</option>
         <option value="pending">Pending</option>
         <option value="published">Published</option>
@@ -1252,7 +1589,6 @@ tr:hover td{
       </select>
 
     </div>
-
 
     <div class="table-wrap">
 
@@ -1272,7 +1608,12 @@ tr:hover td{
 
         <tbody id="productsBody">
           <tr>
-            <td colspan="7" class="loading">Loading products...</td>
+            <td
+              colspan="7"
+              class="loading"
+            >
+              Loading products...
+            </td>
           </tr>
         </tbody>
 
@@ -1317,16 +1658,26 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Marketplace Orders</h3>
         <span>All customer orders</span>
       </div>
+
     </div>
 
     <div class="toolbar">
-      <input class="input search" id="orderSearch" placeholder="Search order ID...">
 
-      <select class="select" id="orderStatusFilter">
+      <input
+        class="input search"
+        id="orderSearch"
+        placeholder="Search order ID..."
+      >
+
+      <select
+        class="select"
+        id="orderStatusFilter"
+      >
         <option value="">All statuses</option>
         <option value="pending">Pending</option>
         <option value="confirmed">Confirmed</option>
@@ -1335,6 +1686,7 @@ tr:hover td{
         <option value="delivered">Delivered</option>
         <option value="cancelled">Cancelled</option>
       </select>
+
     </div>
 
     <div class="table-wrap">
@@ -1355,7 +1707,12 @@ tr:hover td{
 
         <tbody id="ordersBody">
           <tr>
-            <td colspan="7" class="loading">Loading orders...</td>
+            <td
+              colspan="7"
+              class="loading"
+            >
+              Loading orders...
+            </td>
           </tr>
         </tbody>
 
@@ -1375,10 +1732,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Businesses</h3>
         <span>Kaziya seller storefronts</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1398,7 +1757,12 @@ tr:hover td{
 
         <tbody id="businessesBody">
           <tr>
-            <td colspan="6" class="loading">Loading businesses...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading businesses...
+            </td>
           </tr>
         </tbody>
 
@@ -1418,10 +1782,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Services</h3>
         <span>Marketplace service providers</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1441,7 +1807,12 @@ tr:hover td{
 
         <tbody id="servicesBody">
           <tr>
-            <td colspan="6" class="loading">Loading services...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading services...
+            </td>
           </tr>
         </tbody>
 
@@ -1486,13 +1857,18 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Revenue Overview</h3>
         <span>Calculated from paid marketplace orders</span>
       </div>
+
     </div>
 
-    <div id="revenueInfo" style="color:var(--muted);font-size:12px;line-height:1.8;">
+    <div
+      id="revenueInfo"
+      style="color:var(--muted);font-size:12px;line-height:1.8;"
+    >
       Revenue figures are calculated from the orders table.
     </div>
 
@@ -1533,10 +1909,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Seller Withdrawals</h3>
         <span>Review seller withdrawal requests</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1557,7 +1935,12 @@ tr:hover td{
 
         <tbody id="withdrawalsBody">
           <tr>
-            <td colspan="7" class="loading">Loading withdrawals...</td>
+            <td
+              colspan="7"
+              class="loading"
+            >
+              Loading withdrawals...
+            </td>
           </tr>
         </tbody>
 
@@ -1577,10 +1960,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Transactions</h3>
         <span>Marketplace payment records</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1601,7 +1986,12 @@ tr:hover td{
 
         <tbody id="transactionsBody">
           <tr>
-            <td colspan="7" class="loading">Loading transactions...</td>
+            <td
+              colspan="7"
+              class="loading"
+            >
+              Loading transactions...
+            </td>
           </tr>
         </tbody>
 
@@ -1621,10 +2011,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Reviews</h3>
         <span>Customer feedback</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1644,7 +2036,12 @@ tr:hover td{
 
         <tbody id="reviewsBody">
           <tr>
-            <td colspan="6" class="loading">Loading reviews...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading reviews...
+            </td>
           </tr>
         </tbody>
 
@@ -1664,10 +2061,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Advertising</h3>
         <span>Seller promotions and featured listings</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1688,7 +2087,12 @@ tr:hover td{
 
         <tbody id="adsBody">
           <tr>
-            <td colspan="7" class="loading">Loading advertising...</td>
+            <td
+              colspan="7"
+              class="loading"
+            >
+              Loading advertising...
+            </td>
           </tr>
         </tbody>
 
@@ -1708,10 +2112,12 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Complaints</h3>
         <span>Customer and seller support issues</span>
       </div>
+
     </div>
 
     <div class="table-wrap">
@@ -1731,7 +2137,12 @@ tr:hover td{
 
         <tbody id="complaintsBody">
           <tr>
-            <td colspan="6" class="loading">Loading complaints...</td>
+            <td
+              colspan="6"
+              class="loading"
+            >
+              Loading complaints...
+            </td>
           </tr>
         </tbody>
 
@@ -1751,30 +2162,50 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Platform Settings</h3>
         <span>Kaziya administration settings</span>
       </div>
+
     </div>
 
     <div style="max-width:600px;">
 
       <div class="form-group">
         <label>Platform Name</label>
-        <input class="input" id="settingName" value="Kaziya">
+        <input
+          class="input"
+          id="settingName"
+          value="Kaziya"
+        >
       </div>
 
       <div class="form-group">
         <label>Tagline</label>
-        <input class="input" id="settingTagline" value="Where business gets moving.">
+        <input
+          class="input"
+          id="settingTagline"
+          value="Where business gets moving."
+        >
       </div>
 
       <div class="form-group">
         <label>Default Marketplace Commission (%)</label>
-        <input class="input" type="number" id="commissionRate" value="5" min="0" max="100">
+        <input
+          class="input"
+          type="number"
+          id="commissionRate"
+          value="5"
+          min="0"
+          max="100"
+        >
       </div>
 
-      <button class="btn btn-primary" id="saveSettings">
+      <button
+        class="btn btn-primary"
+        id="saveSettings"
+      >
         Save Settings
       </button>
 
@@ -1786,24 +2217,28 @@ tr:hover td{
   <div class="card">
 
     <div class="card-header">
+
       <div>
         <h3>Admin Security</h3>
         <span>Important</span>
       </div>
+
     </div>
 
     <p style="color:var(--muted);font-size:12px;line-height:1.8;">
       Kaziya admin permissions should be enforced by Supabase Row Level Security.
-      The browser interface must never contain a Supabase service-role or secret key.
-      Payment verification should also be performed server-side before an order is
-      marked as paid.
+      Never place a Supabase service-role or secret key in this browser application.
+      Payment verification should be performed server-side before an order is marked
+      as paid.
     </p>
 
   </div>
 
 </section>
 
+
 </div>
+
 </main>
 
 </div>
@@ -1811,13 +2246,26 @@ tr:hover td{
 
 <!-- ================= MODAL ================= -->
 
-<div class="modal" id="modal">
+<div
+  class="modal"
+  id="modal"
+>
 
   <div class="modal-box">
 
     <div class="modal-head">
-      <h3 id="modalTitle">Details</h3>
-      <button class="close" id="closeModal">×</button>
+
+      <h3 id="modalTitle">
+        Details
+      </h3>
+
+      <button
+        class="close"
+        id="closeModal"
+      >
+        ×
+      </button>
+
     </div>
 
     <div id="modalContent"></div>
@@ -1827,13 +2275,16 @@ tr:hover td{
 </div>
 
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
 
 <script>
 
 /* =========================================================
-   KAZIYA SUPABASE CONFIGURATION
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
@@ -1876,145 +2327,385 @@ let cache = {
 ========================================================= */
 
 function money(value){
-  return "UGX " + Number(value || 0).toLocaleString("en-UG");
+
+  return "UGX " +
+    Number(value || 0).toLocaleString("en-UG");
+
 }
 
 function esc(value){
+
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 function shortId(id){
+
   if(!id) return "—";
-  return String(id).slice(0,8).toUpperCase();
+
+  return String(id)
+    .slice(0,8)
+    .toUpperCase();
+
 }
 
 function date(value){
+
   if(!value) return "—";
 
-  return new Date(value).toLocaleDateString(
-    "en-UG",
-    {
-      year:"numeric",
-      month:"short",
-      day:"numeric"
-    }
-  );
+  return new Date(value)
+    .toLocaleDateString(
+      "en-UG",
+      {
+        year:"numeric",
+        month:"short",
+        day:"numeric"
+      }
+    );
+
 }
 
 function status(value){
-  const s = String(value || "unknown").toLowerCase();
 
-  return `<span class="status ${esc(s)}">${esc(s)}</span>`;
+  const s =
+    String(value || "unknown")
+      .toLowerCase();
+
+  return `
+    <span class="status ${esc(s)}">
+      ${esc(s)}
+    </span>
+  `;
+
 }
 
 function toast(message){
-  const el = document.getElementById("toast");
+
+  const el =
+    document.getElementById("toast");
 
   el.textContent = message;
+
   el.classList.add("show");
 
   setTimeout(()=>{
     el.classList.remove("show");
   },3000);
+
 }
 
 function showModal(title,html){
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalContent").innerHTML = html;
-  document.getElementById("modal").classList.add("show");
+
+  document.getElementById(
+    "modalTitle"
+  ).textContent = title;
+
+  document.getElementById(
+    "modalContent"
+  ).innerHTML = html;
+
+  document.getElementById(
+    "modal"
+  ).classList.add("show");
+
 }
 
 function closeModal(){
-  document.getElementById("modal").classList.remove("show");
+
+  document.getElementById(
+    "modal"
+  ).classList.remove("show");
+
 }
 
 
 /* =========================================================
-   AUTHENTICATION
+   LOGIN
 ========================================================= */
 
-async function checkAdmin(){
+function showLoginError(message){
+
+  const el =
+    document.getElementById("loginError");
+
+  el.textContent = message;
+
+  el.style.display = "block";
+
+}
+
+function hideLoginError(){
+
+  const el =
+    document.getElementById("loginError");
+
+  el.textContent = "";
+
+  el.style.display = "none";
+
+}
+
+
+async function loginAdmin(email,password){
+
+  hideLoginError();
+
+  const button =
+    document.getElementById("loginBtn");
+
+  button.disabled = true;
+  button.textContent = "Signing in...";
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if(error){
+
+    console.error(error);
+
+    showLoginError(
+      "Login failed: " + error.message
+    );
+
+    button.disabled = false;
+    button.textContent = "Sign in to Admin";
+
+    return false;
+
+  }
+
+  currentUser =
+    data.user;
+
+  const valid =
+    await verifyAdminProfile();
+
+  if(!valid){
+
+    await supabaseClient.auth.signOut();
+
+    button.disabled = false;
+    button.textContent = "Sign in to Admin";
+
+    return false;
+
+  }
+
+  button.disabled = false;
+  button.textContent = "Sign in to Admin";
+
+  await startDashboard();
+
+  return true;
+
+}
+
+
+document.getElementById("loginForm")
+.addEventListener("submit",async e=>{
+
+  e.preventDefault();
+
+  const email =
+    document.getElementById(
+      "loginEmail"
+    ).value.trim();
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    ).value;
+
+  await loginAdmin(
+    email,
+    password
+  );
+
+});
+
+
+/* =========================================================
+   VERIFY ADMIN
+========================================================= */
+
+async function verifyAdminProfile(){
+
+  if(!currentUser){
+
+    showLoginError(
+      "No authenticated user was found."
+    );
+
+    return false;
+
+  }
+
+  const {
+    data:profile,
+    error
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .maybeSingle();
+
+  if(error){
+
+    console.error(error);
+
+    showLoginError(
+      "Could not verify administrator profile. " +
+      error.message
+    );
+
+    return false;
+
+  }
+
+  if(
+    !profile ||
+    profile.role !== "admin" ||
+    profile.status !== "active"
+  ){
+
+    showLoginError(
+      "This account is not an active Kaziya administrator."
+    );
+
+    return false;
+
+  }
+
+  currentProfile =
+    profile;
+
+  return true;
+
+}
+
+
+/* =========================================================
+   SHOW DASHBOARD
+========================================================= */
+
+async function startDashboard(){
+
+  document.getElementById(
+    "loginScreen"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "app"
+  ).classList.remove("hidden");
+
+  document.getElementById(
+    "ceoName"
+  ).textContent =
+    currentProfile.full_name || "CEO";
+
+  document.getElementById(
+    "ceoAvatar"
+  ).textContent =
+    (
+      currentProfile.full_name ||
+      "C"
+    ).charAt(0).toUpperCase();
+
+  await loadOverview();
+
+}
+
+
+/* =========================================================
+   CHECK EXISTING SESSION
+========================================================= */
+
+async function checkExistingSession(){
 
   const {
     data:{
       session
     }
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth.getSession();
 
   if(!session){
-    window.location.href = "../";
-    return false;
+
+    document.getElementById(
+      "loginScreen"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+      "app"
+    ).classList.add("hidden");
+
+    return;
+
   }
 
-  currentUser = session.user;
+  currentUser =
+    session.user;
 
-  const {
-    data:profile,
-    error
-  } = await supabaseClient
-    .from("profiles")
-    .select("*")
-    .eq("id",currentUser.id)
-    .maybeSingle();
+  const valid =
+    await verifyAdminProfile();
 
-  if(error){
-    console.error(error);
+  if(!valid){
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById(
+      "loginScreen"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+      "app"
+    ).classList.add("hidden");
+
+    return;
+
   }
 
-  if(!profile || profile.role !== "admin"){
+  await startDashboard();
 
-    document.body.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:grid;
-        place-items:center;
-        padding:30px;
-        background:#07111f;
-        color:white;
-        font-family:Arial;
-        text-align:center;
-      ">
-        <div>
-          <div style="font-size:50px;margin-bottom:15px;">🔒</div>
-          <h2>Admin access required</h2>
-          <p style="color:#8ea0b8;margin:12px 0 20px;">
-            This account does not have CEO administrator permissions.
-          </p>
-          <button
-            onclick="supabaseClient.auth.signOut().then(()=>location.href='../')"
-            style="
-              background:#b7f34a;
-              color:#07111f;
-              border:0;
-              padding:12px 18px;
-              border-radius:9px;
-              font-weight:800;
-            "
-          >
-            Sign out
-          </button>
-        </div>
-      </div>
-    `;
-
-    return false;
-  }
-
-  currentProfile = profile;
-
-  document.getElementById("ceoName").textContent =
-    profile.full_name || "CEO";
-
-  document.getElementById("ceoAvatar").textContent =
-    (profile.full_name || "C").charAt(0).toUpperCase();
-
-  return true;
 }
+
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+  async(event,session)=>{
+
+    if(event === "SIGNED_OUT"){
+
+      currentUser = null;
+      currentProfile = null;
+
+      document.getElementById(
+        "app"
+      ).classList.add("hidden");
+
+      document.getElementById(
+        "loginScreen"
+      ).classList.remove("hidden");
+
+    }
+
+  }
+);
 
 
 /* =========================================================
@@ -2022,6 +2713,7 @@ async function checkAdmin(){
 ========================================================= */
 
 const pageNames = {
+
   overview:"CEO Overview",
   users:"Users",
   sellers:"Seller Management",
@@ -2036,70 +2728,120 @@ const pageNames = {
   advertising:"Advertising",
   complaints:"Complaints",
   settings:"Platform Settings"
+
 };
+
 
 function openPage(page){
 
   document.querySelectorAll(".page")
-    .forEach(p=>p.classList.remove("active"));
+    .forEach(p =>
+      p.classList.remove("active")
+    );
 
   const target =
-    document.getElementById("page-"+page);
+    document.getElementById(
+      "page-" + page
+    );
 
   if(target){
+
     target.classList.add("active");
+
   }
 
   document.querySelectorAll(".nav-btn")
     .forEach(btn=>{
+
       btn.classList.toggle(
         "active",
         btn.dataset.page === page
       );
+
     });
 
-  document.getElementById("pageTitle").textContent =
-    pageNames[page] || "Kaziya Admin";
+  document.getElementById(
+    "pageTitle"
+  ).textContent =
+    pageNames[page] ||
+    "Kaziya Admin";
 
-  document.getElementById("sidebar")
-    .classList.remove("open");
+  document.getElementById(
+    "sidebar"
+  ).classList.remove("open");
 
   loadPageData(page);
+
 }
+
 
 document.querySelectorAll(".nav-btn")
 .forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    openPage(btn.dataset.page);
-  });
+
+  btn.addEventListener(
+    "click",
+    ()=>{
+      openPage(
+        btn.dataset.page
+      );
+    }
+  );
+
 });
+
 
 document.querySelectorAll("[data-go]")
 .forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    openPage(btn.dataset.go);
-  });
+
+  btn.addEventListener(
+    "click",
+    ()=>{
+      openPage(
+        btn.dataset.go
+      );
+    }
+  );
+
 });
 
-document.getElementById("mobileMenu")
-.addEventListener("click",()=>{
-  document.getElementById("sidebar")
-    .classList.toggle("open");
-});
 
-document.getElementById("closeModal")
-.addEventListener("click",closeModal);
-
-document.getElementById("modal")
-.addEventListener("click",e=>{
-  if(e.target.id === "modal"){
-    closeModal();
+document.getElementById(
+  "mobileMenu"
+)
+.addEventListener(
+  "click",
+  ()=>{
+    document.getElementById(
+      "sidebar"
+    ).classList.toggle("open");
   }
-});
+);
+
+
+document.getElementById(
+  "closeModal"
+)
+.addEventListener(
+  "click",
+  closeModal
+);
+
+
+document.getElementById(
+  "modal"
+)
+.addEventListener(
+  "click",
+  e=>{
+    if(e.target.id === "modal"){
+      closeModal();
+    }
+  }
+);
 
 
 /* =========================================================
-   LOAD OVERVIEW
+   OVERVIEW
 ========================================================= */
 
 async function loadOverview(){
@@ -2131,7 +2873,12 @@ async function loadOverview(){
 
     supabaseClient
       .from("orders")
-      .select("id,total_amount,platform_commission,seller_amount,payment_status,order_status,created_at"),
+      .select(
+        "id,total_amount,platform_commission,seller_amount,payment_status,order_status,created_at"
+      )
+      .order("created_at",{
+        ascending:false
+      }),
 
     supabaseClient
       .from("products")
@@ -2147,7 +2894,10 @@ async function loadOverview(){
         count:"exact",
         head:true
       })
-      .eq("verification_status","pending"),
+      .eq(
+        "verification_status",
+        "pending"
+      ),
 
     supabaseClient
       .from("withdrawals")
@@ -2156,47 +2906,102 @@ async function loadOverview(){
         head:true
       })
       .eq("status","pending")
+
   ]);
 
-  document.getElementById("totalUsers").textContent =
+  if(usersRes.error)
+    console.error(
+      "Users:",
+      usersRes.error
+    );
+
+  if(sellersRes.error)
+    console.error(
+      "Sellers:",
+      sellersRes.error
+    );
+
+  if(ordersRes.error)
+    console.error(
+      "Orders:",
+      ordersRes.error
+    );
+
+  document.getElementById(
+    "totalUsers"
+  ).textContent =
     usersRes.count || 0;
 
-  document.getElementById("totalSellers").textContent =
+  document.getElementById(
+    "totalSellers"
+  ).textContent =
     sellersRes.count || 0;
 
-  const orders = ordersRes.data || [];
+  const orders =
+    ordersRes.data || [];
 
-  document.getElementById("totalOrders").textContent =
+  document.getElementById(
+    "totalOrders"
+  ).textContent =
     orders.length;
 
-  const commission = orders
-    .filter(o=>o.payment_status === "paid")
-    .reduce((sum,o)=>
-      sum + Number(o.platform_commission || 0),0);
+  const commission =
+    orders
+      .filter(
+        o =>
+          o.payment_status === "paid"
+      )
+      .reduce(
+        (sum,o)=>
+          sum +
+          Number(
+            o.platform_commission || 0
+          ),
+        0
+      );
 
-  document.getElementById("platformRevenue").textContent =
+  document.getElementById(
+    "platformRevenue"
+  ).textContent =
     money(commission);
 
-  document.getElementById("pendingProducts").textContent =
+  document.getElementById(
+    "pendingProducts"
+  ).textContent =
     pendingProductsRes.count || 0;
 
-  document.getElementById("pendingSellers").textContent =
+  document.getElementById(
+    "pendingSellers"
+  ).textContent =
     pendingSellersRes.count || 0;
 
-  document.getElementById("pendingWithdrawals").textContent =
+  document.getElementById(
+    "pendingWithdrawals"
+  ).textContent =
     pendingWithdrawalsRes.count || 0;
 
-  document.getElementById("productBadge").textContent =
+  document.getElementById(
+    "productBadge"
+  ).textContent =
     pendingProductsRes.count || 0;
 
-  document.getElementById("sellerBadge").textContent =
+  document.getElementById(
+    "sellerBadge"
+  ).textContent =
     pendingSellersRes.count || 0;
 
-  document.getElementById("withdrawalBadge").textContent =
+  document.getElementById(
+    "withdrawalBadge"
+  ).textContent =
     pendingWithdrawalsRes.count || 0;
 
-  renderSalesChart(orders);
-  renderRecentOrders(orders.slice(0,8));
+  renderSalesChart(
+    orders
+  );
+
+  renderRecentOrders(
+    orders.slice(0,8)
+  );
 
 }
 
@@ -2208,66 +3013,108 @@ async function loadOverview(){
 function renderSalesChart(orders){
 
   const chart =
-    document.getElementById("salesChart");
+    document.getElementById(
+      "salesChart"
+    );
 
   if(!orders.length){
-    chart.innerHTML =
-      `<div class="empty" style="width:100%;">
+
+    chart.innerHTML = `
+      <div
+        class="empty"
+        style="width:100%;"
+      >
         <strong>No sales yet</strong>
         Orders will appear here when customers buy products.
-      </div>`;
+      </div>
+    `;
+
     return;
+
   }
 
   const last7 = [];
 
-  for(let i=6;i>=0;i--){
+  for(
+    let i=6;
+    i>=0;
+    i--
+  ){
 
-    const d = new Date();
+    const d =
+      new Date();
 
-    d.setDate(d.getDate()-i);
+    d.setDate(
+      d.getDate() - i
+    );
 
-    const key = d.toISOString().slice(0,10);
+    const key =
+      d.toISOString()
+        .slice(0,10);
 
-    const total = orders
-      .filter(o=>
-        o.created_at &&
-        o.created_at.slice(0,10) === key &&
-        o.payment_status === "paid"
-      )
-      .reduce((sum,o)=>
-        sum + Number(o.total_amount || 0),0);
+    const total =
+      orders
+        .filter(
+          o =>
+            o.created_at &&
+            o.created_at.slice(0,10) === key &&
+            o.payment_status === "paid"
+        )
+        .reduce(
+          (sum,o)=>
+            sum +
+            Number(
+              o.total_amount || 0
+            ),
+          0
+        );
 
     last7.push({
       key,
       total,
-      label:d.toLocaleDateString(
-        "en-UG",
-        {weekday:"short"}
-      )
+      label:
+        d.toLocaleDateString(
+          "en-UG",
+          {
+            weekday:"short"
+          }
+        )
     });
+
   }
 
   const max =
-    Math.max(...last7.map(x=>x.total),1);
+    Math.max(
+      ...last7.map(
+        x=>x.total
+      ),
+      1
+    );
 
   chart.innerHTML =
-    last7.map(x=>{
+    last7
+      .map(x=>{
 
-      const height =
-        Math.max((x.total/max)*85,5);
+        const height =
+          Math.max(
+            (x.total/max)*85,
+            5
+          );
 
-      return `
-        <div
-          class="bar"
-          style="height:${height}%"
-          title="${money(x.total)}"
-        >
-          <small>${esc(x.label)}</small>
-        </div>
-      `;
+        return `
+          <div
+            class="bar"
+            style="height:${height}%"
+            title="${money(x.total)}"
+          >
+            <small>
+              ${esc(x.label)}
+            </small>
+          </div>
+        `;
 
-    }).join("");
+      })
+      .join("");
 
 }
 
@@ -2279,9 +3126,12 @@ function renderSalesChart(orders){
 function renderRecentOrders(orders){
 
   const body =
-    document.getElementById("recentOrdersBody");
+    document.getElementById(
+      "recentOrdersBody"
+    );
 
   if(!orders.length){
+
     body.innerHTML = `
       <tr>
         <td colspan="5">
@@ -2292,19 +3142,44 @@ function renderRecentOrders(orders){
         </td>
       </tr>
     `;
+
     return;
+
   }
 
   body.innerHTML =
-    orders.map(o=>`
-      <tr>
-        <td>#${shortId(o.id)}</td>
-        <td>${esc(o.customer_id ? shortId(o.customer_id) : "Customer")}</td>
-        <td>${money(o.total_amount)}</td>
-        <td>${status(o.payment_status)}</td>
-        <td>${status(o.order_status)}</td>
-      </tr>
-    `).join("");
+    orders
+      .map(
+        o=>`
+          <tr>
+            <td>
+              #${shortId(o.id)}
+            </td>
+
+            <td>
+              ${esc(
+                o.customer_id
+                ? shortId(o.customer_id)
+                : "Customer"
+              )}
+            </td>
+
+            <td>
+              ${money(o.total_amount)}
+            </td>
+
+            <td>
+              ${status(o.payment_status)}
+            </td>
+
+            <td>
+              ${status(o.order_status)}
+            </td>
+          </tr>
+        `
+      )
+      .join("");
+
 }
 
 
@@ -2314,113 +3189,214 @@ function renderRecentOrders(orders){
 
 async function loadUsers(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("profiles")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
+
     console.error(error);
-    showError("usersBody",6,error.message);
+
+    showError(
+      "usersBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.users = data || [];
+  cache.users =
+    data || [];
+
   renderUsers();
+
 }
+
 
 function renderUsers(){
 
   const body =
-    document.getElementById("usersBody");
+    document.getElementById(
+      "usersBody"
+    );
 
   const search =
-    document.getElementById("userSearch")
-      .value.toLowerCase();
+    document.getElementById(
+      "userSearch"
+    ).value.toLowerCase();
 
   const role =
-    document.getElementById("userRoleFilter")
-      .value;
+    document.getElementById(
+      "userRoleFilter"
+    ).value;
 
   const rows =
     cache.users.filter(u=>{
 
       const text =
-        `${u.full_name || ""} ${u.phone || ""} ${u.id}`
-          .toLowerCase();
+        `
+          ${u.full_name || ""}
+          ${u.phone || ""}
+          ${u.id}
+        `
+        .toLowerCase();
 
       return (
-        (!search || text.includes(search)) &&
-        (!role || u.role === role)
+        (!search ||
+          text.includes(search)) &&
+        (!role ||
+          u.role === role)
       );
+
     });
 
   if(!rows.length){
+
     body.innerHTML = `
       <tr>
         <td colspan="6">
           <div class="empty">
-            <strong>No users found</strong>
+            <strong>
+              No users found
+            </strong>
           </div>
         </td>
       </tr>
     `;
+
     return;
+
   }
 
   body.innerHTML =
-    rows.map(u=>`
-      <tr>
+    rows
+      .map(
+        u=>`
+          <tr>
 
-        <td>
-          <strong>${esc(u.full_name || "Unnamed User")}</strong><br>
-          <small style="color:var(--muted);">
-            ${esc(u.id)}
-          </small>
-        </td>
+            <td>
+              <strong>
+                ${esc(
+                  u.full_name ||
+                  "Unnamed User"
+                )}
+              </strong>
 
-        <td>${esc(u.phone || "—")}</td>
+              <br>
 
-        <td>${status(u.role)}</td>
+              <small
+                style="color:var(--muted);"
+              >
+                ${esc(u.id)}
+              </small>
+            </td>
 
-        <td>${status(u.status)}</td>
+            <td>
+              ${esc(
+                u.phone ||
+                "—"
+              )}
+            </td>
 
-        <td>${date(u.created_at)}</td>
+            <td>
+              ${status(u.role)}
+            </td>
 
-        <td>
-          <button
-            class="btn btn-secondary"
-            onclick="viewUser('${u.id}')"
-          >
-            View
-          </button>
-        </td>
+            <td>
+              ${status(u.status)}
+            </td>
 
-      </tr>
-    `).join("");
+            <td>
+              ${date(u.created_at)}
+            </td>
+
+            <td>
+
+              <button
+                class="btn btn-secondary"
+                onclick="viewUser('${u.id}')"
+              >
+                View
+              </button>
+
+            </td>
+
+          </tr>
+        `
+      )
+      .join("");
+
 }
+
 
 function viewUser(id){
 
   const u =
-    cache.users.find(x=>x.id === id);
+    cache.users.find(
+      x=>x.id === id
+    );
 
   if(!u) return;
 
   showModal(
     "User Details",
     `
-      <div style="line-height:2;font-size:12px;">
-        <strong>${esc(u.full_name || "Unnamed")}</strong><br>
-        User ID: ${esc(u.id)}<br>
-        Phone: ${esc(u.phone || "Not provided")}<br>
-        Role: ${status(u.role)}<br>
-        Status: ${status(u.status)}<br>
-        Joined: ${date(u.created_at)}
+      <div
+        style="
+          line-height:2;
+          font-size:12px;
+        "
+      >
+
+        <strong>
+          ${esc(
+            u.full_name ||
+            "Unnamed"
+          )}
+        </strong>
+
+        <br>
+
+        User ID:
+        ${esc(u.id)}
+
+        <br>
+
+        Phone:
+        ${esc(
+          u.phone ||
+          "Not provided"
+        )}
+
+        <br>
+
+        Role:
+        ${status(u.role)}
+
+        <br>
+
+        Status:
+        ${status(u.status)}
+
+        <br>
+
+        Joined:
+        ${date(u.created_at)}
+
       </div>
     `
   );
+
 }
 
 
@@ -2430,7 +3406,10 @@ function viewUser(id){
 
 async function loadSellers(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .select(`
@@ -2441,233 +3420,365 @@ async function loadSellers(){
           phone
         )
       `)
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
+
     console.error(error);
-    showError("sellersBody",6,error.message);
+
+    showError(
+      "sellersBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.sellers = data || [];
+  cache.sellers =
+    data || [];
 
-  document.getElementById("sellerTotal").textContent =
+  document.getElementById(
+    "sellerTotal"
+  ).textContent =
     cache.sellers.length;
 
-  document.getElementById("sellerPending").textContent =
-    cache.sellers.filter(x=>x.verification_status==="pending").length;
+  document.getElementById(
+    "sellerPending"
+  ).textContent =
+    cache.sellers.filter(
+      x =>
+        x.verification_status ===
+        "pending"
+    ).length;
 
-  document.getElementById("sellerApproved").textContent =
-    cache.sellers.filter(x=>x.verification_status==="approved").length;
+  document.getElementById(
+    "sellerApproved"
+  ).textContent =
+    cache.sellers.filter(
+      x =>
+        x.verification_status ===
+        "approved"
+    ).length;
 
-  document.getElementById("sellerSuspended").textContent =
-    cache.sellers.filter(x=>x.verification_status==="suspended").length;
+  document.getElementById(
+    "sellerSuspended"
+  ).textContent =
+    cache.sellers.filter(
+      x =>
+        x.verification_status ===
+        "suspended"
+    ).length;
 
   renderSellers();
+
 }
+
 
 function renderSellers(){
 
   const body =
-    document.getElementById("sellersBody");
+    document.getElementById(
+      "sellersBody"
+    );
 
   const search =
-    document.getElementById("sellerSearch")
-      .value.toLowerCase();
+    document.getElementById(
+      "sellerSearch"
+    ).value.toLowerCase();
 
   const filter =
-    document.getElementById("sellerStatusFilter")
-      .value;
+    document.getElementById(
+      "sellerStatusFilter"
+    ).value;
 
   const rows =
     cache.sellers.filter(b=>{
 
       const text =
-        `${b.business_name || ""} ${b.location || ""} ${b.category || ""}`
-          .toLowerCase();
+        `
+          ${b.business_name || ""}
+          ${b.location || ""}
+          ${b.category || ""}
+        `
+        .toLowerCase();
 
       return (
-        (!search || text.includes(search)) &&
-        (!filter || b.verification_status === filter)
+        (!search ||
+          text.includes(search)) &&
+        (!filter ||
+          b.verification_status ===
+          filter)
       );
+
     });
 
   if(!rows.length){
+
     body.innerHTML = `
       <tr>
         <td colspan="6">
           <div class="empty">
-            <strong>No businesses found</strong>
+            <strong>
+              No businesses found
+            </strong>
           </div>
         </td>
       </tr>
     `;
+
     return;
+
   }
 
   body.innerHTML =
-    rows.map(b=>`
+    rows
+      .map(
+        b=>`
 
-      <tr>
+          <tr>
 
-        <td>
-          <strong>${esc(b.business_name || "Unnamed")}</strong>
-        </td>
+            <td>
+              <strong>
+                ${esc(
+                  b.business_name ||
+                  "Unnamed"
+                )}
+              </strong>
+            </td>
 
-        <td>${esc(b.category || "—")}</td>
+            <td>
+              ${esc(
+                b.category ||
+                "—"
+              )}
+            </td>
 
-        <td>${esc(b.location || "—")}</td>
+            <td>
+              ${esc(
+                b.location ||
+                "—"
+              )}
+            </td>
 
-        <td>${status(b.verification_status)}</td>
+            <td>
+              ${status(
+                b.verification_status
+              )}
+            </td>
 
-        <td>
-          ${esc(
-            b.profiles?.full_name ||
-            shortId(b.owner_id)
-          )}
-        </td>
+            <td>
+              ${esc(
+                b.profiles?.full_name ||
+                shortId(
+                  b.owner_id
+                )
+              )}
+            </td>
 
-        <td>
+            <td>
 
-          <div class="action-row">
+              <div class="action-row">
 
-            ${
-              b.verification_status === "pending"
-              ? `
-                <button
-                  class="btn btn-success"
-                  onclick="approveSeller('${b.id}')"
-                >
-                  Approve
-                </button>
+                ${
+                  b.verification_status ===
+                  "pending"
+                  ? `
+                    <button
+                      class="btn btn-success"
+                      onclick="approveSeller('${b.id}')"
+                    >
+                      Approve
+                    </button>
 
-                <button
-                  class="btn btn-danger"
-                  onclick="rejectSeller('${b.id}')"
-                >
-                  Reject
-                </button>
-              `
-              : ""
-            }
+                    <button
+                      class="btn btn-danger"
+                      onclick="rejectSeller('${b.id}')"
+                    >
+                      Reject
+                    </button>
+                  `
+                  : ""
+                }
 
-            ${
-              b.verification_status === "approved"
-              ? `
-                <button
-                  class="btn btn-danger"
-                  onclick="suspendSeller('${b.id}')"
-                >
-                  Suspend
-                </button>
-              `
-              : ""
-            }
+                ${
+                  b.verification_status ===
+                  "approved"
+                  ? `
+                    <button
+                      class="btn btn-danger"
+                      onclick="suspendSeller('${b.id}')"
+                    >
+                      Suspend
+                    </button>
+                  `
+                  : ""
+                }
 
-            ${
-              b.verification_status === "suspended"
-              ? `
-                <button
-                  class="btn btn-success"
-                  onclick="restoreSeller('${b.id}')"
-                >
-                  Restore
-                </button>
-              `
-              : ""
-            }
+                ${
+                  b.verification_status ===
+                  "suspended"
+                  ? `
+                    <button
+                      class="btn btn-success"
+                      onclick="restoreSeller('${b.id}')"
+                    >
+                      Restore
+                    </button>
+                  `
+                  : ""
+                }
 
-          </div>
+              </div>
 
-        </td>
+            </td>
 
-      </tr>
+          </tr>
 
-    `).join("");
+        `
+      )
+      .join("");
+
 }
+
 
 async function approveSeller(id){
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .update({
-        verification_status:"approved"
+        verification_status:
+          "approved"
       })
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Seller approved.");
+  toast(
+    "Seller approved."
+  );
+
   await loadSellers();
   await loadOverview();
+
 }
+
 
 async function rejectSeller(id){
 
   const reason =
-    prompt("Reason for rejecting this seller:");
+    prompt(
+      "Reason for rejecting this seller:"
+    );
 
-  if(reason === null) return;
+  if(reason === null)
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .update({
-        verification_status:"rejected"
+        verification_status:
+          "rejected"
       })
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Seller rejected.");
+  toast(
+    "Seller rejected."
+  );
+
   await loadSellers();
+
 }
+
 
 async function suspendSeller(id){
 
-  if(!confirm("Suspend this seller business?")) return;
+  if(
+    !confirm(
+      "Suspend this seller business?"
+    )
+  )
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .update({
-        verification_status:"suspended"
+        verification_status:
+          "suspended"
       })
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Seller suspended.");
+  toast(
+    "Seller suspended."
+  );
+
   await loadSellers();
+
 }
+
 
 async function restoreSeller(id){
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .update({
-        verification_status:"approved"
+        verification_status:
+          "approved"
       })
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Seller restored.");
+  toast(
+    "Seller restored."
+  );
+
   await loadSellers();
+
 }
 
 
@@ -2677,7 +3788,10 @@ async function restoreSeller(id){
 
 async function loadProducts(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("products")
       .select(`
@@ -2689,55 +3803,94 @@ async function loadProducts(){
           business_name
         )
       `)
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
+
     console.error(error);
-    showError("productsBody",7,error.message);
+
+    showError(
+      "productsBody",
+      7,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.products = data || [];
+  cache.products =
+    data || [];
 
-  document.getElementById("productTotal").textContent =
+  document.getElementById(
+    "productTotal"
+  ).textContent =
     cache.products.length;
 
-  document.getElementById("productPending").textContent =
-    cache.products.filter(x=>x.status==="pending").length;
+  document.getElementById(
+    "productPending"
+  ).textContent =
+    cache.products.filter(
+      x=>x.status === "pending"
+    ).length;
 
-  document.getElementById("productPublished").textContent =
-    cache.products.filter(x=>x.status==="published").length;
+  document.getElementById(
+    "productPublished"
+  ).textContent =
+    cache.products.filter(
+      x=>x.status === "published"
+    ).length;
 
-  document.getElementById("productRejected").textContent =
-    cache.products.filter(x=>x.status==="rejected").length;
+  document.getElementById(
+    "productRejected"
+  ).textContent =
+    cache.products.filter(
+      x=>x.status === "rejected"
+    ).length;
 
   renderProducts();
+
 }
+
 
 function renderProducts(){
 
   const body =
-    document.getElementById("productsBody");
+    document.getElementById(
+      "productsBody"
+    );
 
   const search =
-    document.getElementById("productSearch")
-      .value.toLowerCase();
+    document.getElementById(
+      "productSearch"
+    ).value.toLowerCase();
 
   const filter =
-    document.getElementById("productStatusFilter")
-      .value;
+    document.getElementById(
+      "productStatusFilter"
+    ).value;
 
   const rows =
     cache.products.filter(p=>{
 
       const text =
-        `${p.name || ""} ${p.sku || ""} ${p.location || ""}`
-          .toLowerCase();
+        `
+          ${p.name || ""}
+          ${p.sku || ""}
+          ${p.location || ""}
+        `
+        .toLowerCase();
 
       return (
-        (!search || text.includes(search)) &&
-        (!filter || p.status === filter)
+        (!search ||
+          text.includes(search)) &&
+        (!filter ||
+          p.status === filter)
       );
+
     });
 
   if(!rows.length){
@@ -2746,128 +3899,179 @@ function renderProducts(){
       <tr>
         <td colspan="7">
           <div class="empty">
-            <strong>No products found</strong>
+            <strong>
+              No products found
+            </strong>
           </div>
         </td>
       </tr>
     `;
 
     return;
+
   }
 
   body.innerHTML =
-    rows.map(p=>{
+    rows
+      .map(p=>{
 
-      const image =
-        Array.isArray(p.image_urls) &&
-        p.image_urls.length
-        ? p.image_urls[0]
-        : "";
+        const image =
+          Array.isArray(
+            p.image_urls
+          ) &&
+          p.image_urls.length
+          ? p.image_urls[0]
+          : "";
 
-      return `
-        <tr>
+        return `
 
-          <td>
+          <tr>
 
-            <div class="product-cell">
+            <td>
 
-              ${
-                image
-                ? `<img class="product-img" src="${esc(image)}">`
-                : `<div class="product-img"></div>`
-              }
+              <div class="product-cell">
 
-              <div>
-                <strong>${esc(p.name)}</strong><br>
-                <small style="color:var(--muted);">
-                  ${esc(p.sku || "No SKU")}
-                </small>
+                ${
+                  image
+                  ? `
+                    <img
+                      class="product-img"
+                      src="${esc(image)}"
+                    >
+                  `
+                  : `
+                    <div
+                      class="product-img"
+                    ></div>
+                  `
+                }
+
+                <div>
+
+                  <strong>
+                    ${esc(p.name)}
+                  </strong>
+
+                  <br>
+
+                  <small
+                    style="color:var(--muted);"
+                  >
+                    ${esc(
+                      p.sku ||
+                      "No SKU"
+                    )}
+                  </small>
+
+                </div>
+
               </div>
 
-            </div>
+            </td>
 
-          </td>
+            <td>
+              ${esc(
+                p.businesses?.business_name ||
+                shortId(
+                  p.seller_id
+                )
+              )}
+            </td>
 
-          <td>
-            ${esc(
-              p.businesses?.business_name ||
-              shortId(p.seller_id)
-            )}
-          </td>
+            <td>
+              ${esc(
+                p.categories?.name ||
+                "—"
+              )}
+            </td>
 
-          <td>
-            ${esc(p.categories?.name || "—")}
-          </td>
+            <td>
+              ${money(p.price)}
+            </td>
 
-          <td>${money(p.price)}</td>
+            <td>
+              ${Number(
+                p.stock || 0
+              )}
+            </td>
 
-          <td>${Number(p.stock || 0)}</td>
+            <td>
+              ${status(p.status)}
+            </td>
 
-          <td>${status(p.status)}</td>
+            <td>
 
-          <td>
+              <div class="action-row">
 
-            <div class="action-row">
+                <button
+                  class="btn btn-secondary"
+                  onclick="viewProduct('${p.id}')"
+                >
+                  View
+                </button>
 
-              <button
-                class="btn btn-secondary"
-                onclick="viewProduct('${p.id}')"
-              >
-                View
-              </button>
+                ${
+                  p.status ===
+                  "pending"
+                  ? `
+                    <button
+                      class="btn btn-success"
+                      onclick="approveProduct('${p.id}')"
+                    >
+                      Approve
+                    </button>
 
-              ${
-                p.status === "pending"
-                ? `
-                  <button
-                    class="btn btn-success"
-                    onclick="approveProduct('${p.id}')"
-                  >
-                    Approve
-                  </button>
+                    <button
+                      class="btn btn-danger"
+                      onclick="rejectProduct('${p.id}')"
+                    >
+                      Reject
+                    </button>
+                  `
+                  : ""
+                }
 
-                  <button
-                    class="btn btn-danger"
-                    onclick="rejectProduct('${p.id}')"
-                  >
-                    Reject
-                  </button>
-                `
-                : ""
-              }
+                ${
+                  p.status ===
+                  "published"
+                  ? `
+                    <button
+                      class="btn btn-danger"
+                      onclick="suspendProduct('${p.id}')"
+                    >
+                      Suspend
+                    </button>
+                  `
+                  : ""
+                }
 
-              ${
-                p.status === "published"
-                ? `
-                  <button
-                    class="btn btn-danger"
-                    onclick="suspendProduct('${p.id}')"
-                  >
-                    Suspend
-                  </button>
-                `
-                : ""
-              }
+              </div>
 
-            </div>
+            </td>
 
-          </td>
+          </tr>
 
-        </tr>
-      `;
+        `;
 
-    }).join("");
+      })
+      .join("");
+
 }
+
 
 function viewProduct(id){
 
   const p =
-    cache.products.find(x=>x.id === id);
+    cache.products.find(
+      x=>x.id === id
+    );
 
   if(!p) return;
 
   const images =
-    Array.isArray(p.image_urls)
+    Array.isArray(
+      p.image_urls
+    )
     ? p.image_urls
     : [];
 
@@ -2877,23 +4081,27 @@ function viewProduct(id){
       ${
         images.length
         ? `
-          <div style="
-            display:flex;
-            gap:10px;
-            overflow:auto;
-            margin-bottom:18px;
-          ">
+          <div
+            style="
+              display:flex;
+              gap:10px;
+              overflow:auto;
+              margin-bottom:18px;
+            "
+          >
             ${
-              images.map(img=>
-                `<img
-                  src="${esc(img)}"
-                  style="
-                    width:100px;
-                    height:100px;
-                    object-fit:cover;
-                    border-radius:10px;
-                  "
-                >`
+              images.map(
+                img=>`
+                  <img
+                    src="${esc(img)}"
+                    style="
+                      width:100px;
+                      height:100px;
+                      object-fit:cover;
+                      border-radius:10px;
+                    "
+                  >
+                `
               ).join("")
             }
           </div>
@@ -2901,29 +4109,81 @@ function viewProduct(id){
         : ""
       }
 
-      <div style="line-height:1.9;font-size:12px;">
-        <strong style="font-size:18px;">
+      <div
+        style="
+          line-height:1.9;
+          font-size:12px;
+        "
+      >
+
+        <strong
+          style="font-size:18px;"
+        >
           ${esc(p.name)}
         </strong>
 
         <br><br>
 
-        Price: ${money(p.price)}<br>
-        Stock: ${Number(p.stock || 0)}<br>
-        Category: ${esc(p.categories?.name || "—")}<br>
-        Location: ${esc(p.location || "—")}<br>
-        SKU: ${esc(p.sku || "—")}<br>
-        Delivery: ${p.delivery_available ? "Available" : "Not available"}<br><br>
+        Price:
+        ${money(p.price)}
 
-        ${esc(p.description || "No description provided.")}
+        <br>
+
+        Stock:
+        ${Number(p.stock || 0)}
+
+        <br>
+
+        Category:
+        ${esc(
+          p.categories?.name ||
+          "—"
+        )}
+
+        <br>
+
+        Location:
+        ${esc(
+          p.location ||
+          "—"
+        )}
+
+        <br>
+
+        SKU:
+        ${esc(
+          p.sku ||
+          "—"
+        )}
+
+        <br>
+
+        Delivery:
+        ${
+          p.delivery_available
+          ? "Available"
+          : "Not available"
+        }
+
+        <br><br>
+
+        ${esc(
+          p.description ||
+          "No description provided."
+        )}
+
       </div>
     `
   );
+
 }
+
 
 async function approveProduct(id){
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("products")
       .update({
@@ -2933,24 +4193,36 @@ async function approveProduct(id){
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Product approved and published.");
+  toast(
+    "Product approved and published."
+  );
 
   await loadProducts();
   await loadOverview();
+
 }
+
 
 async function rejectProduct(id){
 
   const reason =
-    prompt("Reason for rejecting this product:");
+    prompt(
+      "Reason for rejecting this product:"
+    );
 
-  if(reason === null) return;
+  if(reason === null)
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("products")
       .update({
@@ -2960,21 +4232,35 @@ async function rejectProduct(id){
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Product rejected.");
+  toast(
+    "Product rejected."
+  );
 
   await loadProducts();
   await loadOverview();
+
 }
+
 
 async function suspendProduct(id){
 
-  if(!confirm("Suspend this product?")) return;
+  if(
+    !confirm(
+      "Suspend this product?"
+    )
+  )
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("products")
       .update({
@@ -2983,12 +4269,19 @@ async function suspendProduct(id){
       .eq("id",id);
 
   if(error){
+
     toast(error.message);
+
     return;
+
   }
 
-  toast("Product suspended.");
+  toast(
+    "Product suspended."
+  );
+
   await loadProducts();
+
 }
 
 
@@ -2998,68 +4291,106 @@ async function suspendProduct(id){
 
 async function loadOrders(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("orders")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
+
     console.error(error);
-    showError("ordersBody",7,error.message);
+
+    showError(
+      "ordersBody",
+      7,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.orders = data || [];
+  cache.orders =
+    data || [];
 
-  const paid =
-    cache.orders.filter(x=>x.payment_status==="paid").length;
-
-  const processing =
-    cache.orders.filter(x=>x.order_status==="processing").length;
-
-  const delivered =
-    cache.orders.filter(x=>x.order_status==="delivered").length;
-
-  document.getElementById("orderTotal").textContent =
+  document.getElementById(
+    "orderTotal"
+  ).textContent =
     cache.orders.length;
 
-  document.getElementById("orderPaid").textContent =
-    paid;
+  document.getElementById(
+    "orderPaid"
+  ).textContent =
+    cache.orders.filter(
+      x =>
+        x.payment_status ===
+        "paid"
+    ).length;
 
-  document.getElementById("orderProcessing").textContent =
-    processing;
+  document.getElementById(
+    "orderProcessing"
+  ).textContent =
+    cache.orders.filter(
+      x =>
+        x.order_status ===
+        "processing"
+    ).length;
 
-  document.getElementById("orderDelivered").textContent =
-    delivered;
+  document.getElementById(
+    "orderDelivered"
+  ).textContent =
+    cache.orders.filter(
+      x =>
+        x.order_status ===
+        "delivered"
+    ).length;
 
   renderOrders();
+
 }
+
 
 function renderOrders(){
 
   const body =
-    document.getElementById("ordersBody");
+    document.getElementById(
+      "ordersBody"
+    );
 
   const search =
-    document.getElementById("orderSearch")
-      .value.toLowerCase();
+    document.getElementById(
+      "orderSearch"
+    ).value.toLowerCase();
 
   const filter =
-    document.getElementById("orderStatusFilter")
-      .value;
+    document.getElementById(
+      "orderStatusFilter"
+    ).value;
 
   const rows =
     cache.orders.filter(o=>{
 
       const text =
-        `${o.id} ${o.customer_id}`
-          .toLowerCase();
+        `
+          ${o.id}
+          ${o.customer_id}
+        `
+        .toLowerCase();
 
       return (
-        (!search || text.includes(search)) &&
-        (!filter || o.order_status === filter)
+        (!search ||
+          text.includes(search)) &&
+        (!filter ||
+          o.order_status === filter)
       );
+
     });
 
   if(!rows.length){
@@ -3068,41 +4399,73 @@ function renderOrders(){
       <tr>
         <td colspan="7">
           <div class="empty">
-            <strong>No orders found</strong>
+            <strong>
+              No orders found
+            </strong>
           </div>
         </td>
       </tr>
     `;
 
     return;
+
   }
 
   body.innerHTML =
-    rows.map(o=>`
+    rows
+      .map(
+        o=>`
 
-      <tr>
+          <tr>
 
-        <td>
-          <strong>#${shortId(o.id)}</strong>
-        </td>
+            <td>
+              <strong>
+                #${shortId(o.id)}
+              </strong>
+            </td>
 
-        <td>
-          ${shortId(o.customer_id)}
-        </td>
+            <td>
+              ${shortId(
+                o.customer_id
+              )}
+            </td>
 
-        <td>${money(o.total_amount)}</td>
+            <td>
+              ${money(
+                o.total_amount
+              )}
+            </td>
 
-        <td>${money(o.platform_commission)}</td>
+            <td>
+              ${money(
+                o.platform_commission
+              )}
+            </td>
 
-        <td>${status(o.payment_status)}</td>
+            <td>
+              ${status(
+                o.payment_status
+              )}
+            </td>
 
-        <td>${status(o.order_status)}</td>
+            <td>
+              ${status(
+                o.order_status
+              )}
+            </td>
 
-        <td>${date(o.created_at)}</td>
+            <td>
+              ${date(
+                o.created_at
+              )}
+            </td>
 
-      </tr>
+          </tr>
 
-    `).join("");
+        `
+      )
+      .join("");
+
 }
 
 
@@ -3112,73 +4475,190 @@ function renderOrders(){
 
 async function loadBusinesses(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("businesses")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("businessesBody",6,error.message);
+
+    showError(
+      "businessesBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.businesses = data || [];
+  cache.businesses =
+    data || [];
 
-  document.getElementById("businessesBody").innerHTML =
+  document.getElementById(
+    "businessesBody"
+  ).innerHTML =
+
     cache.businesses.length
-    ? cache.businesses.map(b=>`
-      <tr>
-        <td><strong>${esc(b.business_name || "Unnamed")}</strong></td>
-        <td>${esc(b.category || "—")}</td>
-        <td>${esc(b.phone || "—")}</td>
-        <td>${esc(b.location || "—")}</td>
-        <td>${status(b.verification_status)}</td>
-        <td>
-          <button
-            class="btn btn-secondary"
-            onclick="viewBusiness('${b.id}')"
-          >
-            View
-          </button>
-        </td>
-      </tr>
-    `).join("")
+
+    ? cache.businesses
+        .map(
+          b=>`
+
+            <tr>
+
+              <td>
+                <strong>
+                  ${esc(
+                    b.business_name ||
+                    "Unnamed"
+                  )}
+                </strong>
+              </td>
+
+              <td>
+                ${esc(
+                  b.category ||
+                  "—"
+                )}
+              </td>
+
+              <td>
+                ${esc(
+                  b.phone ||
+                  "—"
+                )}
+              </td>
+
+              <td>
+                ${esc(
+                  b.location ||
+                  "—"
+                )}
+              </td>
+
+              <td>
+                ${status(
+                  b.verification_status
+                )}
+              </td>
+
+              <td>
+
+                <button
+                  class="btn btn-secondary"
+                  onclick="viewBusiness('${b.id}')"
+                >
+                  View
+                </button>
+
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="6">
+
           <div class="empty">
-            <strong>No businesses yet</strong>
+
+            <strong>
+              No businesses yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
+
 
 function viewBusiness(id){
 
   const b =
-    cache.businesses.find(x=>x.id===id);
+    cache.businesses.find(
+      x=>x.id === id
+    );
 
   if(!b) return;
 
   showModal(
     "Business Details",
     `
-      <div style="line-height:1.9;font-size:12px;">
-        <strong style="font-size:18px;">
-          ${esc(b.business_name)}
-        </strong><br><br>
+      <div
+        style="
+          line-height:1.9;
+          font-size:12px;
+        "
+      >
 
-        Category: ${esc(b.category || "—")}<br>
-        Phone: ${esc(b.phone || "—")}<br>
-        Location: ${esc(b.location || "—")}<br>
-        Verification: ${status(b.verification_status)}<br><br>
+        <strong
+          style="font-size:18px;"
+        >
+          ${esc(
+            b.business_name
+          )}
+        </strong>
 
-        ${esc(b.description || "No description.")}
+        <br><br>
+
+        Category:
+        ${esc(
+          b.category ||
+          "—"
+        )}
+
+        <br>
+
+        Phone:
+        ${esc(
+          b.phone ||
+          "—"
+        )}
+
+        <br>
+
+        Location:
+        ${esc(
+          b.location ||
+          "—"
+        )}
+
+        <br>
+
+        Verification:
+        ${status(
+          b.verification_status
+        )}
+
+        <br><br>
+
+        ${esc(
+          b.description ||
+          "No description."
+        )}
+
       </div>
     `
   );
+
 }
 
 
@@ -3188,40 +4668,105 @@ function viewBusiness(id){
 
 async function loadServices(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("services")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("servicesBody",6,error.message);
+
+    showError(
+      "servicesBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.services = data || [];
+  cache.services =
+    data || [];
 
-  document.getElementById("servicesBody").innerHTML =
+  document.getElementById(
+    "servicesBody"
+  ).innerHTML =
+
     cache.services.length
-    ? cache.services.map(s=>`
-      <tr>
-        <td><strong>${esc(s.name)}</strong></td>
-        <td>${esc(s.category || "—")}</td>
-        <td>${shortId(s.provider_id)}</td>
-        <td>${money(s.price)}</td>
-        <td>${esc(s.location || "—")}</td>
-        <td>${status(s.status)}</td>
-      </tr>
-    `).join("")
+
+    ? cache.services
+        .map(
+          s=>`
+
+            <tr>
+
+              <td>
+                <strong>
+                  ${esc(s.name)}
+                </strong>
+              </td>
+
+              <td>
+                ${esc(
+                  s.category ||
+                  "—"
+                )}
+              </td>
+
+              <td>
+                ${shortId(
+                  s.provider_id
+                )}
+              </td>
+
+              <td>
+                ${money(s.price)}
+              </td>
+
+              <td>
+                ${esc(
+                  s.location ||
+                  "—"
+                )}
+              </td>
+
+              <td>
+                ${status(s.status)}
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="6">
+
           <div class="empty">
-            <strong>No services yet</strong>
+
+            <strong>
+              No services yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
 
 
@@ -3231,7 +4776,10 @@ async function loadServices(){
 
 async function loadRevenue(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("orders")
       .select(
@@ -3239,46 +4787,83 @@ async function loadRevenue(){
       );
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
   const paid =
-    (data || []).filter(
-      o=>o.payment_status==="paid"
-    );
+    (data || [])
+      .filter(
+        o =>
+          o.payment_status ===
+          "paid"
+      );
 
   const gross =
     paid.reduce(
-      (sum,o)=>sum+Number(o.total_amount||0),0
+      (sum,o)=>
+        sum +
+        Number(
+          o.total_amount ||
+          0
+        ),
+      0
     );
 
   const commission =
     paid.reduce(
-      (sum,o)=>sum+Number(o.platform_commission||0),0
+      (sum,o)=>
+        sum +
+        Number(
+          o.platform_commission ||
+          0
+        ),
+      0
     );
 
   const seller =
     paid.reduce(
-      (sum,o)=>sum+Number(o.seller_amount||0),0
+      (sum,o)=>
+        sum +
+        Number(
+          o.seller_amount ||
+          0
+        ),
+      0
     );
 
   const completed =
     paid.filter(
-      o=>o.order_status==="delivered"
+      o =>
+        o.order_status ===
+        "delivered"
     ).length;
 
-  document.getElementById("grossSales").textContent =
+  document.getElementById(
+    "grossSales"
+  ).textContent =
     money(gross);
 
-  document.getElementById("commissionRevenue").textContent =
+  document.getElementById(
+    "commissionRevenue"
+  ).textContent =
     money(commission);
 
-  document.getElementById("sellerEarnings").textContent =
+  document.getElementById(
+    "sellerEarnings"
+  ).textContent =
     money(seller);
 
-  document.getElementById("completedOrders").textContent =
+  document.getElementById(
+    "completedOrders"
+  ).textContent =
     completed;
+
 }
 
 
@@ -3288,145 +4873,248 @@ async function loadRevenue(){
 
 async function loadWithdrawals(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("withdrawals")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("withdrawalsBody",7,error.message);
+
+    showError(
+      "withdrawalsBody",
+      7,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.withdrawals = data || [];
+  cache.withdrawals =
+    data || [];
 
   const pending =
-    cache.withdrawals.filter(x=>x.status==="pending").length;
+    cache.withdrawals.filter(
+      x =>
+        x.status ===
+        "pending"
+    ).length;
 
   const approved =
-    cache.withdrawals.filter(x=>x.status==="approved").length;
+    cache.withdrawals.filter(
+      x =>
+        x.status ===
+        "approved"
+    ).length;
 
   const completed =
-    cache.withdrawals.filter(x=>x.status==="completed").length;
+    cache.withdrawals.filter(
+      x =>
+        x.status ===
+        "completed"
+    ).length;
 
   const amount =
     cache.withdrawals
-      .filter(x=>x.status==="pending")
+      .filter(
+        x =>
+          x.status ===
+          "pending"
+      )
       .reduce(
-        (sum,x)=>sum+Number(x.amount||0),0
+        (sum,x)=>
+          sum +
+          Number(
+            x.amount || 0
+          ),
+        0
       );
 
-  document.getElementById("withdrawPending").textContent =
+  document.getElementById(
+    "withdrawPending"
+  ).textContent =
     pending;
 
-  document.getElementById("withdrawApproved").textContent =
+  document.getElementById(
+    "withdrawApproved"
+  ).textContent =
     approved;
 
-  document.getElementById("withdrawCompleted").textContent =
+  document.getElementById(
+    "withdrawCompleted"
+  ).textContent =
     completed;
 
-  document.getElementById("withdrawAmount").textContent =
+  document.getElementById(
+    "withdrawAmount"
+  ).textContent =
     money(amount);
 
   renderWithdrawals();
+
 }
+
 
 function renderWithdrawals(){
 
   const body =
-    document.getElementById("withdrawalsBody");
+    document.getElementById(
+      "withdrawalsBody"
+    );
 
   if(!cache.withdrawals.length){
 
     body.innerHTML = `
       <tr>
+
         <td colspan="7">
+
           <div class="empty">
-            <strong>No withdrawal requests</strong>
+
+            <strong>
+              No withdrawal requests
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
     `;
 
     return;
+
   }
 
   body.innerHTML =
-    cache.withdrawals.map(w=>`
+    cache.withdrawals
+      .map(
+        w=>`
 
-      <tr>
+          <tr>
 
-        <td>${shortId(w.seller_id)}</td>
+            <td>
+              ${shortId(
+                w.seller_id
+              )}
+            </td>
 
-        <td>${money(w.amount)}</td>
+            <td>
+              ${money(w.amount)}
+            </td>
 
-        <td>${esc(w.method || "—")}</td>
+            <td>
+              ${esc(
+                w.method ||
+                "—"
+              )}
+            </td>
 
-        <td>
-          ${esc(w.account_name || "—")}<br>
-          <small style="color:var(--muted);">
-            ${esc(w.account_number || "")}
-          </small>
-        </td>
+            <td>
 
-        <td>${status(w.status)}</td>
+              ${esc(
+                w.account_name ||
+                "—"
+              )}
 
-        <td>${date(w.created_at)}</td>
+              <br>
 
-        <td>
+              <small
+                style="color:var(--muted);"
+              >
+                ${esc(
+                  w.account_number ||
+                  ""
+                )}
+              </small>
 
-          <div class="action-row">
+            </td>
 
-            ${
-              w.status === "pending"
-              ? `
-                <button
-                  class="btn btn-success"
-                  onclick="approveWithdrawal('${w.id}')"
-                >
-                  Approve
-                </button>
+            <td>
+              ${status(w.status)}
+            </td>
 
-                <button
-                  class="btn btn-danger"
-                  onclick="rejectWithdrawal('${w.id}')"
-                >
-                  Reject
-                </button>
-              `
-              : ""
-            }
+            <td>
+              ${date(
+                w.created_at
+              )}
+            </td>
 
-            ${
-              w.status === "approved"
-              ? `
-                <button
-                  class="btn btn-primary"
-                  onclick="completeWithdrawal('${w.id}')"
-                >
-                  Complete
-                </button>
-              `
-              : ""
-            }
+            <td>
 
-          </div>
+              <div class="action-row">
 
-        </td>
+                ${
+                  w.status ===
+                  "pending"
+                  ? `
 
-      </tr>
+                    <button
+                      class="btn btn-success"
+                      onclick="approveWithdrawal('${w.id}')"
+                    >
+                      Approve
+                    </button>
 
-    `).join("");
+                    <button
+                      class="btn btn-danger"
+                      onclick="rejectWithdrawal('${w.id}')"
+                    >
+                      Reject
+                    </button>
+
+                  `
+                  : ""
+                }
+
+                ${
+                  w.status ===
+                  "approved"
+                  ? `
+
+                    <button
+                      class="btn btn-primary"
+                      onclick="completeWithdrawal('${w.id}')"
+                    >
+                      Complete
+                    </button>
+
+                  `
+                  : ""
+                }
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        `
+      )
+      .join("");
+
 }
+
 
 async function approveWithdrawal(id){
 
-  if(!confirm(
-    "Approve this withdrawal request?"
-  )) return;
+  if(
+    !confirm(
+      "Approve this withdrawal request?"
+    )
+  )
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("withdrawals")
       .update({
@@ -3435,22 +5123,37 @@ async function approveWithdrawal(id){
       .eq("id",id);
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
-  toast("Withdrawal approved.");
+  toast(
+    "Withdrawal approved."
+  );
+
   await loadWithdrawals();
+
 }
+
 
 async function rejectWithdrawal(id){
 
   const note =
-    prompt("Reason for rejecting withdrawal:");
+    prompt(
+      "Reason for rejecting withdrawal:"
+    );
 
-  if(note === null) return;
+  if(note === null)
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("withdrawals")
       .update({
@@ -3460,21 +5163,36 @@ async function rejectWithdrawal(id){
       .eq("id",id);
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
-  toast("Withdrawal rejected.");
+  toast(
+    "Withdrawal rejected."
+  );
+
   await loadWithdrawals();
+
 }
+
 
 async function completeWithdrawal(id){
 
-  if(!confirm(
-    "Mark this withdrawal as completed?"
-  )) return;
+  if(
+    !confirm(
+      "Mark this withdrawal as completed?"
+    )
+  )
+    return;
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("withdrawals")
       .update({
@@ -3483,12 +5201,21 @@ async function completeWithdrawal(id){
       .eq("id",id);
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
-  toast("Withdrawal marked completed.");
+  toast(
+    "Withdrawal marked completed."
+  );
+
   await loadWithdrawals();
+
 }
 
 
@@ -3498,51 +5225,114 @@ async function completeWithdrawal(id){
 
 async function loadTransactions(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("payments")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("transactionsBody",7,error.message);
+
+    showError(
+      "transactionsBody",
+      7,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.transactions = data || [];
+  cache.transactions =
+    data || [];
 
-  document.getElementById("transactionsBody").innerHTML =
+  document.getElementById(
+    "transactionsBody"
+  ).innerHTML =
+
     cache.transactions.length
-    ? cache.transactions.map(t=>`
-      <tr>
 
-        <td>
-          <strong>${esc(t.transaction_reference || "—")}</strong>
-        </td>
+    ? cache.transactions
+        .map(
+          t=>`
 
-        <td>${shortId(t.order_id)}</td>
+            <tr>
 
-        <td>${money(t.amount)}</td>
+              <td>
+                <strong>
+                  ${esc(
+                    t.transaction_reference ||
+                    "—"
+                  )}
+                </strong>
+              </td>
 
-        <td>${esc(t.payment_method || "—")}</td>
+              <td>
+                ${shortId(
+                  t.order_id
+                )}
+              </td>
 
-        <td>${esc(t.provider || "—")}</td>
+              <td>
+                ${money(t.amount)}
+              </td>
 
-        <td>${status(t.status)}</td>
+              <td>
+                ${esc(
+                  t.payment_method ||
+                  "—"
+                )}
+              </td>
 
-        <td>${date(t.created_at)}</td>
+              <td>
+                ${esc(
+                  t.provider ||
+                  "—"
+                )}
+              </td>
 
-      </tr>
-    `).join("")
+              <td>
+                ${status(t.status)}
+              </td>
+
+              <td>
+                ${date(
+                  t.created_at
+                )}
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="7">
+
           <div class="empty">
-            <strong>No payment transactions yet</strong>
+
+            <strong>
+              No payment transactions yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
 
 
@@ -3552,7 +5342,10 @@ async function loadTransactions(){
 
 async function loadReviews(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("reviews")
       .select(`
@@ -3561,67 +5354,128 @@ async function loadReviews(){
           name
         )
       `)
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("reviewsBody",6,error.message);
+
+    showError(
+      "reviewsBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.reviews = data || [];
+  cache.reviews =
+    data || [];
 
-  document.getElementById("reviewsBody").innerHTML =
+  document.getElementById(
+    "reviewsBody"
+  ).innerHTML =
+
     cache.reviews.length
-    ? cache.reviews.map(r=>`
-      <tr>
 
-        <td>${esc(r.products?.name || shortId(r.product_id))}</td>
+    ? cache.reviews
+        .map(
+          r=>`
 
-        <td>
-          ${"★".repeat(Number(r.rating||0))}
-        </td>
+            <tr>
 
-        <td>
-          ${esc(r.review_text || "")}
-        </td>
+              <td>
+                ${esc(
+                  r.products?.name ||
+                  shortId(
+                    r.product_id
+                  )
+                )}
+              </td>
 
-        <td>${status(r.status)}</td>
+              <td>
+                ${
+                  "★".repeat(
+                    Number(
+                      r.rating || 0
+                    )
+                  )
+                }
+              </td>
 
-        <td>${date(r.created_at)}</td>
+              <td>
+                ${esc(
+                  r.review_text ||
+                  ""
+                )}
+              </td>
 
-        <td>
+              <td>
+                ${status(r.status)}
+              </td>
 
-          ${
-            r.status !== "published"
-            ? `
-              <button
-                class="btn btn-success"
-                onclick="publishReview('${r.id}')"
-              >
-                Publish
-              </button>
-            `
-            : ""
-          }
+              <td>
+                ${date(
+                  r.created_at
+                )}
+              </td>
 
-        </td>
+              <td>
 
-      </tr>
-    `).join("")
+                ${
+                  r.status !==
+                  "published"
+                  ? `
+
+                    <button
+                      class="btn btn-success"
+                      onclick="publishReview('${r.id}')"
+                    >
+                      Publish
+                    </button>
+
+                  `
+                  : ""
+                }
+
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="6">
+
           <div class="empty">
-            <strong>No reviews yet</strong>
+
+            <strong>
+              No reviews yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
+
 
 async function publishReview(id){
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("reviews")
       .update({
@@ -3630,88 +5484,167 @@ async function publishReview(id){
       .eq("id",id);
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
-  toast("Review published.");
+  toast(
+    "Review published."
+  );
+
   await loadReviews();
+
 }
 
 
 /* =========================================================
-   ADVERTISEMENTS
+   ADVERTISING
 ========================================================= */
 
 async function loadAdvertising(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("advertisements")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("adsBody",7,error.message);
+
+    showError(
+      "adsBody",
+      7,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.advertisements = data || [];
+  cache.advertisements =
+    data || [];
 
-  document.getElementById("adsBody").innerHTML =
+  document.getElementById(
+    "adsBody"
+  ).innerHTML =
+
     cache.advertisements.length
-    ? cache.advertisements.map(a=>`
-      <tr>
 
-        <td><strong>${esc(a.title || "Campaign")}</strong></td>
+    ? cache.advertisements
+        .map(
+          a=>`
 
-        <td>${shortId(a.seller_id)}</td>
+            <tr>
 
-        <td>${esc(a.placement || "—")}</td>
+              <td>
+                <strong>
+                  ${esc(
+                    a.title ||
+                    "Campaign"
+                  )}
+                </strong>
+              </td>
 
-        <td>${money(a.budget)}</td>
+              <td>
+                ${shortId(
+                  a.seller_id
+                )}
+              </td>
 
-        <td>${status(a.status)}</td>
+              <td>
+                ${esc(
+                  a.placement ||
+                  "—"
+                )}
+              </td>
 
-        <td>
-          ${date(a.starts_at)}
-          →
-          ${date(a.ends_at)}
-        </td>
+              <td>
+                ${money(a.budget)}
+              </td>
 
-        <td>
+              <td>
+                ${status(a.status)}
+              </td>
 
-          ${
-            a.status === "pending"
-            ? `
-              <button
-                class="btn btn-success"
-                onclick="approveAd('${a.id}')"
-              >
-                Approve
-              </button>
-            `
-            : ""
-          }
+              <td>
 
-        </td>
+                ${date(
+                  a.starts_at
+                )}
 
-      </tr>
-    `).join("")
+                →
+
+                ${date(
+                  a.ends_at
+                )}
+
+              </td>
+
+              <td>
+
+                ${
+                  a.status ===
+                  "pending"
+                  ? `
+
+                    <button
+                      class="btn btn-success"
+                      onclick="approveAd('${a.id}')"
+                    >
+                      Approve
+                    </button>
+
+                  `
+                  : ""
+                }
+
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="7">
+
           <div class="empty">
-            <strong>No advertising campaigns yet</strong>
+
+            <strong>
+              No advertising campaigns yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
+
 
 async function approveAd(id){
 
-  const {error} =
+  const {
+    error
+  } =
     await supabaseClient
       .from("advertisements")
       .update({
@@ -3720,12 +5653,21 @@ async function approveAd(id){
       .eq("id",id);
 
   if(error){
-    toast(error.message);
+
+    toast(
+      error.message
+    );
+
     return;
+
   }
 
-  toast("Advertisement activated.");
+  toast(
+    "Advertisement activated."
+  );
+
   await loadAdvertising();
+
 }
 
 
@@ -3735,87 +5677,182 @@ async function approveAd(id){
 
 async function loadComplaints(){
 
-  const {data,error} =
+  const {
+    data,
+    error
+  } =
     await supabaseClient
       .from("complaints")
       .select("*")
-      .order("created_at",{ascending:false});
+      .order(
+        "created_at",
+        {ascending:false}
+      );
 
   if(error){
-    showError("complaintsBody",6,error.message);
+
+    showError(
+      "complaintsBody",
+      6,
+      error.message
+    );
+
     return;
+
   }
 
-  cache.complaints = data || [];
+  cache.complaints =
+    data || [];
 
-  document.getElementById("complaintsBody").innerHTML =
+  document.getElementById(
+    "complaintsBody"
+  ).innerHTML =
+
     cache.complaints.length
-    ? cache.complaints.map(c=>`
-      <tr>
 
-        <td>
-          <strong>${esc(c.subject || "Complaint")}</strong>
-        </td>
+    ? cache.complaints
+        .map(
+          c=>`
 
-        <td>${shortId(c.reporter_id)}</td>
+            <tr>
 
-        <td>${status(c.priority || "normal")}</td>
+              <td>
+                <strong>
+                  ${esc(
+                    c.subject ||
+                    "Complaint"
+                  )}
+                </strong>
+              </td>
 
-        <td>${status(c.status)}</td>
+              <td>
+                ${shortId(
+                  c.reporter_id
+                )}
+              </td>
 
-        <td>${date(c.created_at)}</td>
+              <td>
+                ${status(
+                  c.priority ||
+                  "normal"
+                )}
+              </td>
 
-        <td>
-          <button
-            class="btn btn-secondary"
-            onclick="viewComplaint('${c.id}')"
-          >
-            View
-          </button>
-        </td>
+              <td>
+                ${status(c.status)}
+              </td>
 
-      </tr>
-    `).join("")
+              <td>
+                ${date(
+                  c.created_at
+                )}
+              </td>
+
+              <td>
+
+                <button
+                  class="btn btn-secondary"
+                  onclick="viewComplaint('${c.id}')"
+                >
+                  View
+                </button>
+
+              </td>
+
+            </tr>
+
+          `
+        )
+        .join("")
+
     : `
+
       <tr>
+
         <td colspan="6">
+
           <div class="empty">
-            <strong>No complaints yet</strong>
+
+            <strong>
+              No complaints yet
+            </strong>
+
           </div>
+
         </td>
+
       </tr>
+
     `;
+
 }
+
 
 function viewComplaint(id){
 
   const c =
-    cache.complaints.find(x=>x.id===id);
+    cache.complaints.find(
+      x=>x.id === id
+    );
 
   if(!c) return;
 
   showModal(
     "Complaint",
     `
-      <div style="font-size:12px;line-height:1.9;">
+      <div
+        style="
+          font-size:12px;
+          line-height:1.9;
+        "
+      >
 
-        <strong style="font-size:17px;">
-          ${esc(c.subject || "Complaint")}
+        <strong
+          style="font-size:17px;"
+        >
+          ${esc(
+            c.subject ||
+            "Complaint"
+          )}
         </strong>
 
         <br><br>
 
-        Priority: ${status(c.priority || "normal")}<br>
-        Status: ${status(c.status)}<br>
-        Order: ${shortId(c.order_id)}<br><br>
+        Priority:
+        ${status(
+          c.priority ||
+          "normal"
+        )}
 
-        <strong>Description</strong><br>
+        <br>
 
-        ${esc(c.description || "No description.")}
+        Status:
+        ${status(c.status)}
+
+        <br>
+
+        Order:
+        ${shortId(
+          c.order_id
+        )}
+
+        <br><br>
+
+        <strong>
+          Description
+        </strong>
+
+        <br>
+
+        ${esc(
+          c.description ||
+          "No description."
+        )}
 
       </div>
     `
   );
+
 }
 
 
@@ -3823,132 +5860,195 @@ function viewComplaint(id){
    SETTINGS
 ========================================================= */
 
-document.getElementById("saveSettings")
-.addEventListener("click",()=>{
+document.getElementById(
+  "saveSettings"
+)
+.addEventListener(
+  "click",
+  ()=>{
 
-  const name =
-    document.getElementById("settingName").value;
+    const name =
+      document.getElementById(
+        "settingName"
+      ).value;
 
-  const tagline =
-    document.getElementById("settingTagline").value;
+    const tagline =
+      document.getElementById(
+        "settingTagline"
+      ).value;
 
-  const commission =
-    document.getElementById("commissionRate").value;
+    const commission =
+      document.getElementById(
+        "commissionRate"
+      ).value;
 
-  /*
-    These settings are currently kept in the admin interface.
+    console.log({
+      name,
+      tagline,
+      commission
+    });
 
-    If you want persistent platform settings, create a dedicated
-    settings table or secure configuration backend.
-  */
+    toast(
+      "Settings saved for this session."
+    );
 
-  console.log({
-    name,
-    tagline,
-    commission
-  });
-
-  toast("Settings saved for this session.");
-});
+  }
+);
 
 
 /* =========================================================
-   SEARCH EVENTS
+   SEARCH
 ========================================================= */
 
-document.getElementById("userSearch")
-.addEventListener("input",renderUsers);
+document.getElementById(
+  "userSearch"
+)
+.addEventListener(
+  "input",
+  renderUsers
+);
 
-document.getElementById("userRoleFilter")
-.addEventListener("change",renderUsers);
+document.getElementById(
+  "userRoleFilter"
+)
+.addEventListener(
+  "change",
+  renderUsers
+);
 
-document.getElementById("sellerSearch")
-.addEventListener("input",renderSellers);
+document.getElementById(
+  "sellerSearch"
+)
+.addEventListener(
+  "input",
+  renderSellers
+);
 
-document.getElementById("sellerStatusFilter")
-.addEventListener("change",renderSellers);
+document.getElementById(
+  "sellerStatusFilter"
+)
+.addEventListener(
+  "change",
+  renderSellers
+);
 
-document.getElementById("productSearch")
-.addEventListener("input",renderProducts);
+document.getElementById(
+  "productSearch"
+)
+.addEventListener(
+  "input",
+  renderProducts
+);
 
-document.getElementById("productStatusFilter")
-.addEventListener("change",renderProducts);
+document.getElementById(
+  "productStatusFilter"
+)
+.addEventListener(
+  "change",
+  renderProducts
+);
 
-document.getElementById("orderSearch")
-.addEventListener("input",renderOrders);
+document.getElementById(
+  "orderSearch"
+)
+.addEventListener(
+  "input",
+  renderOrders
+);
 
-document.getElementById("orderStatusFilter")
-.addEventListener("change",renderOrders);
+document.getElementById(
+  "orderStatusFilter"
+)
+.addEventListener(
+  "change",
+  renderOrders
+);
 
 
 /* =========================================================
    ERROR HANDLER
 ========================================================= */
 
-function showError(id,columns,message){
+function showError(
+  id,
+  columns,
+  message
+){
 
   const body =
     document.getElementById(id);
 
-  if(!body) return;
+  if(!body)
+    return;
 
   body.innerHTML = `
     <tr>
+
       <td colspan="${columns}">
+
         <div class="empty">
-          <strong>Unable to load data</strong>
+
+          <strong>
+            Unable to load data
+          </strong>
+
           ${esc(message)}
+
         </div>
+
       </td>
+
     </tr>
   `;
+
 }
 
 
 /* =========================================================
-   PAGE DATA LOADER
+   PAGE LOADER
 ========================================================= */
 
 async function loadPageData(page){
 
-  if(page==="overview")
+  if(page === "overview")
     await loadOverview();
 
-  if(page==="users")
+  if(page === "users")
     await loadUsers();
 
-  if(page==="sellers")
+  if(page === "sellers")
     await loadSellers();
 
-  if(page==="products")
+  if(page === "products")
     await loadProducts();
 
-  if(page==="orders")
+  if(page === "orders")
     await loadOrders();
 
-  if(page==="businesses")
+  if(page === "businesses")
     await loadBusinesses();
 
-  if(page==="services")
+  if(page === "services")
     await loadServices();
 
-  if(page==="revenue")
+  if(page === "revenue")
     await loadRevenue();
 
-  if(page==="withdrawals")
+  if(page === "withdrawals")
     await loadWithdrawals();
 
-  if(page==="transactions")
+  if(page === "transactions")
     await loadTransactions();
 
-  if(page==="reviews")
+  if(page === "reviews")
     await loadReviews();
 
-  if(page==="advertising")
+  if(page === "advertising")
     await loadAdvertising();
 
-  if(page==="complaints")
+  if(page === "complaints")
     await loadComplaints();
+
 }
 
 
@@ -3956,81 +6056,130 @@ async function loadPageData(page){
    REFRESH
 ========================================================= */
 
-document.getElementById("refreshBtn")
-.addEventListener("click",async()=>{
+document.getElementById(
+  "refreshBtn"
+)
+.addEventListener(
+  "click",
+  async()=>{
 
-  const active =
-    document.querySelector(".page.active");
+    const active =
+      document.querySelector(
+        ".page.active"
+      );
 
-  if(!active) return;
+    if(!active)
+      return;
 
-  const page =
-    active.id.replace("page-","");
+    const page =
+      active.id.replace(
+        "page-",
+        ""
+      );
 
-  toast("Refreshing...");
+    toast(
+      "Refreshing..."
+    );
 
-  await loadPageData(page);
+    await loadPageData(
+      page
+    );
 
-  if(page !== "overview"){
-    await loadOverview();
+    if(page !== "overview")
+      await loadOverview();
+
+    toast(
+      "Dashboard updated."
+    );
+
   }
-
-  toast("Dashboard updated.");
-});
+);
 
 
 /* =========================================================
    NOTIFICATIONS
 ========================================================= */
 
-document.getElementById("notificationBtn")
-.addEventListener("click",()=>{
+document.getElementById(
+  "notificationBtn"
+)
+.addEventListener(
+  "click",
+  ()=>{
 
-  showModal(
-    "Admin Notifications",
-    `
-      <div style="font-size:12px;color:var(--muted);line-height:1.9;">
-        <strong style="color:white;">
-          Kaziya control center
-        </strong>
-        <br><br>
-        Use the Pending Approvals section to review
-        new products, seller businesses and withdrawal
-        requests.
-      </div>
-    `
-  );
+    showModal(
+      "Admin Notifications",
+      `
+        <div
+          style="
+            font-size:12px;
+            color:var(--muted);
+            line-height:1.9;
+          "
+        >
 
-});
+          <strong
+            style="color:white;"
+          >
+            Kaziya control center
+          </strong>
+
+          <br><br>
+
+          Use the Pending Approvals
+          section to review new products,
+          seller businesses and withdrawal
+          requests.
+
+        </div>
+      `
+    );
+
+  }
+);
 
 
 /* =========================================================
    LOGOUT
 ========================================================= */
 
-document.getElementById("logoutBtn")
-.addEventListener("click",async()=>{
+document.getElementById(
+  "logoutBtn"
+)
+.addEventListener(
+  "click",
+  async()=>{
 
-  await supabaseClient.auth.signOut();
+    await supabaseClient.auth.signOut();
 
-  window.location.href = "../";
-});
+    currentUser = null;
+    currentProfile = null;
+
+    document.getElementById(
+      "app"
+    ).classList.add("hidden");
+
+    document.getElementById(
+      "loginScreen"
+    ).classList.remove("hidden");
+
+    document.getElementById(
+      "loginPassword"
+    ).value = "";
+
+    toast(
+      "Signed out."
+    );
+
+  }
+);
 
 
 /* =========================================================
-   START APPLICATION
+   START
 ========================================================= */
 
-(async function(){
-
-  const allowed =
-    await checkAdmin();
-
-  if(!allowed) return;
-
-  await loadOverview();
-
-})();
+checkExistingSession();
 
 </script>
 
