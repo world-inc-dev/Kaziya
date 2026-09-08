@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kaziya CEO Dashboard</title>
+
+<style>
+:root{
+  --navy:#07111f;
+  --navy2:#0b1728;
+  --card:#101e31;
+  --card2:#13243a;
+  --lime:#b7ff35;
+  --lime2:#8fdc18;
+  --text:#f4f7fb;
+  --muted:#91a1b5;
+  --border:rgba(255,255,255,.08);
+  --danger:#ff5f6d;
+  --warning:#ffc857;
+  --success:#45df91;
+  --blue:#5ca9ff;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:var(--navy);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button,input,select,textarea{font:inherit}
+
+button{cursor:pointer}
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  width:255px;
+  height:100vh;
+  background:#081321;
+  border-right:1px solid var(--border);
+  padding:24px 15px;
+  z-index:20;
+  overflow-y:auto;
+}
+
+.logo{
+  padding:0 12px 26px;
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:-1px;
+}
+
+.logo span{color:var(--lime)}
+
+.ceo-badge{
+  display:inline-block;
+  margin-left:7px;
+  padding:4px 7px;
+  border-radius:6px;
+  background:rgba(183,255,53,.12);
+  color:var(--lime);
+  font-size:9px;
+  vertical-align:middle;
+}
+
+.nav-title{
+  color:#5f7187;
+  font-size:10px;
+  font-weight:800;
+  text-transform:uppercase;
+  padding:15px 12px 8px;
+}
+
+.nav-item{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#9eafc2;
+  padding:12px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  margin-bottom:3px;
+}
+
+.nav-item:hover,
+.nav-item.active{
+  background:rgba(183,255,53,.09);
+  color:var(--lime);
+}
+
+.nav-icon{
+  width:20px;
+  text-align:center;
+}
+
+.main{
+  margin-left:255px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:75px;
+  border-bottom:1px solid var(--border);
+  background:rgba(7,17,31,.92);
+  backdrop-filter:blur(14px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  position:sticky;
+  top:0;
+  z-index:15;
+}
+
+.mobile-menu{
+  display:none;
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:24px;
+}
+
+.top-left h1{
+  font-size:21px;
+}
+
+.top-left p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:4px;
+}
+
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.icon-btn{
+  width:39px;
+  height:39px;
+  border-radius:10px;
+  background:var(--card);
+  border:1px solid var(--border);
+  color:white;
+  position:relative;
+}
+
+.dot{
+  position:absolute;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--lime);
+  right:7px;
+  top:7px;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.avatar{
+  width:39px;
+  height:39px;
+  border-radius:50%;
+  background:var(--lime);
+  color:#07111f;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+
+.profile strong{
+  font-size:13px;
+}
+
+.profile small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.content{
+  padding:30px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:22px;
+}
+
+.stat{
+  background:linear-gradient(145deg,var(--card),#0c192a);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+
+.stat:after{
+  content:"";
+  position:absolute;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:rgba(183,255,53,.05);
+  right:-25px;
+  top:-25px;
+}
+
+.stat-icon{
+  font-size:20px;
+  margin-bottom:13px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.stat-value{
+  font-size:25px;
+  font-weight:900;
+  margin-top:6px;
+}
+
+.stat-change{
+  color:var(--success);
+  font-size:11px;
+  margin-top:7px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:18px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:18px;
+}
+
+.card-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+}
+
+.card-header h2{
+  font-size:16px;
+}
+
+.card-header span{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.chart{
+  height:245px;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  padding-top:20px;
+}
+
+.bar-wrap{
+  height:100%;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  align-items:center;
+  gap:8px;
+}
+
+.bar{
+  width:100%;
+  max-width:42px;
+  background:linear-gradient(to top,var(--lime2),var(--lime));
+  border-radius:7px 7px 3px 3px;
+  min-height:8px;
+}
+
+.bar-label{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.activity{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+.activity-row{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.activity-icon{
+  width:36px;
+  height:36px;
+  border-radius:10px;
+  display:grid;
+  place-items:center;
+  background:var(--card2);
+}
+
+.activity-text{
+  flex:1;
+}
+
+.activity-text strong{
+  font-size:12px;
+}
+
+.activity-text small{
+  display:block;
+  color:var(--muted);
+  margin-top:3px;
+}
+
+.activity-time{
+  color:#687b91;
+  font-size:10px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+th{
+  color:#708299;
+  font-size:10px;
+  text-transform:uppercase;
+  text-align:left;
+  padding:11px;
+  border-bottom:1px solid var(--border);
+}
+
+td{
+  padding:14px 11px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:800;
+}
+
+.badge.green{
+  background:rgba(69,223,145,.1);
+  color:var(--success);
+}
+
+.badge.yellow{
+  background:rgba(255,200,87,.1);
+  color:var(--warning);
+}
+
+.badge.red{
+  background:rgba(255,95,109,.1);
+  color:var(--danger);
+}
+
+.badge.blue{
+  background:rgba(92,169,255,.1);
+  color:var(--blue);
+}
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:17px;
+}
+
+.search{
+  flex:1;
+  min-width:180px;
+  background:#0b1829;
+  border:1px solid var(--border);
+  color:white;
+  padding:11px 13px;
+  border-radius:9px;
+  outline:none;
+}
+
+select,
+.form-input,
+textarea{
+  width:100%;
+  background:#0b1829;
+  border:1px solid var(--border);
+  color:white;
+  padding:11px 13px;
+  border-radius:9px;
+  outline:none;
+}
+
+.toolbar select{
+  width:180px;
+}
+
+.btn{
+  border:0;
+  padding:10px 14px;
+  border-radius:9px;
+  font-weight:800;
+  font-size:11px;
+}
+
+.btn-primary{
+  background:var(--lime);
+  color:#07111f;
+}
+
+.btn-dark{
+  background:#182940;
+  color:white;
+  border:1px solid var(--border);
+}
+
+.btn-danger{
+  background:rgba(255,95,109,.1);
+  color:var(--danger);
+}
+
+.btn-success{
+  background:rgba(69,223,145,.1);
+  color:var(--success);
+}
+
+.action-row{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.section-title{
+  margin-bottom:20px;
+}
+
+.section-title h1{
+  font-size:24px;
+}
+
+.section-title p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:5px;
+}
+
+.metric-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.metric{
+  padding:18px;
+  border:1px solid var(--border);
+  background:#0c1a2c;
+  border-radius:13px;
+}
+
+.metric small{
+  color:var(--muted);
+}
+
+.metric strong{
+  display:block;
+  font-size:23px;
+  margin-top:8px;
+}
+
+.approval{
+  border-left:3px solid var(--warning);
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.quick{
+  background:#0d1c2f;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:17px;
+  cursor:pointer;
+}
+
+.quick:hover{
+  border-color:rgba(183,255,53,.35);
+}
+
+.quick div{
+  font-size:23px;
+  margin-bottom:10px;
+}
+
+.quick strong{
+  font-size:12px;
+}
+
+.quick p{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  place-items:center;
+  padding:20px;
+  z-index:50;
+}
+
+.modal.show{
+  display:grid;
+}
+
+.modal-box{
+  width:min(560px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#0c1a2c;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:23px;
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.close{
+  background:transparent;
+  border:0;
+  color:#9aacbf;
+  font-size:24px;
+}
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  color:#9eafc2;
+  font-size:11px;
+  margin-bottom:7px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.empty{
+  padding:40px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.notice{
+  padding:13px;
+  background:rgba(183,255,53,.07);
+  border:1px solid rgba(183,255,53,.15);
+  color:#c7df9b;
+  border-radius:10px;
+  font-size:11px;
+  margin-bottom:17px;
+}
+
+.toast{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  background:#17283d;
+  color:white;
+  padding:13px 17px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  box-shadow:0 10px 35px rgba(0,0,0,.4);
+  display:none;
+  z-index:100;
+  font-size:12px;
+}
+
+.toast.show{
+  display:block;
+}
+
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .grid{grid-template-columns:1fr}
+}
+
+@media(max-width:750px){
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 16px;
+  }
+
+  .profile div:last-child{
+    display:none;
+  }
+
+  .content{
+    padding:18px 14px;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .metric-grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:450px){
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
+
+  .top-left h1{
+    font-size:17px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+  <div class="logo">
+    Kazi<span>ya</span>
+    <span class="ceo-badge">CEO</span>
+  </div>
+
+  <div class="nav-title">Management</div>
+
+  <button class="nav-item active" data-page="overview">
+    <span class="nav-icon">📊</span> Overview
+  </button>
+
+  <button class="nav-item" data-page="users">
+    <span class="nav-icon">👥</span> Users
+  </button>
+
+  <button class="nav-item" data-page="sellers">
+    <span class="nav-icon">🏪</span> Sellers
+  </button>
+
+  <button class="nav-item" data-page="products">
+    <span class="nav-icon">🛍️</span> Products
+  </button>
+
+  <button class="nav-item" data-page="orders">
+    <span class="nav-icon">📦</span> Orders
+  </button>
+
+  <button class="nav-item" data-page="businesses">
+    <span class="nav-icon">🏢</span> Businesses
+  </button>
+
+  <button class="nav-item" data-page="services">
+    <span class="nav-icon">🛠️</span> Services
+  </button>
+
+  <div class="nav-title">Finance</div>
+
+  <button class="nav-item" data-page="revenue">
+    <span class="nav-icon">💰</span> Revenue
+  </button>
+
+  <button class="nav-item" data-page="withdrawals">
+    <span class="nav-icon">💳</span> Withdrawals
+  </button>
+
+  <button class="nav-item" data-page="transactions">
+    <span class="nav-icon">🧾</span> Transactions
+  </button>
+
+  <div class="nav-title">Platform</div>
+
+  <button class="nav-item" data-page="reviews">
+    <span class="nav-icon">⭐</span> Reviews
+  </button>
+
+  <button class="nav-item" data-page="advertising">
+    <span class="nav-icon">📢</span> Advertising
+  </button>
+
+  <button class="nav-item" data-page="complaints">
+    <span class="nav-icon">🚨</span> Complaints
+  </button>
+
+  <button class="nav-item" data-page="settings">
+    <span class="nav-icon">⚙️</span> Settings
+  </button>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+  <div class="top-left">
+    <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
+    <span style="margin-left:10px">
+      <h1 id="pageTitle">CEO Overview</h1>
+      <p>Kaziya — Where business gets moving.</p>
+    </span>
+  </div>
+
+  <div class="top-right">
+
+    <button class="icon-btn" onclick="showToast('No new notifications')">
+      🔔
+      <span class="dot"></span>
+    </button>
+
+    <div class="profile">
+      <div class="avatar">CEO</div>
+      <div>
+        <strong>Kaziya CEO</strong>
+        <small>Administrator</small>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<div class="content">
+
+<!-- OVERVIEW -->
+<section class="page active" id="overview">
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-icon">👥</div>
+      <div class="stat-label">Total Users</div>
+      <div class="stat-value">12,480</div>
+      <div class="stat-change">↑ 8.4% this month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🏪</div>
+      <div class="stat-label">Active Sellers</div>
+      <div class="stat-value">1,284</div>
+      <div class="stat-change">↑ 5.7% this month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">📦</div>
+      <div class="stat-label">Orders</div>
+      <div class="stat-value">8,921</div>
+      <div class="stat-change">↑ 12.2% this month</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">💰</div>
+      <div class="stat-label">Platform Revenue</div>
+      <div class="stat-value">UGX 48.6M</div>
+      <div class="stat-change">↑ 14.8% this month</div>
+    </div>
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Platform Sales</h2>
+        <span>Last 7 months</span>
+      </div>
+
+      <div class="chart">
+        <div class="bar-wrap"><div class="bar" style="height:38%"></div><span class="bar-label">Mar</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:51%"></div><span class="bar-label">Apr</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:44%"></div><span class="bar-label">May</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:65%"></div><span class="bar-label">Jun</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:72%"></div><span class="bar-label">Jul</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:84%"></div><span class="bar-label">Aug</span></div>
+        <div class="bar-wrap"><div class="bar" style="height:95%"></div><span class="bar-label">Sep</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Recent Activity</h2>
+        <span>Live</span>
+      </div>
+
+      <div class="activity">
+
+        <div class="activity-row">
+          <div class="activity-icon">🛍️</div>
+          <div class="activity-text">
+            <strong>New product submitted</strong>
+            <small>Urban Streetwear</small>
+          </div>
+          <div class="activity-time">2m</div>
+        </div>
+
+        <div class="activity-row">
+          <div class="activity-icon">🏪</div>
+          <div class="activity-text">
+            <strong>New seller registered</strong>
+            <small>TechPoint Uganda</small>
+          </div>
+          <div class="activity-time">8m</div>
+        </div>
+
+        <div class="activity-row">
+          <div class="activity-icon">💰</div>
+          <div class="activity-text">
+            <strong>Order completed</strong>
+            <small>UGX 185,000</small>
+          </div>
+          <div class="activity-time">15m</div>
+        </div>
+
+        <div class="activity-row">
+          <div class="activity-icon">⭐</div>
+          <div class="activity-text">
+            <strong>New review</strong>
+            <small>5-star product review</small>
+          </div>
+          <div class="activity-time">31m</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Pending Approvals</h2>
+      <span>Requires attention</span>
+    </div>
+
+    <div class="metric-grid">
+
+      <div class="metric approval">
+        <small>Products awaiting approval</small>
+        <strong>27</strong>
+        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('products')">
+          Review Products
+        </button>
+      </div>
+
+      <div class="metric approval">
+        <small>Seller applications</small>
+        <strong>14</strong>
+        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('sellers')">
+          Review Sellers
+        </button>
+      </div>
+
+      <div class="metric approval">
+        <small>Withdrawal requests</small>
+        <strong>9</strong>
+        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('withdrawals')">
+          Review Withdrawals
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h2>Quick Management</h2>
+      <span>CEO shortcuts</span>
+    </div>
+
+    <div class="quick-grid">
+
+      <div class="quick" onclick="goTo('products')">
+        <div>🛍️</div>
+        <strong>Approve Products</strong>
+        <p>Review seller listings</p>
+      </div>
+
+      <div class="quick" onclick="goTo('sellers')">
+        <div>🏪</div>
+        <strong>Manage Sellers</strong>
+        <p>Approve and manage sellers</p>
+      </div>
+
+      <div class="quick" onclick="goTo('revenue')">
+        <div>💰</div>
+        <strong>View Revenue</strong>
+        <p>Monitor platform earnings</p>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- USERS -->
+<section class="page" id="users">
+
+  <div class="section-title">
+    <h1>Users</h1>
+    <p>Manage customers registered on Kaziya.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" id="userSearch" placeholder="Search users..." oninput="filterTable('userTable','userSearch')">
+      <select>
+        <option>All Users</option>
+        <option>Active</option>
+        <option>Suspended</option>
+      </select>
+      <button class="btn btn-primary" onclick="showToast('User export prepared')">Export</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Phone</th>
+            <th>Location</th>
+            <th>Orders</th>
+            <th>Status</th>
+            <th>Joined</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Sarah Namukasa</strong></td>
+            <td>+256 7••••••21</td>
+            <td>Kampala</td>
+            <td>18</td>
+            <td><span class="badge green">Active</span></td>
+            <td>Sep 2</td>
+            <td><button class="btn btn-dark" onclick="viewUser('Sarah Namukasa')">View</button></td>
+          </tr>
+
+          <tr>
+            <td><strong>Brian Kato</strong></td>
+            <td>+256 7••••••44</td>
+            <td>Entebbe</td>
+            <td>7</td>
+            <td><span class="badge green">Active</span></td>
+            <td>Aug 29</td>
+            <td><button class="btn btn-dark" onclick="viewUser('Brian Kato')">View</button></td>
+          </tr>
+
+          <tr>
+            <td><strong>Joan Achien</strong></td>
+            <td>+256 7••••••83</td>
+            <td>Gulu</td>
+            <td>3</td>
+            <td><span class="badge red">Suspended</span></td>
+            <td>Aug 22</td>
+            <td><button class="btn btn-dark" onclick="viewUser('Joan Achien')">View</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SELLERS -->
+<section class="page" id="sellers">
+
+  <div class="section-title">
+    <h1>Sellers</h1>
+    <p>Approve and manage Kaziya sellers.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search sellers...">
+      <select>
+        <option>All sellers</option>
+        <option>Pending</option>
+        <option>Approved</option>
+        <option>Suspended</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Owner</th>
+            <th>Category</th>
+            <th>Products</th>
+            <th>Status</th>
+            <th>Sales</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Urban Streetwear</strong></td>
+            <td>David</td>
+            <td>Fashion</td>
+            <td>42</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td>UGX 3.8M</td>
+            <td>
+              <div class="action-row">
+                <button class="btn btn-success" onclick="approve(this)">Approve</button>
+                <button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>TechPoint Uganda</strong></td>
+            <td>Mark</td>
+            <td>Electronics</td>
+            <td>86</td>
+            <td><span class="badge green">Approved</span></td>
+            <td>UGX 18.4M</td>
+            <td><button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button></td>
+          </tr>
+
+          <tr>
+            <td><strong>Style Avenue</strong></td>
+            <td>Grace</td>
+            <td>Beauty</td>
+            <td>31</td>
+            <td><span class="badge green">Approved</span></td>
+            <td>UGX 7.2M</td>
+            <td><button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+<section class="page" id="products">
+
+  <div class="section-title">
+    <h1>Product Management</h1>
+    <p>Review, approve and manage products uploaded by sellers.</p>
+  </div>
+
+  <div class="notice">
+    Products submitted by sellers can remain pending until a Kaziya administrator approves them.
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search products...">
+      <select>
+        <option>All products</option>
+        <option>Pending approval</option>
+        <option>Published</option>
+        <option>Rejected</option>
+      </select>
+      <select>
+        <option>All categories</option>
+        <option>Fashion</option>
+        <option>Electronics</option>
+        <option>Beauty</option>
+        <option>Home</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Urban Sneakers</strong></td>
+            <td>Urban Streetwear</td>
+            <td>UGX 85,000</td>
+            <td>24</td>
+            <td>Fashion</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td>
+              <div class="action-row">
+                <button class="btn btn-success" onclick="approve(this)">Approve</button>
+                <button class="btn btn-danger" onclick="reject(this)">Reject</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Wireless Headphones</strong></td>
+            <td>TechPoint Uganda</td>
+            <td>UGX 120,000</td>
+            <td>51</td>
+            <td>Electronics</td>
+            <td><span class="badge green">Published</span></td>
+            <td><button class="btn btn-dark" onclick="showToast('Product details opened')">Manage</button></td>
+          </tr>
+
+          <tr>
+            <td><strong>Classic Handbag</strong></td>
+            <td>Style Avenue</td>
+            <td>UGX 65,000</td>
+            <td>12</td>
+            <td>Fashion</td>
+            <td><span class="badge green">Published</span></td>
+            <td><button class="btn btn-dark" onclick="showToast('Product details opened')">Manage</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ORDERS -->
+<section class="page" id="orders">
+
+  <div class="section-title">
+    <h1>Orders</h1>
+    <p>Monitor marketplace transactions and order status.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search order ID, customer or seller...">
+      <select>
+        <option>All orders</option>
+        <option>Pending</option>
+        <option>Processing</option>
+        <option>Delivered</option>
+        <option>Cancelled</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Seller</th>
+            <th>Amount</th>
+            <th>Kaziya Fee</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>#KZ-10482</strong></td>
+            <td>Sarah Namukasa</td>
+            <td>TechPoint Uganda</td>
+            <td>UGX 185,000</td>
+            <td>UGX 9,250</td>
+            <td><span class="badge green">Delivered</span></td>
+            <td>Today</td>
+          </tr>
+
+          <tr>
+            <td><strong>#KZ-10481</strong></td>
+            <td>Brian Kato</td>
+            <td>Urban Streetwear</td>
+            <td>UGX 170,000</td>
+            <td>UGX 8,500</td>
+            <td><span class="badge yellow">Processing</span></td>
+            <td>Today</td>
+          </tr>
+
+          <tr>
+            <td><strong>#KZ-10480</strong></td>
+            <td>Joan Achien</td>
+            <td>Style Avenue</td>
+            <td>UGX 65,000</td>
+            <td>UGX 3,250</td>
+            <td><span class="badge blue">Shipped</span></td>
+            <td>Yesterday</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- BUSINESSES -->
+<section class="page" id="businesses">
+
+  <div class="section-title">
+    <h1>Businesses</h1>
+    <p>Manage businesses operating on Kaziya.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search businesses...">
+      <button class="btn btn-primary" onclick="openModal('businessModal')">+ Add Business</button>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Owner</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>TechPoint Uganda</strong></td>
+            <td>Electronics</td>
+            <td>Kampala</td>
+            <td>Mark</td>
+            <td><span class="badge green">Verified</span></td>
+            <td><button class="btn btn-dark">Manage</button></td>
+          </tr>
+
+          <tr>
+            <td><strong>Urban Streetwear</strong></td>
+            <td>Fashion</td>
+            <td>Kampala</td>
+            <td>David</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td><button class="btn btn-success" onclick="approve(this)">Approve</button></td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SERVICES -->
+<section class="page" id="services">
+
+  <div class="section-title">
+    <h1>Services</h1>
+    <p>Manage services listed on Kaziya.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search services...">
+      <button class="btn btn-primary" onclick="showToast('Service creation form opened')">+ Add Service</button>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Provider</th>
+            <th>Category</th>
+            <th>Starting Price</th>
+            <th>Status</th>
+            <th>Bookings</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>Salon & Beauty</strong></td>
+            <td>Grace Beauty</td>
+            <td>Beauty</td>
+            <td>UGX 30,000</td>
+            <td><span class="badge green">Published</span></td>
+            <td>128</td>
+          </tr>
+
+          <tr>
+            <td><strong>Website Development</strong></td>
+            <td>BridanX Tech</td>
+            <td>Digital</td>
+            <td>UGX 250,000</td>
+            <td><span class="badge green">Published</span></td>
+            <td>36</td>
+          </tr>
+
+        </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- REVENUE -->
+<section class="page" id="revenue">
+
+  <div class="section-title">
+    <h1>Revenue & Commission</h1>
+    <p>Monitor Kaziya's revenue generated from genuine marketplace transactions.</p>
+  </div>
+
+  <div class="metric-grid">
+
+    <div class="metric">
+      <small>Total marketplace sales</small>
+      <strong>UGX 972.4M</strong>
+    </div>
+
+    <div class="metric">
+      <small>Kaziya commission</small>
+      <strong>UGX 48.6M</strong>
+    </div>
+
+    <div class="metric">
+      <small>Seller payouts</small>
+      <strong>UGX 923.8M</strong>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+
+    <div class="card-header">
+      <h2>Commission Configuration</h2>
+      <span>Current example</span>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Marketplace commission</label>
+        <input class="form-input" value="5%">
+      </div>
+
+      <div class="form-group">
+        <label>Service commission</label>
+        <input class="form-input" value="8%">
+      </div>
+
+    </div>
+
+    <button class="btn btn-primary" onclick="showToast('Commission settings saved')">
+      Save Commission Settings
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- WITHDRAWALS -->
+<section class="page" id="withdrawals">
+
+  <div class="section-title">
+    <h1>Withdrawal Requests</h1>
+    <p>Review seller payout requests.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Seller</th>
+            <th>Amount</th>
+            <th>Method</th>
+            <th>Account</th>
+            <th>Status</th>
+            <th>Requested</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td><strong>TechPoint Uganda</strong></td>
+            <td>UGX 1,450,000</td>
+            <td>Mobile Money</td>
+            <td>+256 7•••••34</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td>Today</td>
+            <td>
+              <div class="action-row">
+                <button class="btn btn-success" onclick="approve(this)">Approve</button>
+                <button class="btn btn-danger" onclick="reject(this)">Reject</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Style Avenue</strong></td>
+            <td>UGX 520,000</td>
+            <td>Bank</td>
+            <td>•••• 8271</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td>Today</td>
+            <td>
+              <button class="btn btn-success" onclick="approve(this)">Approve</button>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TRANSACTIONS -->
+<section class="page" id="transactions">
+
+  <div class="section-title">
+    <h1>Transactions</h1>
+    <p>Platform-wide financial transaction history.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="toolbar">
+      <input class="search" placeholder="Search transaction ID...">
+      <select>
+        <option>All transactions</option>
+        <option>Payments</option>
+        <option>Withdrawals</option>
+        <option>Commissions</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Transaction</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Customer/Seller</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>#TX-92881</td>
+            <td>Customer Payment</td>
+            <td>UGX 185,000</td>
+            <td>Sarah Namukasa</td>
+            <td><span class="badge green">Successful</span></td>
+            <td>Today 18:42</td>
+          </tr>
+
+          <tr>
+            <td>#TX-92880</td>
+            <td>Seller Withdrawal</td>
+            <td>UGX 520,000</td>
+            <td>Style Avenue</td>
+            <td><span class="badge yellow">Pending</span></td>
+            <td>Today 17:21</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- REVIEWS -->
+<section class="page" id="reviews">
+
+  <div class="section-title">
+    <h1>Reviews</h1>
+    <p>Monitor customer reviews and marketplace quality.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Rating</th>
+            <th>Review</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>Sarah</td>
+            <td>Wireless Headphones</td>
+            <td>TechPoint Uganda</td>
+            <td>★★★★★</td>
+            <td>Excellent product and fast delivery.</td>
+            <td><span class="badge green">Published</span></td>
+          </tr>
+
+          <tr>
+            <td>Brian</td>
+            <td>Urban Sneakers</td>
+            <td>Urban Streetwear</td>
+            <td>★★★★☆</td>
+            <td>Good quality.</td>
+            <td><span class="badge yellow">Pending</span></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ADVERTISING -->
+<section class="page" id="advertising">
+
+  <div class="section-title">
+    <h1>Advertising & Featured Listings</h1>
+    <p>Manage paid visibility opportunities for sellers.</p>
+  </div>
+
+  <div class="metric-grid">
+
+    <div class="metric">
+      <small>Active campaigns</small>
+      <strong>42</strong>
+    </div>
+
+    <div class="metric">
+      <small>Advertising revenue</small>
+      <strong>UGX 6.8M</strong>
+    </div>
+
+    <div class="metric">
+      <small>Featured products</small>
+      <strong>118</strong>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-top:18px">
+
+    <div class="card-header">
+      <h2>Campaigns</h2>
+      <button class="btn btn-primary" onclick="showToast('Campaign creator opened')">+ New Campaign</button>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Campaign</th>
+            <th>Seller</th>
+            <th>Placement</th>
+            <th>Budget</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>Weekend Fashion Sale</td>
+            <td>Urban Streetwear</td>
+            <td>Homepage</td>
+            <td>UGX 350,000</td>
+            <td><span class="badge green">Active</span></td>
+          </tr>
+
+          <tr>
+            <td>Tech Deals</td>
+            <td>TechPoint Uganda</td>
+            <td>Marketplace</td>
+            <td>UGX 500,000</td>
+            <td><span class="badge green">Active</span></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- COMPLAINTS -->
+<section class="page" id="complaints">
+
+  <div class="section-title">
+    <h1>Complaints & Reports</h1>
+    <p>Resolve marketplace disputes and customer reports.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Report</th>
+            <th>Reported By</th>
+            <th>Subject</th>
+            <th>Reason</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr>
+            <td>#R-1048</td>
+            <td>Customer</td>
+            <td>Urban Streetwear</td>
+            <td>Product not received</td>
+            <td><span class="badge red">High</span></td>
+            <td><span class="badge yellow">Open</span></td>
+            <td><button class="btn btn-dark" onclick="showToast('Complaint opened')">Investigate</button></td>
+          </tr>
+
+          <tr>
+            <td>#R-1047</td>
+            <td>Seller</td>
+            <td>Customer</td>
+            <td>Order cancellation</td>
+            <td><span class="badge blue">Normal</span></td>
+            <td><span class="badge yellow">Open</span></td>
+            <td><button class="btn btn-dark" onclick="showToast('Complaint opened')">Investigate</button></td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+
+  <div class="section-title">
+    <h1>Platform Settings</h1>
+    <p>Configure important Kaziya marketplace settings.</p>
+  </div>
+
+  <div class="card">
+
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Platform Name</label>
+        <input class="form-input" value="Kaziya">
+      </div>
+
+      <div class="form-group">
+        <label>Tagline</label>
+        <input class="form-input" value="Where business gets moving.">
+      </div>
+
+      <div class="form-group">
+        <label>Default Marketplace Commission</label>
+        <input class="form-input" value="5%">
+      </div>
+
+      <div class="form-group">
+        <label>Currency</label>
+        <select>
+          <option>UGX — Ugandan Shilling</option>
+          <option>USD — US Dollar</option>
+        </select>
+      </div>
+
+    </div>
+
+    <button class="btn btn-primary" onclick="showToast('Platform settings saved')">
+      Save Settings
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-header">
+      <h2>Administrator Access</h2>
+      <span>Security</span>
+    </div>
+
+    <div class="notice">
+      The live version should protect this dashboard using Supabase Authentication and administrator role-based access. Do not rely on hiding this URL as security.
+    </div>
+
+    <button class="btn btn-dark" onclick="showToast('Security settings opened')">
+      Manage Admin Access
+    </button>
+
+  </div>
+
+</section>
+
+</div>
+</main>
+
+
+<!-- BUSINESS MODAL -->
+<div class="modal" id="businessModal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2>Add Business</h2>
+      <button class="close" onclick="closeModal('businessModal')">×</button>
+    </div>
+
+    <div class="form-group">
+      <label>Business Name</label>
+      <input class="form-input" placeholder="Business name">
+    </div>
+
+    <div class="form-group">
+      <label>Category</label>
+      <select class="form-input">
+        <option>Fashion</option>
+        <option>Electronics</option>
+        <option>Beauty</option>
+        <option>Food</option>
+        <option>Services</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Location</label>
+      <input class="form-input" placeholder="Kampala">
+    </div>
+
+    <button class="btn btn-primary" onclick="closeModal('businessModal');showToast('Business added successfully')">
+      Add Business
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+const titles={
+  overview:"CEO Overview",
+  users:"Users",
+  sellers:"Seller Management",
+  products:"Product Management",
+  orders:"Orders",
+  businesses:"Businesses",
+  services:"Services",
+  revenue:"Revenue & Commission",
+  withdrawals:"Withdrawal Requests",
+  transactions:"Transactions",
+  reviews:"Reviews",
+  advertising:"Advertising",
+  complaints:"Complaints & Reports",
+  settings:"Platform Settings"
+};
+
+function goTo(page){
+
+  document.querySelectorAll(".page").forEach(p=>{
+    p.classList.remove("active");
+  });
+
+  const target=document.getElementById(page);
+
+  if(target) target.classList.add("active");
+
+  document.querySelectorAll(".nav-item").forEach(item=>{
+    item.classList.remove("active");
+
+    if(item.dataset.page===page){
+      item.classList.add("active");
+    }
+  });
+
+  document.getElementById("pageTitle").textContent=titles[page]||"Kaziya CEO";
+
+  document.getElementById("sidebar").classList.remove("open");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+document.querySelectorAll(".nav-item").forEach(item=>{
+  item.addEventListener("click",()=>{
+    goTo(item.dataset.page);
+  });
+});
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showToast(message){
+
+  const toast=document.getElementById("toast");
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  setTimeout(()=>{
+    toast.classList.remove("show");
+  },2600);
+}
+
+function openModal(id){
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove("show");
+}
+
+function approve(button){
+
+  const row=button.closest("tr");
+
+  const badge=row.querySelector(".badge");
+
+  if(badge){
+    badge.textContent="Approved";
+    badge.className="badge green";
+  }
+
+  button.remove();
+
+  showToast("Approved successfully");
+}
+
+function reject(button){
+
+  const row=button.closest("tr");
+
+  const badge=row.querySelector(".badge");
+
+  if(badge){
+    badge.textContent="Rejected";
+    badge.className="badge red";
+  }
+
+  button.remove();
+
+  showToast("Item rejected");
+}
+
+function filterTable(tableId,inputId){
+
+  const input=document.getElementById(inputId);
+
+  if(!input) return;
+
+  const value=input.value.toLowerCase();
+
+  const rows=document.querySelectorAll("#"+tableId+" tbody tr");
+
+  rows.forEach(row=>{
+    row.style.display=
+      row.textContent.toLowerCase().includes(value)
+      ? ""
+      : "none";
+  });
+}
+
+function viewUser(name){
+  showToast("Opening profile: "+name);
+}
+
+window.addEventListener("click",e=>{
+
+  document.querySelectorAll(".modal").forEach(modal=>{
+
+    if(e.target===modal){
+      modal.classList.remove("show");
+    }
+
+  });
+
+});
+
+</script>
+
+</body>
+</html>
