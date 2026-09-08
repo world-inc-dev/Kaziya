@@ -3,176 +3,220 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kaziya CEO Dashboard</title>
+<title>Kaziya Admin — CEO Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root{
   --navy:#07111f;
-  --navy2:#0b1728;
-  --card:#101e31;
-  --card2:#13243a;
-  --lime:#b7ff35;
-  --lime2:#8fdc18;
-  --text:#f4f7fb;
-  --muted:#91a1b5;
+  --navy2:#0c192b;
+  --panel:#101f33;
+  --panel2:#14263d;
+  --lime:#b7f34a;
+  --lime2:#d5ff82;
+  --white:#f7fafc;
+  --muted:#8ea0b8;
   --border:rgba(255,255,255,.08);
-  --danger:#ff5f6d;
+  --danger:#ff5d6c;
   --warning:#ffc857;
-  --success:#45df91;
-  --blue:#5ca9ff;
+  --success:#49d17d;
+  --blue:#4da3ff;
+  --shadow:0 20px 50px rgba(0,0,0,.22);
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
 body{
   font-family:Inter,Arial,sans-serif;
   background:var(--navy);
-  color:var(--text);
+  color:var(--white);
   min-height:100vh;
 }
 
-button,input,select,textarea{font:inherit}
+button,input,select,textarea{
+  font:inherit;
+}
 
-button{cursor:pointer}
+button{
+  cursor:pointer;
+}
+
+.app{
+  display:flex;
+  min-height:100vh;
+}
+
+/* SIDEBAR */
 
 .sidebar{
-  position:fixed;
-  left:0;
-  top:0;
-  width:255px;
-  height:100vh;
-  background:#081321;
+  width:260px;
+  background:#081421;
   border-right:1px solid var(--border);
-  padding:24px 15px;
-  z-index:20;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:100;
   overflow-y:auto;
 }
 
+.brand{
+  height:80px;
+  display:flex;
+  align-items:center;
+  padding:0 24px;
+  border-bottom:1px solid var(--border);
+}
+
 .logo{
-  padding:0 12px 26px;
-  font-size:25px;
+  width:42px;
+  height:42px;
+  border-radius:13px;
+  background:var(--lime);
+  color:#07111f;
+  display:grid;
+  place-items:center;
+  font-size:21px;
   font-weight:900;
-  letter-spacing:-1px;
 }
 
-.logo span{color:var(--lime)}
-
-.ceo-badge{
-  display:inline-block;
-  margin-left:7px;
-  padding:4px 7px;
-  border-radius:6px;
-  background:rgba(183,255,53,.12);
-  color:var(--lime);
-  font-size:9px;
-  vertical-align:middle;
+.brand-text{
+  margin-left:12px;
 }
 
-.nav-title{
-  color:#5f7187;
+.brand-text strong{
+  font-size:20px;
+  display:block;
+}
+
+.brand-text span{
+  font-size:11px;
+  color:var(--muted);
+}
+
+.nav{
+  padding:18px 12px;
+}
+
+.nav-section{
+  color:#62748d;
   font-size:10px;
   font-weight:800;
   text-transform:uppercase;
+  letter-spacing:1.2px;
   padding:15px 12px 8px;
 }
 
-.nav-item{
+.nav button{
   width:100%;
   border:0;
   background:transparent;
-  color:#9eafc2;
+  color:#aebbd0;
   padding:12px;
   border-radius:10px;
+  text-align:left;
+  margin-bottom:3px;
   display:flex;
   align-items:center;
   gap:12px;
-  text-align:left;
-  margin-bottom:3px;
+  transition:.2s;
 }
 
-.nav-item:hover,
-.nav-item.active{
-  background:rgba(183,255,53,.09);
+.nav button:hover,
+.nav button.active{
+  background:rgba(183,243,74,.11);
   color:var(--lime);
 }
 
 .nav-icon{
-  width:20px;
+  width:22px;
   text-align:center;
 }
 
+.nav-badge{
+  margin-left:auto;
+  min-width:22px;
+  height:22px;
+  padding:0 6px;
+  border-radius:20px;
+  background:var(--danger);
+  color:white;
+  font-size:10px;
+  display:grid;
+  place-items:center;
+}
+
+/* MAIN */
+
 .main{
-  margin-left:255px;
-  min-height:100vh;
+  margin-left:260px;
+  width:calc(100% - 260px);
 }
 
 .topbar{
-  height:75px;
+  height:80px;
   border-bottom:1px solid var(--border);
   background:rgba(7,17,31,.92);
-  backdrop-filter:blur(14px);
+  backdrop-filter:blur(15px);
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 30px;
   position:sticky;
   top:0;
-  z-index:15;
+  z-index:50;
 }
 
-.mobile-menu{
-  display:none;
-  border:0;
-  background:transparent;
-  color:white;
-  font-size:24px;
+.page-title h1{
+  font-size:22px;
 }
 
-.top-left h1{
-  font-size:21px;
-}
-
-.top-left p{
+.page-title p{
   color:var(--muted);
   font-size:12px;
   margin-top:4px;
 }
 
-.top-right{
+.top-actions{
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:12px;
 }
 
 .icon-btn{
-  width:39px;
-  height:39px;
-  border-radius:10px;
-  background:var(--card);
+  width:40px;
+  height:40px;
   border:1px solid var(--border);
+  border-radius:10px;
+  background:var(--panel);
   color:white;
   position:relative;
 }
 
-.dot{
+.notification-dot{
   position:absolute;
-  width:7px;
-  height:7px;
+  width:8px;
+  height:8px;
   border-radius:50%;
-  background:var(--lime);
-  right:7px;
-  top:7px;
+  background:var(--danger);
+  top:8px;
+  right:8px;
 }
 
-.profile{
+.ceo{
   display:flex;
   align-items:center;
   gap:10px;
+  padding-left:10px;
+  border-left:1px solid var(--border);
 }
 
 .avatar{
-  width:39px;
-  height:39px;
+  width:38px;
+  height:38px;
   border-radius:50%;
   background:var(--lime);
   color:#07111f;
@@ -181,20 +225,17 @@ button{cursor:pointer}
   font-weight:900;
 }
 
-.profile strong{
-  font-size:13px;
-}
-
-.profile small{
+.ceo small{
   display:block;
   color:var(--muted);
   font-size:10px;
-  margin-top:2px;
 }
 
 .content{
   padding:30px;
 }
+
+/* PAGES */
 
 .page{
   display:none;
@@ -204,36 +245,27 @@ button{cursor:pointer}
   display:block;
 }
 
+/* STATS */
+
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:16px;
-  margin-bottom:22px;
+  gap:18px;
+  margin-bottom:24px;
 }
 
-.stat{
-  background:linear-gradient(145deg,var(--card),#0c192a);
+.stat-card{
+  background:linear-gradient(145deg,var(--panel),#0c1a2c);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  position:relative;
-  overflow:hidden;
+  border-radius:17px;
+  padding:21px;
+  box-shadow:var(--shadow);
 }
 
-.stat:after{
-  content:"";
-  position:absolute;
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:rgba(183,255,53,.05);
-  right:-25px;
-  top:-25px;
-}
-
-.stat-icon{
-  font-size:20px;
-  margin-bottom:13px;
+.stat-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
 .stat-label{
@@ -241,41 +273,53 @@ button{cursor:pointer}
   font-size:12px;
 }
 
+.stat-icon{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  background:rgba(183,243,74,.1);
+  color:var(--lime);
+  border-radius:10px;
+}
+
 .stat-value{
-  font-size:25px;
+  font-size:27px;
   font-weight:900;
-  margin-top:6px;
+  margin-top:14px;
 }
 
 .stat-change{
-  color:var(--success);
+  margin-top:8px;
   font-size:11px;
-  margin-top:7px;
+  color:var(--success);
 }
 
-.grid{
+/* CARDS */
+
+.grid-2{
   display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:18px;
+  grid-template-columns:1.45fr 1fr;
+  gap:20px;
 }
 
 .card{
-  background:var(--card);
+  background:var(--panel);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:18px;
+  border-radius:17px;
+  padding:22px;
+  margin-bottom:20px;
 }
 
 .card-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:20px;
+  margin-bottom:18px;
 }
 
-.card-header h2{
-  font-size:16px;
+.card-header h3{
+  font-size:15px;
 }
 
 .card-header span{
@@ -283,76 +327,68 @@ button{cursor:pointer}
   font-size:11px;
 }
 
+/* CHART */
+
 .chart{
-  height:245px;
+  height:260px;
   display:flex;
   align-items:flex-end;
   gap:10px;
   padding-top:20px;
 }
 
-.bar-wrap{
-  height:100%;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-end;
-  align-items:center;
-  gap:8px;
-}
-
 .bar{
-  width:100%;
-  max-width:42px;
-  background:linear-gradient(to top,var(--lime2),var(--lime));
-  border-radius:7px 7px 3px 3px;
-  min-height:8px;
+  flex:1;
+  min-width:8px;
+  background:linear-gradient(to top,var(--lime),var(--lime2));
+  border-radius:8px 8px 2px 2px;
+  opacity:.85;
+  position:relative;
 }
 
-.bar-label{
+.bar small{
+  position:absolute;
+  bottom:-20px;
+  width:100%;
+  text-align:center;
   color:var(--muted);
   font-size:9px;
 }
 
-.activity{
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
+/* QUICK */
 
-.activity-row{
-  display:flex;
-  align-items:center;
-  gap:11px;
-}
-
-.activity-icon{
-  width:36px;
-  height:36px;
-  border-radius:10px;
+.quick-grid{
   display:grid;
-  place-items:center;
-  background:var(--card2);
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
 }
 
-.activity-text{
-  flex:1;
+.quick{
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  cursor:pointer;
+  transition:.2s;
 }
 
-.activity-text strong{
-  font-size:12px;
+.quick:hover{
+  transform:translateY(-2px);
+  border-color:rgba(183,243,74,.3);
 }
 
-.activity-text small{
+.quick strong{
   display:block;
-  color:var(--muted);
-  margin-top:3px;
+  margin-top:8px;
+  font-size:13px;
 }
 
-.activity-time{
-  color:#687b91;
+.quick span{
   font-size:10px;
+  color:var(--muted);
 }
+
+/* TABLE */
 
 .table-wrap{
   overflow-x:auto;
@@ -365,86 +401,82 @@ table{
 }
 
 th{
-  color:#708299;
+  color:#72849c;
   font-size:10px;
   text-transform:uppercase;
+  letter-spacing:.7px;
   text-align:left;
-  padding:11px;
+  padding:12px;
   border-bottom:1px solid var(--border);
 }
 
 td{
-  padding:14px 11px;
-  border-bottom:1px solid var(--border);
+  padding:14px 12px;
+  border-bottom:1px solid rgba(255,255,255,.05);
   font-size:12px;
 }
 
-.badge{
-  display:inline-block;
-  padding:5px 8px;
+tr:hover td{
+  background:rgba(255,255,255,.015);
+}
+
+.product-cell{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.product-img{
+  width:40px;
+  height:40px;
+  border-radius:9px;
+  object-fit:cover;
+  background:var(--panel2);
+}
+
+.status{
+  display:inline-flex;
+  align-items:center;
+  padding:5px 9px;
   border-radius:20px;
   font-size:9px;
   font-weight:800;
+  text-transform:uppercase;
 }
 
-.badge.green{
-  background:rgba(69,223,145,.1);
-  color:var(--success);
-}
-
-.badge.yellow{
-  background:rgba(255,200,87,.1);
+.status.pending{
+  background:rgba(255,200,87,.12);
   color:var(--warning);
 }
 
-.badge.red{
-  background:rgba(255,95,109,.1);
+.status.approved,
+.status.published,
+.status.active,
+.status.completed,
+.status.paid{
+  background:rgba(73,209,125,.12);
+  color:var(--success);
+}
+
+.status.rejected,
+.status.suspended,
+.status.cancelled,
+.status.failed{
+  background:rgba(255,93,108,.12);
   color:var(--danger);
 }
 
-.badge.blue{
-  background:rgba(92,169,255,.1);
+.status.processing{
+  background:rgba(77,163,255,.12);
   color:var(--blue);
 }
 
-.toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:17px;
-}
-
-.search{
-  flex:1;
-  min-width:180px;
-  background:#0b1829;
-  border:1px solid var(--border);
-  color:white;
-  padding:11px 13px;
-  border-radius:9px;
-  outline:none;
-}
-
-select,
-.form-input,
-textarea{
-  width:100%;
-  background:#0b1829;
-  border:1px solid var(--border);
-  color:white;
-  padding:11px 13px;
-  border-radius:9px;
-  outline:none;
-}
-
-.toolbar select{
-  width:180px;
-}
+/* BUTTONS */
 
 .btn{
   border:0;
-  padding:10px 14px;
   border-radius:9px;
+  padding:9px 13px;
   font-weight:800;
   font-size:11px;
 }
@@ -454,19 +486,19 @@ textarea{
   color:#07111f;
 }
 
-.btn-dark{
-  background:#182940;
+.btn-secondary{
+  background:var(--panel2);
   color:white;
   border:1px solid var(--border);
 }
 
 .btn-danger{
-  background:rgba(255,95,109,.1);
+  background:rgba(255,93,108,.12);
   color:var(--danger);
 }
 
 .btn-success{
-  background:rgba(69,223,145,.1);
+  background:rgba(73,209,125,.12);
   color:var(--success);
 }
 
@@ -476,102 +508,94 @@ textarea{
   flex-wrap:wrap;
 }
 
-.section-title{
-  margin-bottom:20px;
+/* TOOLBAR */
+
+.toolbar{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
 }
 
-.section-title h1{
-  font-size:24px;
+.search{
+  flex:1;
+  min-width:200px;
 }
 
-.section-title p{
-  color:var(--muted);
-  font-size:12px;
-  margin-top:5px;
+.input,
+.select,
+.textarea{
+  width:100%;
+  background:#0b192a;
+  border:1px solid var(--border);
+  color:white;
+  border-radius:10px;
+  padding:11px 12px;
+  outline:none;
 }
 
-.metric-grid{
+.input:focus,
+.select:focus,
+.textarea:focus{
+  border-color:rgba(183,243,74,.45);
+}
+
+.select{
+  width:auto;
+  min-width:150px;
+}
+
+/* APPROVAL CARDS */
+
+.approvals{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:15px;
 }
 
-.metric{
-  padding:18px;
-  border:1px solid var(--border);
-  background:#0c1a2c;
-  border-radius:13px;
-}
-
-.metric small{
-  color:var(--muted);
-}
-
-.metric strong{
-  display:block;
-  font-size:23px;
-  margin-top:8px;
-}
-
 .approval{
-  border-left:3px solid var(--warning);
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.quick{
-  background:#0d1c2f;
+  background:var(--panel2);
   border:1px solid var(--border);
-  border-radius:12px;
-  padding:17px;
-  cursor:pointer;
+  border-radius:13px;
+  padding:16px;
 }
 
-.quick:hover{
-  border-color:rgba(183,255,53,.35);
+.approval h4{
+  font-size:13px;
 }
 
-.quick div{
-  font-size:23px;
-  margin-bottom:10px;
-}
-
-.quick strong{
-  font-size:12px;
-}
-
-.quick p{
+.approval p{
   color:var(--muted);
-  font-size:10px;
-  margin-top:5px;
+  font-size:11px;
+  margin:6px 0 14px;
 }
+
+/* MODAL */
 
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.7);
+  background:rgba(0,0,0,.72);
   display:none;
-  place-items:center;
+  align-items:center;
+  justify-content:center;
+  z-index:500;
   padding:20px;
-  z-index:50;
 }
 
 .modal.show{
-  display:grid;
+  display:flex;
 }
 
 .modal-box{
-  width:min(560px,100%);
+  width:min(600px,100%);
   max-height:90vh;
   overflow:auto;
-  background:#0c1a2c;
+  background:#0c1a2b;
   border:1px solid var(--border);
-  border-radius:17px;
-  padding:23px;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 30px 100px rgba(0,0,0,.45);
 }
 
 .modal-head{
@@ -584,8 +608,8 @@ textarea{
 .close{
   background:transparent;
   border:0;
-  color:#9aacbf;
-  font-size:24px;
+  color:white;
+  font-size:22px;
 }
 
 .form-group{
@@ -594,45 +618,46 @@ textarea{
 
 .form-group label{
   display:block;
-  color:#9eafc2;
   font-size:11px;
+  color:var(--muted);
   margin-bottom:7px;
 }
 
-.form-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:20px;
 }
 
+/* EMPTY */
+
 .empty{
-  padding:40px;
+  padding:45px 20px;
   text-align:center;
   color:var(--muted);
 }
 
-.notice{
-  padding:13px;
-  background:rgba(183,255,53,.07);
-  border:1px solid rgba(183,255,53,.15);
-  color:#c7df9b;
-  border-radius:10px;
-  font-size:11px;
-  margin-bottom:17px;
+.empty strong{
+  display:block;
+  color:white;
+  margin-bottom:7px;
 }
+
+/* TOAST */
 
 .toast{
   position:fixed;
   right:20px;
   bottom:20px;
-  background:#17283d;
-  color:white;
-  padding:13px 17px;
+  background:#14263d;
   border:1px solid var(--border);
+  border-left:4px solid var(--lime);
+  padding:14px 17px;
   border-radius:10px;
-  box-shadow:0 10px 35px rgba(0,0,0,.4);
+  box-shadow:var(--shadow);
   display:none;
-  z-index:100;
+  z-index:1000;
   font-size:12px;
 }
 
@@ -640,12 +665,39 @@ textarea{
   display:block;
 }
 
-@media(max-width:1000px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .grid{grid-template-columns:1fr}
+/* LOADING */
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
 }
 
-@media(max-width:750px){
+/* MOBILE */
+
+.mobile-menu{
+  display:none;
+  background:transparent;
+  border:0;
+  color:white;
+  font-size:24px;
+}
+
+@media(max-width:1100px){
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .grid-2{
+    grid-template-columns:1fr;
+  }
+
+  .approvals{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:800px){
   .sidebar{
     transform:translateX(-100%);
     transition:.25s;
@@ -657,6 +709,7 @@ textarea{
 
   .main{
     margin-left:0;
+    width:100%;
   }
 
   .mobile-menu{
@@ -664,45 +717,23 @@ textarea{
   }
 
   .topbar{
-    padding:0 16px;
-  }
-
-  .profile div:last-child{
-    display:none;
+    padding:0 15px;
   }
 
   .content{
-    padding:18px 14px;
+    padding:18px;
+  }
+
+  .ceo div:last-child{
+    display:none;
   }
 
   .stats{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .metric-grid{
     grid-template-columns:1fr;
   }
 
-  .quick-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-}
-
-@media(max-width:450px){
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .quick-grid{
-    grid-template-columns:1fr;
-  }
-
-  .top-left h1{
-    font-size:17px;
+  .page-title h1{
+    font-size:18px;
   }
 }
 </style>
@@ -710,426 +741,376 @@ textarea{
 
 <body>
 
+<div class="app">
+
+<!-- SIDEBAR -->
+
 <aside class="sidebar" id="sidebar">
 
-  <div class="logo">
-    Kazi<span>ya</span>
-    <span class="ceo-badge">CEO</span>
+  <div class="brand">
+    <div class="logo">K</div>
+    <div class="brand-text">
+      <strong>Kaziya</strong>
+      <span>CEO CONTROL CENTER</span>
+    </div>
   </div>
 
-  <div class="nav-title">Management</div>
+  <nav class="nav">
 
-  <button class="nav-item active" data-page="overview">
-    <span class="nav-icon">📊</span> Overview
-  </button>
+    <div class="nav-section">Main</div>
 
-  <button class="nav-item" data-page="users">
-    <span class="nav-icon">👥</span> Users
-  </button>
+    <button class="nav-btn active" data-page="overview">
+      <span class="nav-icon">⌂</span>
+      Overview
+    </button>
 
-  <button class="nav-item" data-page="sellers">
-    <span class="nav-icon">🏪</span> Sellers
-  </button>
+    <button class="nav-btn" data-page="users">
+      <span class="nav-icon">👥</span>
+      Users
+    </button>
 
-  <button class="nav-item" data-page="products">
-    <span class="nav-icon">🛍️</span> Products
-  </button>
+    <button class="nav-btn" data-page="sellers">
+      <span class="nav-icon">🏪</span>
+      Sellers
+      <span class="nav-badge" id="sellerBadge">0</span>
+    </button>
 
-  <button class="nav-item" data-page="orders">
-    <span class="nav-icon">📦</span> Orders
-  </button>
+    <div class="nav-section">Marketplace</div>
 
-  <button class="nav-item" data-page="businesses">
-    <span class="nav-icon">🏢</span> Businesses
-  </button>
+    <button class="nav-btn" data-page="products">
+      <span class="nav-icon">📦</span>
+      Products
+      <span class="nav-badge" id="productBadge">0</span>
+    </button>
 
-  <button class="nav-item" data-page="services">
-    <span class="nav-icon">🛠️</span> Services
-  </button>
+    <button class="nav-btn" data-page="orders">
+      <span class="nav-icon">🛒</span>
+      Orders
+    </button>
 
-  <div class="nav-title">Finance</div>
+    <button class="nav-btn" data-page="businesses">
+      <span class="nav-icon">🏢</span>
+      Businesses
+    </button>
 
-  <button class="nav-item" data-page="revenue">
-    <span class="nav-icon">💰</span> Revenue
-  </button>
+    <button class="nav-btn" data-page="services">
+      <span class="nav-icon">🛠</span>
+      Services
+    </button>
 
-  <button class="nav-item" data-page="withdrawals">
-    <span class="nav-icon">💳</span> Withdrawals
-  </button>
+    <div class="nav-section">Money</div>
 
-  <button class="nav-item" data-page="transactions">
-    <span class="nav-icon">🧾</span> Transactions
-  </button>
+    <button class="nav-btn" data-page="revenue">
+      <span class="nav-icon">💰</span>
+      Revenue
+    </button>
 
-  <div class="nav-title">Platform</div>
+    <button class="nav-btn" data-page="withdrawals">
+      <span class="nav-icon">🏦</span>
+      Withdrawals
+      <span class="nav-badge" id="withdrawalBadge">0</span>
+    </button>
 
-  <button class="nav-item" data-page="reviews">
-    <span class="nav-icon">⭐</span> Reviews
-  </button>
+    <button class="nav-btn" data-page="transactions">
+      <span class="nav-icon">↔</span>
+      Transactions
+    </button>
 
-  <button class="nav-item" data-page="advertising">
-    <span class="nav-icon">📢</span> Advertising
-  </button>
+    <div class="nav-section">Management</div>
 
-  <button class="nav-item" data-page="complaints">
-    <span class="nav-icon">🚨</span> Complaints
-  </button>
+    <button class="nav-btn" data-page="reviews">
+      <span class="nav-icon">⭐</span>
+      Reviews
+    </button>
 
-  <button class="nav-item" data-page="settings">
-    <span class="nav-icon">⚙️</span> Settings
-  </button>
+    <button class="nav-btn" data-page="advertising">
+      <span class="nav-icon">📢</span>
+      Advertising
+    </button>
 
+    <button class="nav-btn" data-page="complaints">
+      <span class="nav-icon">⚠</span>
+      Complaints
+    </button>
+
+    <button class="nav-btn" data-page="settings">
+      <span class="nav-icon">⚙</span>
+      Settings
+    </button>
+
+    <div class="nav-section">Account</div>
+
+    <button id="logoutBtn">
+      <span class="nav-icon">↪</span>
+      Sign out
+    </button>
+
+  </nav>
 </aside>
+
+
+<!-- MAIN -->
 
 <main class="main">
 
 <header class="topbar">
 
-  <div class="top-left">
-    <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
-    <span style="margin-left:10px">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="mobile-menu" id="mobileMenu">☰</button>
+
+    <div class="page-title">
       <h1 id="pageTitle">CEO Overview</h1>
-      <p>Kaziya — Where business gets moving.</p>
-    </span>
+      <p>Kaziya marketplace administration</p>
+    </div>
   </div>
 
-  <div class="top-right">
+  <div class="top-actions">
 
-    <button class="icon-btn" onclick="showToast('No new notifications')">
-      🔔
-      <span class="dot"></span>
+    <button class="icon-btn" id="refreshBtn" title="Refresh">
+      ↻
     </button>
 
-    <div class="profile">
-      <div class="avatar">CEO</div>
+    <button class="icon-btn" id="notificationBtn">
+      🔔
+      <span class="notification-dot"></span>
+    </button>
+
+    <div class="ceo">
+      <div class="avatar" id="ceoAvatar">C</div>
       <div>
-        <strong>Kaziya CEO</strong>
+        <strong id="ceoName">CEO</strong>
         <small>Administrator</small>
       </div>
     </div>
 
   </div>
+
 </header>
+
 
 <div class="content">
 
-<!-- OVERVIEW -->
-<section class="page active" id="overview">
+
+<!-- ================= OVERVIEW ================= -->
+
+<section class="page active" id="page-overview">
 
   <div class="stats">
 
-    <div class="stat">
-      <div class="stat-icon">👥</div>
-      <div class="stat-label">Total Users</div>
-      <div class="stat-value">12,480</div>
-      <div class="stat-change">↑ 8.4% this month</div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Total Users</span>
+        <span class="stat-icon">👥</span>
+      </div>
+      <div class="stat-value" id="totalUsers">0</div>
+      <div class="stat-change">Registered accounts</div>
     </div>
 
-    <div class="stat">
-      <div class="stat-icon">🏪</div>
-      <div class="stat-label">Active Sellers</div>
-      <div class="stat-value">1,284</div>
-      <div class="stat-change">↑ 5.7% this month</div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Active Sellers</span>
+        <span class="stat-icon">🏪</span>
+      </div>
+      <div class="stat-value" id="totalSellers">0</div>
+      <div class="stat-change">Kaziya businesses</div>
     </div>
 
-    <div class="stat">
-      <div class="stat-icon">📦</div>
-      <div class="stat-label">Orders</div>
-      <div class="stat-value">8,921</div>
-      <div class="stat-change">↑ 12.2% this month</div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Orders</span>
+        <span class="stat-icon">🛒</span>
+      </div>
+      <div class="stat-value" id="totalOrders">0</div>
+      <div class="stat-change">Marketplace orders</div>
     </div>
 
-    <div class="stat">
-      <div class="stat-icon">💰</div>
-      <div class="stat-label">Platform Revenue</div>
-      <div class="stat-value">UGX 48.6M</div>
-      <div class="stat-change">↑ 14.8% this month</div>
+    <div class="stat-card">
+      <div class="stat-top">
+        <span class="stat-label">Platform Revenue</span>
+        <span class="stat-icon">💰</span>
+      </div>
+      <div class="stat-value" id="platformRevenue">UGX 0</div>
+      <div class="stat-change">Commission earned</div>
     </div>
 
   </div>
 
-  <div class="grid">
+
+  <div class="grid-2">
 
     <div class="card">
+
       <div class="card-header">
-        <h2>Platform Sales</h2>
-        <span>Last 7 months</span>
+        <div>
+          <h3>Platform Sales</h3>
+          <span>Recent order activity</span>
+        </div>
       </div>
 
-      <div class="chart">
-        <div class="bar-wrap"><div class="bar" style="height:38%"></div><span class="bar-label">Mar</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:51%"></div><span class="bar-label">Apr</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:44%"></div><span class="bar-label">May</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:65%"></div><span class="bar-label">Jun</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:72%"></div><span class="bar-label">Jul</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:84%"></div><span class="bar-label">Aug</span></div>
-        <div class="bar-wrap"><div class="bar" style="height:95%"></div><span class="bar-label">Sep</span></div>
+      <div class="chart" id="salesChart">
+        <div class="loading">Loading sales...</div>
       </div>
+
     </div>
+
 
     <div class="card">
+
       <div class="card-header">
-        <h2>Recent Activity</h2>
-        <span>Live</span>
+        <div>
+          <h3>Quick Management</h3>
+          <span>Common CEO actions</span>
+        </div>
       </div>
 
-      <div class="activity">
+      <div class="quick-grid">
 
-        <div class="activity-row">
-          <div class="activity-icon">🛍️</div>
-          <div class="activity-text">
-            <strong>New product submitted</strong>
-            <small>Urban Streetwear</small>
-          </div>
-          <div class="activity-time">2m</div>
+        <div class="quick" data-go="products">
+          <div>📦</div>
+          <strong>Review Products</strong>
+          <span>Approve seller listings</span>
         </div>
 
-        <div class="activity-row">
-          <div class="activity-icon">🏪</div>
-          <div class="activity-text">
-            <strong>New seller registered</strong>
-            <small>TechPoint Uganda</small>
-          </div>
-          <div class="activity-time">8m</div>
+        <div class="quick" data-go="sellers">
+          <div>🏪</div>
+          <strong>Manage Sellers</strong>
+          <span>Review businesses</span>
         </div>
 
-        <div class="activity-row">
-          <div class="activity-icon">💰</div>
-          <div class="activity-text">
-            <strong>Order completed</strong>
-            <small>UGX 185,000</small>
-          </div>
-          <div class="activity-time">15m</div>
+        <div class="quick" data-go="withdrawals">
+          <div>🏦</div>
+          <strong>Withdrawals</strong>
+          <span>Process requests</span>
         </div>
 
-        <div class="activity-row">
-          <div class="activity-icon">⭐</div>
-          <div class="activity-text">
-            <strong>New review</strong>
-            <small>5-star product review</small>
-          </div>
-          <div class="activity-time">31m</div>
+        <div class="quick" data-go="orders">
+          <div>🛒</div>
+          <strong>Orders</strong>
+          <span>Monitor transactions</span>
         </div>
 
       </div>
+
     </div>
 
   </div>
 
+
   <div class="card">
+
     <div class="card-header">
-      <h2>Pending Approvals</h2>
-      <span>Requires attention</span>
+      <div>
+        <h3>Pending Approvals</h3>
+        <span>Items requiring CEO attention</span>
+      </div>
     </div>
 
-    <div class="metric-grid">
+    <div class="approvals">
 
-      <div class="metric approval">
-        <small>Products awaiting approval</small>
-        <strong>27</strong>
-        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('products')">
-          Review Products
-        </button>
+      <div class="approval">
+        <h4>📦 Products</h4>
+        <p><span id="pendingProducts">0</span> products waiting for approval.</p>
+        <button class="btn btn-primary" data-go="products">Review Products</button>
       </div>
 
-      <div class="metric approval">
-        <small>Seller applications</small>
-        <strong>14</strong>
-        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('sellers')">
-          Review Sellers
-        </button>
+      <div class="approval">
+        <h4>🏪 Sellers</h4>
+        <p><span id="pendingSellers">0</span> seller businesses waiting for review.</p>
+        <button class="btn btn-primary" data-go="sellers">Review Sellers</button>
       </div>
 
-      <div class="metric approval">
-        <small>Withdrawal requests</small>
-        <strong>9</strong>
-        <button class="btn btn-primary" style="margin-top:12px" onclick="goTo('withdrawals')">
-          Review Withdrawals
-        </button>
+      <div class="approval">
+        <h4>🏦 Withdrawals</h4>
+        <p><span id="pendingWithdrawals">0</span> withdrawal requests pending.</p>
+        <button class="btn btn-primary" data-go="withdrawals">Review Withdrawals</button>
       </div>
 
     </div>
+
   </div>
 
+
   <div class="card">
+
     <div class="card-header">
-      <h2>Quick Management</h2>
-      <span>CEO shortcuts</span>
+      <div>
+        <h3>Recent Orders</h3>
+        <span>Latest marketplace activity</span>
+      </div>
+
+      <button class="btn btn-secondary" data-go="orders">View All</button>
     </div>
 
-    <div class="quick-grid">
+    <div class="table-wrap">
 
-      <div class="quick" onclick="goTo('products')">
-        <div>🛍️</div>
-        <strong>Approve Products</strong>
-        <p>Review seller listings</p>
-      </div>
+      <table>
 
-      <div class="quick" onclick="goTo('sellers')">
-        <div>🏪</div>
-        <strong>Manage Sellers</strong>
-        <p>Approve and manage sellers</p>
-      </div>
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Payment</th>
+            <th>Status</th>
+          </tr>
+        </thead>
 
-      <div class="quick" onclick="goTo('revenue')">
-        <div>💰</div>
-        <strong>View Revenue</strong>
-        <p>Monitor platform earnings</p>
-      </div>
+        <tbody id="recentOrdersBody">
+          <tr>
+            <td colspan="5" class="loading">Loading...</td>
+          </tr>
+        </tbody>
+
+      </table>
 
     </div>
+
   </div>
 
 </section>
 
 
-<!-- USERS -->
-<section class="page" id="users">
+<!-- ================= USERS ================= -->
 
-  <div class="section-title">
-    <h1>Users</h1>
-    <p>Manage customers registered on Kaziya.</p>
-  </div>
+<section class="page" id="page-users">
 
   <div class="card">
 
+    <div class="card-header">
+      <div>
+        <h3>Users</h3>
+        <span>Registered Kaziya accounts</span>
+      </div>
+    </div>
+
     <div class="toolbar">
-      <input class="search" id="userSearch" placeholder="Search users..." oninput="filterTable('userTable','userSearch')">
-      <select>
-        <option>All Users</option>
-        <option>Active</option>
-        <option>Suspended</option>
+      <input class="input search" id="userSearch" placeholder="Search users...">
+      <select class="select" id="userRoleFilter">
+        <option value="">All roles</option>
+        <option value="customer">Customers</option>
+        <option value="seller">Sellers</option>
+        <option value="admin">Admins</option>
       </select>
-      <button class="btn btn-primary" onclick="showToast('User export prepared')">Export</button>
     </div>
 
     <div class="table-wrap">
-      <table id="userTable">
+
+      <table>
         <thead>
           <tr>
             <th>User</th>
             <th>Phone</th>
-            <th>Location</th>
-            <th>Orders</th>
+            <th>Role</th>
             <th>Status</th>
             <th>Joined</th>
             <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="usersBody">
           <tr>
-            <td><strong>Sarah Namukasa</strong></td>
-            <td>+256 7••••••21</td>
-            <td>Kampala</td>
-            <td>18</td>
-            <td><span class="badge green">Active</span></td>
-            <td>Sep 2</td>
-            <td><button class="btn btn-dark" onclick="viewUser('Sarah Namukasa')">View</button></td>
+            <td colspan="6" class="loading">Loading users...</td>
           </tr>
-
-          <tr>
-            <td><strong>Brian Kato</strong></td>
-            <td>+256 7••••••44</td>
-            <td>Entebbe</td>
-            <td>7</td>
-            <td><span class="badge green">Active</span></td>
-            <td>Aug 29</td>
-            <td><button class="btn btn-dark" onclick="viewUser('Brian Kato')">View</button></td>
-          </tr>
-
-          <tr>
-            <td><strong>Joan Achien</strong></td>
-            <td>+256 7••••••83</td>
-            <td>Gulu</td>
-            <td>3</td>
-            <td><span class="badge red">Suspended</span></td>
-            <td>Aug 22</td>
-            <td><button class="btn btn-dark" onclick="viewUser('Joan Achien')">View</button></td>
-          </tr>
-
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- SELLERS -->
-<section class="page" id="sellers">
-
-  <div class="section-title">
-    <h1>Sellers</h1>
-    <p>Approve and manage Kaziya sellers.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="toolbar">
-      <input class="search" placeholder="Search sellers...">
-      <select>
-        <option>All sellers</option>
-        <option>Pending</option>
-        <option>Approved</option>
-        <option>Suspended</option>
-      </select>
-    </div>
-
-    <div class="table-wrap">
-
-      <table>
-        <thead>
-          <tr>
-            <th>Business</th>
-            <th>Owner</th>
-            <th>Category</th>
-            <th>Products</th>
-            <th>Status</th>
-            <th>Sales</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          <tr>
-            <td><strong>Urban Streetwear</strong></td>
-            <td>David</td>
-            <td>Fashion</td>
-            <td>42</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td>UGX 3.8M</td>
-            <td>
-              <div class="action-row">
-                <button class="btn btn-success" onclick="approve(this)">Approve</button>
-                <button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>TechPoint Uganda</strong></td>
-            <td>Mark</td>
-            <td>Electronics</td>
-            <td>86</td>
-            <td><span class="badge green">Approved</span></td>
-            <td>UGX 18.4M</td>
-            <td><button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button></td>
-          </tr>
-
-          <tr>
-            <td><strong>Style Avenue</strong></td>
-            <td>Grace</td>
-            <td>Beauty</td>
-            <td>31</td>
-            <td><span class="badge green">Approved</span></td>
-            <td>UGX 7.2M</td>
-            <td><button class="btn btn-dark" onclick="showToast('Seller details opened')">View</button></td>
-          </tr>
-
         </tbody>
       </table>
 
@@ -1140,227 +1121,161 @@ textarea{
 </section>
 
 
-<!-- PRODUCTS -->
-<section class="page" id="products">
+<!-- ================= SELLERS ================= -->
 
-  <div class="section-title">
-    <h1>Product Management</h1>
-    <p>Review, approve and manage products uploaded by sellers.</p>
-  </div>
+<section class="page" id="page-sellers">
 
-  <div class="notice">
-    Products submitted by sellers can remain pending until a Kaziya administrator approves them.
-  </div>
+  <div class="stats">
 
-  <div class="card">
-
-    <div class="toolbar">
-      <input class="search" placeholder="Search products...">
-      <select>
-        <option>All products</option>
-        <option>Pending approval</option>
-        <option>Published</option>
-        <option>Rejected</option>
-      </select>
-      <select>
-        <option>All categories</option>
-        <option>Fashion</option>
-        <option>Electronics</option>
-        <option>Beauty</option>
-        <option>Home</option>
-      </select>
+    <div class="stat-card">
+      <span class="stat-label">Total Sellers</span>
+      <div class="stat-value" id="sellerTotal">0</div>
     </div>
 
-    <div class="table-wrap">
+    <div class="stat-card">
+      <span class="stat-label">Pending</span>
+      <div class="stat-value" id="sellerPending">0</div>
+    </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Seller</th>
-            <th>Price</th>
-            <th>Stock</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+    <div class="stat-card">
+      <span class="stat-label">Approved</span>
+      <div class="stat-value" id="sellerApproved">0</div>
+    </div>
 
-        <tbody>
-
-          <tr>
-            <td><strong>Urban Sneakers</strong></td>
-            <td>Urban Streetwear</td>
-            <td>UGX 85,000</td>
-            <td>24</td>
-            <td>Fashion</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td>
-              <div class="action-row">
-                <button class="btn btn-success" onclick="approve(this)">Approve</button>
-                <button class="btn btn-danger" onclick="reject(this)">Reject</button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Wireless Headphones</strong></td>
-            <td>TechPoint Uganda</td>
-            <td>UGX 120,000</td>
-            <td>51</td>
-            <td>Electronics</td>
-            <td><span class="badge green">Published</span></td>
-            <td><button class="btn btn-dark" onclick="showToast('Product details opened')">Manage</button></td>
-          </tr>
-
-          <tr>
-            <td><strong>Classic Handbag</strong></td>
-            <td>Style Avenue</td>
-            <td>UGX 65,000</td>
-            <td>12</td>
-            <td>Fashion</td>
-            <td><span class="badge green">Published</span></td>
-            <td><button class="btn btn-dark" onclick="showToast('Product details opened')">Manage</button></td>
-          </tr>
-
-        </tbody>
-      </table>
-
+    <div class="stat-card">
+      <span class="stat-label">Suspended</span>
+      <div class="stat-value" id="sellerSuspended">0</div>
     </div>
 
   </div>
 
-</section>
-
-
-<!-- ORDERS -->
-<section class="page" id="orders">
-
-  <div class="section-title">
-    <h1>Orders</h1>
-    <p>Monitor marketplace transactions and order status.</p>
-  </div>
-
   <div class="card">
 
+    <div class="card-header">
+      <div>
+        <h3>Seller Businesses</h3>
+        <span>Manage Kaziya sellers</span>
+      </div>
+    </div>
+
     <div class="toolbar">
-      <input class="search" placeholder="Search order ID, customer or seller...">
-      <select>
-        <option>All orders</option>
-        <option>Pending</option>
-        <option>Processing</option>
-        <option>Delivered</option>
-        <option>Cancelled</option>
+      <input class="input search" id="sellerSearch" placeholder="Search businesses...">
+
+      <select class="select" id="sellerStatusFilter">
+        <option value="">All statuses</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="rejected">Rejected</option>
+        <option value="suspended">Suspended</option>
       </select>
     </div>
 
     <div class="table-wrap">
 
       <table>
-        <thead>
-          <tr>
-            <th>Order</th>
-            <th>Customer</th>
-            <th>Seller</th>
-            <th>Amount</th>
-            <th>Kaziya Fee</th>
-            <th>Status</th>
-            <th>Date</th>
-          </tr>
-        </thead>
 
-        <tbody>
-
-          <tr>
-            <td><strong>#KZ-10482</strong></td>
-            <td>Sarah Namukasa</td>
-            <td>TechPoint Uganda</td>
-            <td>UGX 185,000</td>
-            <td>UGX 9,250</td>
-            <td><span class="badge green">Delivered</span></td>
-            <td>Today</td>
-          </tr>
-
-          <tr>
-            <td><strong>#KZ-10481</strong></td>
-            <td>Brian Kato</td>
-            <td>Urban Streetwear</td>
-            <td>UGX 170,000</td>
-            <td>UGX 8,500</td>
-            <td><span class="badge yellow">Processing</span></td>
-            <td>Today</td>
-          </tr>
-
-          <tr>
-            <td><strong>#KZ-10480</strong></td>
-            <td>Joan Achien</td>
-            <td>Style Avenue</td>
-            <td>UGX 65,000</td>
-            <td>UGX 3,250</td>
-            <td><span class="badge blue">Shipped</span></td>
-            <td>Yesterday</td>
-          </tr>
-
-        </tbody>
-      </table>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- BUSINESSES -->
-<section class="page" id="businesses">
-
-  <div class="section-title">
-    <h1>Businesses</h1>
-    <p>Manage businesses operating on Kaziya.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="toolbar">
-      <input class="search" placeholder="Search businesses...">
-      <button class="btn btn-primary" onclick="openModal('businessModal')">+ Add Business</button>
-    </div>
-
-    <div class="table-wrap">
-
-      <table>
         <thead>
           <tr>
             <th>Business</th>
             <th>Category</th>
             <th>Location</th>
+            <th>Verification</th>
             <th>Owner</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="sellersBody">
+          <tr>
+            <td colspan="6" class="loading">Loading sellers...</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= PRODUCTS ================= -->
+
+<section class="page" id="page-products">
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <span class="stat-label">Total Products</span>
+      <div class="stat-value" id="productTotal">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Pending Approval</span>
+      <div class="stat-value" id="productPending">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Published</span>
+      <div class="stat-value" id="productPublished">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Rejected</span>
+      <div class="stat-value" id="productRejected">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Product Management</h3>
+        <span>Approve and manage seller listings</span>
+      </div>
+    </div>
+
+    <div class="toolbar">
+
+      <input class="input search" id="productSearch" placeholder="Search products...">
+
+      <select class="select" id="productStatusFilter">
+        <option value="">All statuses</option>
+        <option value="pending">Pending</option>
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+        <option value="rejected">Rejected</option>
+        <option value="suspended">Suspended</option>
+      </select>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Seller</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Stock</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="productsBody">
           <tr>
-            <td><strong>TechPoint Uganda</strong></td>
-            <td>Electronics</td>
-            <td>Kampala</td>
-            <td>Mark</td>
-            <td><span class="badge green">Verified</span></td>
-            <td><button class="btn btn-dark">Manage</button></td>
+            <td colspan="7" class="loading">Loading products...</td>
           </tr>
-
-          <tr>
-            <td><strong>Urban Streetwear</strong></td>
-            <td>Fashion</td>
-            <td>Kampala</td>
-            <td>David</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td><button class="btn btn-success" onclick="approve(this)">Approve</button></td>
-          </tr>
-
         </tbody>
+
       </table>
 
     </div>
@@ -1370,56 +1285,80 @@ textarea{
 </section>
 
 
-<!-- SERVICES -->
-<section class="page" id="services">
+<!-- ================= ORDERS ================= -->
 
-  <div class="section-title">
-    <h1>Services</h1>
-    <p>Manage services listed on Kaziya.</p>
+<section class="page" id="page-orders">
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <span class="stat-label">Total Orders</span>
+      <div class="stat-value" id="orderTotal">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Paid</span>
+      <div class="stat-value" id="orderPaid">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Processing</span>
+      <div class="stat-value" id="orderProcessing">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Delivered</span>
+      <div class="stat-value" id="orderDelivered">0</div>
+    </div>
+
   </div>
+
 
   <div class="card">
 
+    <div class="card-header">
+      <div>
+        <h3>Marketplace Orders</h3>
+        <span>All customer orders</span>
+      </div>
+    </div>
+
     <div class="toolbar">
-      <input class="search" placeholder="Search services...">
-      <button class="btn btn-primary" onclick="showToast('Service creation form opened')">+ Add Service</button>
+      <input class="input search" id="orderSearch" placeholder="Search order ID...">
+
+      <select class="select" id="orderStatusFilter">
+        <option value="">All statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="processing">Processing</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
     </div>
 
     <div class="table-wrap">
 
       <table>
+
         <thead>
           <tr>
-            <th>Service</th>
-            <th>Provider</th>
-            <th>Category</th>
-            <th>Starting Price</th>
+            <th>Order</th>
+            <th>Customer</th>
+            <th>Total</th>
+            <th>Commission</th>
+            <th>Payment</th>
             <th>Status</th>
-            <th>Bookings</th>
+            <th>Date</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="ordersBody">
           <tr>
-            <td><strong>Salon & Beauty</strong></td>
-            <td>Grace Beauty</td>
-            <td>Beauty</td>
-            <td>UGX 30,000</td>
-            <td><span class="badge green">Published</span></td>
-            <td>128</td>
+            <td colspan="7" class="loading">Loading orders...</td>
           </tr>
-
-          <tr>
-            <td><strong>Website Development</strong></td>
-            <td>BridanX Tech</td>
-            <td>Digital</td>
-            <td>UGX 250,000</td>
-            <td><span class="badge green">Published</span></td>
-            <td>36</td>
-          </tr>
-
         </tbody>
+
       </table>
 
     </div>
@@ -1429,72 +1368,176 @@ textarea{
 </section>
 
 
-<!-- REVENUE -->
-<section class="page" id="revenue">
+<!-- ================= BUSINESSES ================= -->
 
-  <div class="section-title">
-    <h1>Revenue & Commission</h1>
-    <p>Monitor Kaziya's revenue generated from genuine marketplace transactions.</p>
-  </div>
+<section class="page" id="page-businesses">
 
-  <div class="metric-grid">
-
-    <div class="metric">
-      <small>Total marketplace sales</small>
-      <strong>UGX 972.4M</strong>
-    </div>
-
-    <div class="metric">
-      <small>Kaziya commission</small>
-      <strong>UGX 48.6M</strong>
-    </div>
-
-    <div class="metric">
-      <small>Seller payouts</small>
-      <strong>UGX 923.8M</strong>
-    </div>
-
-  </div>
-
-  <div class="card" style="margin-top:18px">
+  <div class="card">
 
     <div class="card-header">
-      <h2>Commission Configuration</h2>
-      <span>Current example</span>
+      <div>
+        <h3>Businesses</h3>
+        <span>Kaziya seller storefronts</span>
+      </div>
     </div>
 
-    <div class="form-grid">
+    <div class="table-wrap">
 
-      <div class="form-group">
-        <label>Marketplace commission</label>
-        <input class="form-input" value="5%">
-      </div>
+      <table>
 
-      <div class="form-group">
-        <label>Service commission</label>
-        <input class="form-input" value="8%">
-      </div>
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Category</th>
+            <th>Phone</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="businessesBody">
+          <tr>
+            <td colspan="6" class="loading">Loading businesses...</td>
+          </tr>
+        </tbody>
+
+      </table>
 
     </div>
-
-    <button class="btn btn-primary" onclick="showToast('Commission settings saved')">
-      Save Commission Settings
-    </button>
 
   </div>
 
 </section>
 
 
-<!-- WITHDRAWALS -->
-<section class="page" id="withdrawals">
+<!-- ================= SERVICES ================= -->
 
-  <div class="section-title">
-    <h1>Withdrawal Requests</h1>
-    <p>Review seller payout requests.</p>
-  </div>
+<section class="page" id="page-services">
 
   <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Services</h3>
+        <span>Marketplace service providers</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Category</th>
+            <th>Provider</th>
+            <th>Price</th>
+            <th>Location</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="servicesBody">
+          <tr>
+            <td colspan="6" class="loading">Loading services...</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= REVENUE ================= -->
+
+<section class="page" id="page-revenue">
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <span class="stat-label">Gross Marketplace Sales</span>
+      <div class="stat-value" id="grossSales">UGX 0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Platform Commission</span>
+      <div class="stat-value" id="commissionRevenue">UGX 0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Seller Earnings</span>
+      <div class="stat-value" id="sellerEarnings">UGX 0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Completed Orders</span>
+      <div class="stat-value" id="completedOrders">0</div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Revenue Overview</h3>
+        <span>Calculated from paid marketplace orders</span>
+      </div>
+    </div>
+
+    <div id="revenueInfo" style="color:var(--muted);font-size:12px;line-height:1.8;">
+      Revenue figures are calculated from the orders table.
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= WITHDRAWALS ================= -->
+
+<section class="page" id="page-withdrawals">
+
+  <div class="stats">
+
+    <div class="stat-card">
+      <span class="stat-label">Pending</span>
+      <div class="stat-value" id="withdrawPending">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Approved</span>
+      <div class="stat-value" id="withdrawApproved">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Completed</span>
+      <div class="stat-value" id="withdrawCompleted">0</div>
+    </div>
+
+    <div class="stat-card">
+      <span class="stat-label">Amount Requested</span>
+      <div class="stat-value" id="withdrawAmount">UGX 0</div>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Seller Withdrawals</h3>
+        <span>Review seller withdrawal requests</span>
+      </div>
+    </div>
 
     <div class="table-wrap">
 
@@ -1507,40 +1550,15 @@ textarea{
             <th>Method</th>
             <th>Account</th>
             <th>Status</th>
-            <th>Requested</th>
+            <th>Date</th>
             <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="withdrawalsBody">
           <tr>
-            <td><strong>TechPoint Uganda</strong></td>
-            <td>UGX 1,450,000</td>
-            <td>Mobile Money</td>
-            <td>+256 7•••••34</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td>Today</td>
-            <td>
-              <div class="action-row">
-                <button class="btn btn-success" onclick="approve(this)">Approve</button>
-                <button class="btn btn-danger" onclick="reject(this)">Reject</button>
-              </div>
-            </td>
+            <td colspan="7" class="loading">Loading withdrawals...</td>
           </tr>
-
-          <tr>
-            <td><strong>Style Avenue</strong></td>
-            <td>UGX 520,000</td>
-            <td>Bank</td>
-            <td>•••• 8271</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td>Today</td>
-            <td>
-              <button class="btn btn-success" onclick="approve(this)">Approve</button>
-            </td>
-          </tr>
-
         </tbody>
 
       </table>
@@ -1552,24 +1570,17 @@ textarea{
 </section>
 
 
-<!-- TRANSACTIONS -->
-<section class="page" id="transactions">
+<!-- ================= TRANSACTIONS ================= -->
 
-  <div class="section-title">
-    <h1>Transactions</h1>
-    <p>Platform-wide financial transaction history.</p>
-  </div>
+<section class="page" id="page-transactions">
 
   <div class="card">
 
-    <div class="toolbar">
-      <input class="search" placeholder="Search transaction ID...">
-      <select>
-        <option>All transactions</option>
-        <option>Payments</option>
-        <option>Withdrawals</option>
-        <option>Commissions</option>
-      </select>
+    <div class="card-header">
+      <div>
+        <h3>Transactions</h3>
+        <span>Marketplace payment records</span>
+      </div>
     </div>
 
     <div class="table-wrap">
@@ -1578,35 +1589,20 @@ textarea{
 
         <thead>
           <tr>
-            <th>Transaction</th>
-            <th>Type</th>
+            <th>Reference</th>
+            <th>Order</th>
             <th>Amount</th>
-            <th>Customer/Seller</th>
+            <th>Method</th>
+            <th>Provider</th>
             <th>Status</th>
             <th>Date</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="transactionsBody">
           <tr>
-            <td>#TX-92881</td>
-            <td>Customer Payment</td>
-            <td>UGX 185,000</td>
-            <td>Sarah Namukasa</td>
-            <td><span class="badge green">Successful</span></td>
-            <td>Today 18:42</td>
+            <td colspan="7" class="loading">Loading transactions...</td>
           </tr>
-
-          <tr>
-            <td>#TX-92880</td>
-            <td>Seller Withdrawal</td>
-            <td>UGX 520,000</td>
-            <td>Style Avenue</td>
-            <td><span class="badge yellow">Pending</span></td>
-            <td>Today 17:21</td>
-          </tr>
-
         </tbody>
 
       </table>
@@ -1618,15 +1614,18 @@ textarea{
 </section>
 
 
-<!-- REVIEWS -->
-<section class="page" id="reviews">
+<!-- ================= REVIEWS ================= -->
 
-  <div class="section-title">
-    <h1>Reviews</h1>
-    <p>Monitor customer reviews and marketplace quality.</p>
-  </div>
+<section class="page" id="page-reviews">
 
   <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Reviews</h3>
+        <span>Customer feedback</span>
+      </div>
+    </div>
 
     <div class="table-wrap">
 
@@ -1634,35 +1633,19 @@ textarea{
 
         <thead>
           <tr>
-            <th>Customer</th>
             <th>Product</th>
-            <th>Seller</th>
             <th>Rating</th>
             <th>Review</th>
             <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="reviewsBody">
           <tr>
-            <td>Sarah</td>
-            <td>Wireless Headphones</td>
-            <td>TechPoint Uganda</td>
-            <td>★★★★★</td>
-            <td>Excellent product and fast delivery.</td>
-            <td><span class="badge green">Published</span></td>
+            <td colspan="6" class="loading">Loading reviews...</td>
           </tr>
-
-          <tr>
-            <td>Brian</td>
-            <td>Urban Sneakers</td>
-            <td>Urban Streetwear</td>
-            <td>★★★★☆</td>
-            <td>Good quality.</td>
-            <td><span class="badge yellow">Pending</span></td>
-          </tr>
-
         </tbody>
 
       </table>
@@ -1674,38 +1657,17 @@ textarea{
 </section>
 
 
-<!-- ADVERTISING -->
-<section class="page" id="advertising">
+<!-- ================= ADVERTISING ================= -->
 
-  <div class="section-title">
-    <h1>Advertising & Featured Listings</h1>
-    <p>Manage paid visibility opportunities for sellers.</p>
-  </div>
+<section class="page" id="page-advertising">
 
-  <div class="metric-grid">
-
-    <div class="metric">
-      <small>Active campaigns</small>
-      <strong>42</strong>
-    </div>
-
-    <div class="metric">
-      <small>Advertising revenue</small>
-      <strong>UGX 6.8M</strong>
-    </div>
-
-    <div class="metric">
-      <small>Featured products</small>
-      <strong>118</strong>
-    </div>
-
-  </div>
-
-  <div class="card" style="margin-top:18px">
+  <div class="card">
 
     <div class="card-header">
-      <h2>Campaigns</h2>
-      <button class="btn btn-primary" onclick="showToast('Campaign creator opened')">+ New Campaign</button>
+      <div>
+        <h3>Advertising</h3>
+        <span>Seller promotions and featured listings</span>
+      </div>
     </div>
 
     <div class="table-wrap">
@@ -1719,27 +1681,15 @@ textarea{
             <th>Placement</th>
             <th>Budget</th>
             <th>Status</th>
+            <th>Dates</th>
+            <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="adsBody">
           <tr>
-            <td>Weekend Fashion Sale</td>
-            <td>Urban Streetwear</td>
-            <td>Homepage</td>
-            <td>UGX 350,000</td>
-            <td><span class="badge green">Active</span></td>
+            <td colspan="7" class="loading">Loading advertising...</td>
           </tr>
-
-          <tr>
-            <td>Tech Deals</td>
-            <td>TechPoint Uganda</td>
-            <td>Marketplace</td>
-            <td>UGX 500,000</td>
-            <td><span class="badge green">Active</span></td>
-          </tr>
-
         </tbody>
 
       </table>
@@ -1751,15 +1701,18 @@ textarea{
 </section>
 
 
-<!-- COMPLAINTS -->
-<section class="page" id="complaints">
+<!-- ================= COMPLAINTS ================= -->
 
-  <div class="section-title">
-    <h1>Complaints & Reports</h1>
-    <p>Resolve marketplace disputes and customer reports.</p>
-  </div>
+<section class="page" id="page-complaints">
 
   <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Complaints</h3>
+        <span>Customer and seller support issues</span>
+      </div>
+    </div>
 
     <div class="table-wrap">
 
@@ -1767,38 +1720,19 @@ textarea{
 
         <thead>
           <tr>
-            <th>Report</th>
-            <th>Reported By</th>
             <th>Subject</th>
-            <th>Reason</th>
+            <th>Reporter</th>
             <th>Priority</th>
             <th>Status</th>
+            <th>Date</th>
             <th>Action</th>
           </tr>
         </thead>
 
-        <tbody>
-
+        <tbody id="complaintsBody">
           <tr>
-            <td>#R-1048</td>
-            <td>Customer</td>
-            <td>Urban Streetwear</td>
-            <td>Product not received</td>
-            <td><span class="badge red">High</span></td>
-            <td><span class="badge yellow">Open</span></td>
-            <td><button class="btn btn-dark" onclick="showToast('Complaint opened')">Investigate</button></td>
+            <td colspan="6" class="loading">Loading complaints...</td>
           </tr>
-
-          <tr>
-            <td>#R-1047</td>
-            <td>Seller</td>
-            <td>Customer</td>
-            <td>Order cancellation</td>
-            <td><span class="badge blue">Normal</span></td>
-            <td><span class="badge yellow">Open</span></td>
-            <td><button class="btn btn-dark" onclick="showToast('Complaint opened')">Investigate</button></td>
-          </tr>
-
         </tbody>
 
       </table>
@@ -1810,63 +1744,60 @@ textarea{
 </section>
 
 
-<!-- SETTINGS -->
-<section class="page" id="settings">
+<!-- ================= SETTINGS ================= -->
 
-  <div class="section-title">
-    <h1>Platform Settings</h1>
-    <p>Configure important Kaziya marketplace settings.</p>
-  </div>
-
-  <div class="card">
-
-    <div class="form-grid">
-
-      <div class="form-group">
-        <label>Platform Name</label>
-        <input class="form-input" value="Kaziya">
-      </div>
-
-      <div class="form-group">
-        <label>Tagline</label>
-        <input class="form-input" value="Where business gets moving.">
-      </div>
-
-      <div class="form-group">
-        <label>Default Marketplace Commission</label>
-        <input class="form-input" value="5%">
-      </div>
-
-      <div class="form-group">
-        <label>Currency</label>
-        <select>
-          <option>UGX — Ugandan Shilling</option>
-          <option>USD — US Dollar</option>
-        </select>
-      </div>
-
-    </div>
-
-    <button class="btn btn-primary" onclick="showToast('Platform settings saved')">
-      Save Settings
-    </button>
-
-  </div>
+<section class="page" id="page-settings">
 
   <div class="card">
 
     <div class="card-header">
-      <h2>Administrator Access</h2>
-      <span>Security</span>
+      <div>
+        <h3>Platform Settings</h3>
+        <span>Kaziya administration settings</span>
+      </div>
     </div>
 
-    <div class="notice">
-      The live version should protect this dashboard using Supabase Authentication and administrator role-based access. Do not rely on hiding this URL as security.
+    <div style="max-width:600px;">
+
+      <div class="form-group">
+        <label>Platform Name</label>
+        <input class="input" id="settingName" value="Kaziya">
+      </div>
+
+      <div class="form-group">
+        <label>Tagline</label>
+        <input class="input" id="settingTagline" value="Where business gets moving.">
+      </div>
+
+      <div class="form-group">
+        <label>Default Marketplace Commission (%)</label>
+        <input class="input" type="number" id="commissionRate" value="5" min="0" max="100">
+      </div>
+
+      <button class="btn btn-primary" id="saveSettings">
+        Save Settings
+      </button>
+
     </div>
 
-    <button class="btn btn-dark" onclick="showToast('Security settings opened')">
-      Manage Admin Access
-    </button>
+  </div>
+
+
+  <div class="card">
+
+    <div class="card-header">
+      <div>
+        <h3>Admin Security</h3>
+        <span>Important</span>
+      </div>
+    </div>
+
+    <p style="color:var(--muted);font-size:12px;line-height:1.8;">
+      Kaziya admin permissions should be enforced by Supabase Row Level Security.
+      The browser interface must never contain a Supabase service-role or secret key.
+      Payment verification should also be performed server-side before an order is
+      marked as paid.
+    </p>
 
   </div>
 
@@ -1875,41 +1806,21 @@ textarea{
 </div>
 </main>
 
+</div>
 
-<!-- BUSINESS MODAL -->
-<div class="modal" id="businessModal">
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="modal">
 
   <div class="modal-box">
 
     <div class="modal-head">
-      <h2>Add Business</h2>
-      <button class="close" onclick="closeModal('businessModal')">×</button>
+      <h3 id="modalTitle">Details</h3>
+      <button class="close" id="closeModal">×</button>
     </div>
 
-    <div class="form-group">
-      <label>Business Name</label>
-      <input class="form-input" placeholder="Business name">
-    </div>
-
-    <div class="form-group">
-      <label>Category</label>
-      <select class="form-input">
-        <option>Fashion</option>
-        <option>Electronics</option>
-        <option>Beauty</option>
-        <option>Food</option>
-        <option>Services</option>
-      </select>
-    </div>
-
-    <div class="form-group">
-      <label>Location</label>
-      <input class="form-input" placeholder="Kampala">
-    </div>
-
-    <button class="btn btn-primary" onclick="closeModal('businessModal');showToast('Business added successfully')">
-      Add Business
-    </button>
+    <div id="modalContent"></div>
 
   </div>
 
@@ -1921,7 +1832,196 @@ textarea{
 
 <script>
 
-const titles={
+/* =========================================================
+   KAZIYA SUPABASE CONFIGURATION
+========================================================= */
+
+const SUPABASE_URL =
+  "https://jrwbywbivylecguadesi.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_WXxtVv4gdr7bl_AGj5f8kA_QC5Rmztz";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let currentUser = null;
+let currentProfile = null;
+
+let cache = {
+  users: [],
+  sellers: [],
+  products: [],
+  orders: [],
+  businesses: [],
+  services: [],
+  withdrawals: [],
+  transactions: [],
+  reviews: [],
+  advertisements: [],
+  complaints: []
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function money(value){
+  return "UGX " + Number(value || 0).toLocaleString("en-UG");
+}
+
+function esc(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function shortId(id){
+  if(!id) return "—";
+  return String(id).slice(0,8).toUpperCase();
+}
+
+function date(value){
+  if(!value) return "—";
+
+  return new Date(value).toLocaleDateString(
+    "en-UG",
+    {
+      year:"numeric",
+      month:"short",
+      day:"numeric"
+    }
+  );
+}
+
+function status(value){
+  const s = String(value || "unknown").toLowerCase();
+
+  return `<span class="status ${esc(s)}">${esc(s)}</span>`;
+}
+
+function toast(message){
+  const el = document.getElementById("toast");
+
+  el.textContent = message;
+  el.classList.add("show");
+
+  setTimeout(()=>{
+    el.classList.remove("show");
+  },3000);
+}
+
+function showModal(title,html){
+  document.getElementById("modalTitle").textContent = title;
+  document.getElementById("modalContent").innerHTML = html;
+  document.getElementById("modal").classList.add("show");
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("show");
+}
+
+
+/* =========================================================
+   AUTHENTICATION
+========================================================= */
+
+async function checkAdmin(){
+
+  const {
+    data:{
+      session
+    }
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href = "../";
+    return false;
+  }
+
+  currentUser = session.user;
+
+  const {
+    data:profile,
+    error
+  } = await supabaseClient
+    .from("profiles")
+    .select("*")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+  }
+
+  if(!profile || profile.role !== "admin"){
+
+    document.body.innerHTML = `
+      <div style="
+        min-height:100vh;
+        display:grid;
+        place-items:center;
+        padding:30px;
+        background:#07111f;
+        color:white;
+        font-family:Arial;
+        text-align:center;
+      ">
+        <div>
+          <div style="font-size:50px;margin-bottom:15px;">🔒</div>
+          <h2>Admin access required</h2>
+          <p style="color:#8ea0b8;margin:12px 0 20px;">
+            This account does not have CEO administrator permissions.
+          </p>
+          <button
+            onclick="supabaseClient.auth.signOut().then(()=>location.href='../')"
+            style="
+              background:#b7f34a;
+              color:#07111f;
+              border:0;
+              padding:12px 18px;
+              border-radius:9px;
+              font-weight:800;
+            "
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
+    `;
+
+    return false;
+  }
+
+  currentProfile = profile;
+
+  document.getElementById("ceoName").textContent =
+    profile.full_name || "CEO";
+
+  document.getElementById("ceoAvatar").textContent =
+    (profile.full_name || "C").charAt(0).toUpperCase();
+
+  return true;
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+const pageNames = {
   overview:"CEO Overview",
   users:"Users",
   sellers:"Seller Management",
@@ -1930,137 +2030,2007 @@ const titles={
   businesses:"Businesses",
   services:"Services",
   revenue:"Revenue & Commission",
-  withdrawals:"Withdrawal Requests",
+  withdrawals:"Seller Withdrawals",
   transactions:"Transactions",
   reviews:"Reviews",
   advertising:"Advertising",
-  complaints:"Complaints & Reports",
+  complaints:"Complaints",
   settings:"Platform Settings"
 };
 
-function goTo(page){
+function openPage(page){
 
-  document.querySelectorAll(".page").forEach(p=>{
-    p.classList.remove("active");
-  });
+  document.querySelectorAll(".page")
+    .forEach(p=>p.classList.remove("active"));
 
-  const target=document.getElementById(page);
+  const target =
+    document.getElementById("page-"+page);
 
-  if(target) target.classList.add("active");
+  if(target){
+    target.classList.add("active");
+  }
 
-  document.querySelectorAll(".nav-item").forEach(item=>{
-    item.classList.remove("active");
+  document.querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+      btn.classList.toggle(
+        "active",
+        btn.dataset.page === page
+      );
+    });
 
-    if(item.dataset.page===page){
-      item.classList.add("active");
-    }
-  });
+  document.getElementById("pageTitle").textContent =
+    pageNames[page] || "Kaziya Admin";
 
-  document.getElementById("pageTitle").textContent=titles[page]||"Kaziya CEO";
+  document.getElementById("sidebar")
+    .classList.remove("open");
 
-  document.getElementById("sidebar").classList.remove("open");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  loadPageData(page);
 }
 
-document.querySelectorAll(".nav-item").forEach(item=>{
-  item.addEventListener("click",()=>{
-    goTo(item.dataset.page);
+document.querySelectorAll(".nav-btn")
+.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    openPage(btn.dataset.page);
   });
 });
 
-function toggleSidebar(){
-  document.getElementById("sidebar").classList.toggle("open");
+document.querySelectorAll("[data-go]")
+.forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    openPage(btn.dataset.go);
+  });
+});
+
+document.getElementById("mobileMenu")
+.addEventListener("click",()=>{
+  document.getElementById("sidebar")
+    .classList.toggle("open");
+});
+
+document.getElementById("closeModal")
+.addEventListener("click",closeModal);
+
+document.getElementById("modal")
+.addEventListener("click",e=>{
+  if(e.target.id === "modal"){
+    closeModal();
+  }
+});
+
+
+/* =========================================================
+   LOAD OVERVIEW
+========================================================= */
+
+async function loadOverview(){
+
+  const [
+    usersRes,
+    sellersRes,
+    ordersRes,
+    pendingProductsRes,
+    pendingSellersRes,
+    pendingWithdrawalsRes
+  ] = await Promise.all([
+
+    supabaseClient
+      .from("profiles")
+      .select("id",{
+        count:"exact",
+        head:true
+      }),
+
+    supabaseClient
+      .from("profiles")
+      .select("id",{
+        count:"exact",
+        head:true
+      })
+      .eq("role","seller")
+      .eq("status","active"),
+
+    supabaseClient
+      .from("orders")
+      .select("id,total_amount,platform_commission,seller_amount,payment_status,order_status,created_at"),
+
+    supabaseClient
+      .from("products")
+      .select("id",{
+        count:"exact",
+        head:true
+      })
+      .eq("status","pending"),
+
+    supabaseClient
+      .from("businesses")
+      .select("id",{
+        count:"exact",
+        head:true
+      })
+      .eq("verification_status","pending"),
+
+    supabaseClient
+      .from("withdrawals")
+      .select("id",{
+        count:"exact",
+        head:true
+      })
+      .eq("status","pending")
+  ]);
+
+  document.getElementById("totalUsers").textContent =
+    usersRes.count || 0;
+
+  document.getElementById("totalSellers").textContent =
+    sellersRes.count || 0;
+
+  const orders = ordersRes.data || [];
+
+  document.getElementById("totalOrders").textContent =
+    orders.length;
+
+  const commission = orders
+    .filter(o=>o.payment_status === "paid")
+    .reduce((sum,o)=>
+      sum + Number(o.platform_commission || 0),0);
+
+  document.getElementById("platformRevenue").textContent =
+    money(commission);
+
+  document.getElementById("pendingProducts").textContent =
+    pendingProductsRes.count || 0;
+
+  document.getElementById("pendingSellers").textContent =
+    pendingSellersRes.count || 0;
+
+  document.getElementById("pendingWithdrawals").textContent =
+    pendingWithdrawalsRes.count || 0;
+
+  document.getElementById("productBadge").textContent =
+    pendingProductsRes.count || 0;
+
+  document.getElementById("sellerBadge").textContent =
+    pendingSellersRes.count || 0;
+
+  document.getElementById("withdrawalBadge").textContent =
+    pendingWithdrawalsRes.count || 0;
+
+  renderSalesChart(orders);
+  renderRecentOrders(orders.slice(0,8));
+
 }
 
-function showToast(message){
 
-  const toast=document.getElementById("toast");
+/* =========================================================
+   SALES CHART
+========================================================= */
 
-  toast.textContent=message;
-  toast.classList.add("show");
+function renderSalesChart(orders){
 
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },2600);
-}
+  const chart =
+    document.getElementById("salesChart");
 
-function openModal(id){
-  document.getElementById(id).classList.add("show");
-}
-
-function closeModal(id){
-  document.getElementById(id).classList.remove("show");
-}
-
-function approve(button){
-
-  const row=button.closest("tr");
-
-  const badge=row.querySelector(".badge");
-
-  if(badge){
-    badge.textContent="Approved";
-    badge.className="badge green";
+  if(!orders.length){
+    chart.innerHTML =
+      `<div class="empty" style="width:100%;">
+        <strong>No sales yet</strong>
+        Orders will appear here when customers buy products.
+      </div>`;
+    return;
   }
 
-  button.remove();
+  const last7 = [];
 
-  showToast("Approved successfully");
-}
+  for(let i=6;i>=0;i--){
 
-function reject(button){
+    const d = new Date();
 
-  const row=button.closest("tr");
+    d.setDate(d.getDate()-i);
 
-  const badge=row.querySelector(".badge");
+    const key = d.toISOString().slice(0,10);
 
-  if(badge){
-    badge.textContent="Rejected";
-    badge.className="badge red";
+    const total = orders
+      .filter(o=>
+        o.created_at &&
+        o.created_at.slice(0,10) === key &&
+        o.payment_status === "paid"
+      )
+      .reduce((sum,o)=>
+        sum + Number(o.total_amount || 0),0);
+
+    last7.push({
+      key,
+      total,
+      label:d.toLocaleDateString(
+        "en-UG",
+        {weekday:"short"}
+      )
+    });
   }
 
-  button.remove();
+  const max =
+    Math.max(...last7.map(x=>x.total),1);
 
-  showToast("Item rejected");
+  chart.innerHTML =
+    last7.map(x=>{
+
+      const height =
+        Math.max((x.total/max)*85,5);
+
+      return `
+        <div
+          class="bar"
+          style="height:${height}%"
+          title="${money(x.total)}"
+        >
+          <small>${esc(x.label)}</small>
+        </div>
+      `;
+
+    }).join("");
+
 }
 
-function filterTable(tableId,inputId){
 
-  const input=document.getElementById(inputId);
+/* =========================================================
+   RECENT ORDERS
+========================================================= */
 
-  if(!input) return;
+function renderRecentOrders(orders){
 
-  const value=input.value.toLowerCase();
+  const body =
+    document.getElementById("recentOrdersBody");
 
-  const rows=document.querySelectorAll("#"+tableId+" tbody tr");
+  if(!orders.length){
+    body.innerHTML = `
+      <tr>
+        <td colspan="5">
+          <div class="empty">
+            <strong>No orders yet</strong>
+            Customer orders will appear here.
+          </div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
 
-  rows.forEach(row=>{
-    row.style.display=
-      row.textContent.toLowerCase().includes(value)
-      ? ""
-      : "none";
+  body.innerHTML =
+    orders.map(o=>`
+      <tr>
+        <td>#${shortId(o.id)}</td>
+        <td>${esc(o.customer_id ? shortId(o.customer_id) : "Customer")}</td>
+        <td>${money(o.total_amount)}</td>
+        <td>${status(o.payment_status)}</td>
+        <td>${status(o.order_status)}</td>
+      </tr>
+    `).join("");
+}
+
+
+/* =========================================================
+   USERS
+========================================================= */
+
+async function loadUsers(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    console.error(error);
+    showError("usersBody",6,error.message);
+    return;
+  }
+
+  cache.users = data || [];
+  renderUsers();
+}
+
+function renderUsers(){
+
+  const body =
+    document.getElementById("usersBody");
+
+  const search =
+    document.getElementById("userSearch")
+      .value.toLowerCase();
+
+  const role =
+    document.getElementById("userRoleFilter")
+      .value;
+
+  const rows =
+    cache.users.filter(u=>{
+
+      const text =
+        `${u.full_name || ""} ${u.phone || ""} ${u.id}`
+          .toLowerCase();
+
+      return (
+        (!search || text.includes(search)) &&
+        (!role || u.role === role)
+      );
+    });
+
+  if(!rows.length){
+    body.innerHTML = `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No users found</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  body.innerHTML =
+    rows.map(u=>`
+      <tr>
+
+        <td>
+          <strong>${esc(u.full_name || "Unnamed User")}</strong><br>
+          <small style="color:var(--muted);">
+            ${esc(u.id)}
+          </small>
+        </td>
+
+        <td>${esc(u.phone || "—")}</td>
+
+        <td>${status(u.role)}</td>
+
+        <td>${status(u.status)}</td>
+
+        <td>${date(u.created_at)}</td>
+
+        <td>
+          <button
+            class="btn btn-secondary"
+            onclick="viewUser('${u.id}')"
+          >
+            View
+          </button>
+        </td>
+
+      </tr>
+    `).join("");
+}
+
+function viewUser(id){
+
+  const u =
+    cache.users.find(x=>x.id === id);
+
+  if(!u) return;
+
+  showModal(
+    "User Details",
+    `
+      <div style="line-height:2;font-size:12px;">
+        <strong>${esc(u.full_name || "Unnamed")}</strong><br>
+        User ID: ${esc(u.id)}<br>
+        Phone: ${esc(u.phone || "Not provided")}<br>
+        Role: ${status(u.role)}<br>
+        Status: ${status(u.status)}<br>
+        Joined: ${date(u.created_at)}
+      </div>
+    `
+  );
+}
+
+
+/* =========================================================
+   SELLERS
+========================================================= */
+
+async function loadSellers(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("businesses")
+      .select(`
+        *,
+        profiles:owner_id (
+          id,
+          full_name,
+          phone
+        )
+      `)
+      .order("created_at",{ascending:false});
+
+  if(error){
+    console.error(error);
+    showError("sellersBody",6,error.message);
+    return;
+  }
+
+  cache.sellers = data || [];
+
+  document.getElementById("sellerTotal").textContent =
+    cache.sellers.length;
+
+  document.getElementById("sellerPending").textContent =
+    cache.sellers.filter(x=>x.verification_status==="pending").length;
+
+  document.getElementById("sellerApproved").textContent =
+    cache.sellers.filter(x=>x.verification_status==="approved").length;
+
+  document.getElementById("sellerSuspended").textContent =
+    cache.sellers.filter(x=>x.verification_status==="suspended").length;
+
+  renderSellers();
+}
+
+function renderSellers(){
+
+  const body =
+    document.getElementById("sellersBody");
+
+  const search =
+    document.getElementById("sellerSearch")
+      .value.toLowerCase();
+
+  const filter =
+    document.getElementById("sellerStatusFilter")
+      .value;
+
+  const rows =
+    cache.sellers.filter(b=>{
+
+      const text =
+        `${b.business_name || ""} ${b.location || ""} ${b.category || ""}`
+          .toLowerCase();
+
+      return (
+        (!search || text.includes(search)) &&
+        (!filter || b.verification_status === filter)
+      );
+    });
+
+  if(!rows.length){
+    body.innerHTML = `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No businesses found</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  body.innerHTML =
+    rows.map(b=>`
+
+      <tr>
+
+        <td>
+          <strong>${esc(b.business_name || "Unnamed")}</strong>
+        </td>
+
+        <td>${esc(b.category || "—")}</td>
+
+        <td>${esc(b.location || "—")}</td>
+
+        <td>${status(b.verification_status)}</td>
+
+        <td>
+          ${esc(
+            b.profiles?.full_name ||
+            shortId(b.owner_id)
+          )}
+        </td>
+
+        <td>
+
+          <div class="action-row">
+
+            ${
+              b.verification_status === "pending"
+              ? `
+                <button
+                  class="btn btn-success"
+                  onclick="approveSeller('${b.id}')"
+                >
+                  Approve
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  onclick="rejectSeller('${b.id}')"
+                >
+                  Reject
+                </button>
+              `
+              : ""
+            }
+
+            ${
+              b.verification_status === "approved"
+              ? `
+                <button
+                  class="btn btn-danger"
+                  onclick="suspendSeller('${b.id}')"
+                >
+                  Suspend
+                </button>
+              `
+              : ""
+            }
+
+            ${
+              b.verification_status === "suspended"
+              ? `
+                <button
+                  class="btn btn-success"
+                  onclick="restoreSeller('${b.id}')"
+                >
+                  Restore
+                </button>
+              `
+              : ""
+            }
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+}
+
+async function approveSeller(id){
+
+  const {error} =
+    await supabaseClient
+      .from("businesses")
+      .update({
+        verification_status:"approved"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Seller approved.");
+  await loadSellers();
+  await loadOverview();
+}
+
+async function rejectSeller(id){
+
+  const reason =
+    prompt("Reason for rejecting this seller:");
+
+  if(reason === null) return;
+
+  const {error} =
+    await supabaseClient
+      .from("businesses")
+      .update({
+        verification_status:"rejected"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Seller rejected.");
+  await loadSellers();
+}
+
+async function suspendSeller(id){
+
+  if(!confirm("Suspend this seller business?")) return;
+
+  const {error} =
+    await supabaseClient
+      .from("businesses")
+      .update({
+        verification_status:"suspended"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Seller suspended.");
+  await loadSellers();
+}
+
+async function restoreSeller(id){
+
+  const {error} =
+    await supabaseClient
+      .from("businesses")
+      .update({
+        verification_status:"approved"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Seller restored.");
+  await loadSellers();
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+async function loadProducts(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("products")
+      .select(`
+        *,
+        categories:category_id (
+          name
+        ),
+        businesses:business_id (
+          business_name
+        )
+      `)
+      .order("created_at",{ascending:false});
+
+  if(error){
+    console.error(error);
+    showError("productsBody",7,error.message);
+    return;
+  }
+
+  cache.products = data || [];
+
+  document.getElementById("productTotal").textContent =
+    cache.products.length;
+
+  document.getElementById("productPending").textContent =
+    cache.products.filter(x=>x.status==="pending").length;
+
+  document.getElementById("productPublished").textContent =
+    cache.products.filter(x=>x.status==="published").length;
+
+  document.getElementById("productRejected").textContent =
+    cache.products.filter(x=>x.status==="rejected").length;
+
+  renderProducts();
+}
+
+function renderProducts(){
+
+  const body =
+    document.getElementById("productsBody");
+
+  const search =
+    document.getElementById("productSearch")
+      .value.toLowerCase();
+
+  const filter =
+    document.getElementById("productStatusFilter")
+      .value;
+
+  const rows =
+    cache.products.filter(p=>{
+
+      const text =
+        `${p.name || ""} ${p.sku || ""} ${p.location || ""}`
+          .toLowerCase();
+
+      return (
+        (!search || text.includes(search)) &&
+        (!filter || p.status === filter)
+      );
+    });
+
+  if(!rows.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No products found</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML =
+    rows.map(p=>{
+
+      const image =
+        Array.isArray(p.image_urls) &&
+        p.image_urls.length
+        ? p.image_urls[0]
+        : "";
+
+      return `
+        <tr>
+
+          <td>
+
+            <div class="product-cell">
+
+              ${
+                image
+                ? `<img class="product-img" src="${esc(image)}">`
+                : `<div class="product-img"></div>`
+              }
+
+              <div>
+                <strong>${esc(p.name)}</strong><br>
+                <small style="color:var(--muted);">
+                  ${esc(p.sku || "No SKU")}
+                </small>
+              </div>
+
+            </div>
+
+          </td>
+
+          <td>
+            ${esc(
+              p.businesses?.business_name ||
+              shortId(p.seller_id)
+            )}
+          </td>
+
+          <td>
+            ${esc(p.categories?.name || "—")}
+          </td>
+
+          <td>${money(p.price)}</td>
+
+          <td>${Number(p.stock || 0)}</td>
+
+          <td>${status(p.status)}</td>
+
+          <td>
+
+            <div class="action-row">
+
+              <button
+                class="btn btn-secondary"
+                onclick="viewProduct('${p.id}')"
+              >
+                View
+              </button>
+
+              ${
+                p.status === "pending"
+                ? `
+                  <button
+                    class="btn btn-success"
+                    onclick="approveProduct('${p.id}')"
+                  >
+                    Approve
+                  </button>
+
+                  <button
+                    class="btn btn-danger"
+                    onclick="rejectProduct('${p.id}')"
+                  >
+                    Reject
+                  </button>
+                `
+                : ""
+              }
+
+              ${
+                p.status === "published"
+                ? `
+                  <button
+                    class="btn btn-danger"
+                    onclick="suspendProduct('${p.id}')"
+                  >
+                    Suspend
+                  </button>
+                `
+                : ""
+              }
+
+            </div>
+
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+}
+
+function viewProduct(id){
+
+  const p =
+    cache.products.find(x=>x.id === id);
+
+  if(!p) return;
+
+  const images =
+    Array.isArray(p.image_urls)
+    ? p.image_urls
+    : [];
+
+  showModal(
+    "Product Details",
+    `
+      ${
+        images.length
+        ? `
+          <div style="
+            display:flex;
+            gap:10px;
+            overflow:auto;
+            margin-bottom:18px;
+          ">
+            ${
+              images.map(img=>
+                `<img
+                  src="${esc(img)}"
+                  style="
+                    width:100px;
+                    height:100px;
+                    object-fit:cover;
+                    border-radius:10px;
+                  "
+                >`
+              ).join("")
+            }
+          </div>
+        `
+        : ""
+      }
+
+      <div style="line-height:1.9;font-size:12px;">
+        <strong style="font-size:18px;">
+          ${esc(p.name)}
+        </strong>
+
+        <br><br>
+
+        Price: ${money(p.price)}<br>
+        Stock: ${Number(p.stock || 0)}<br>
+        Category: ${esc(p.categories?.name || "—")}<br>
+        Location: ${esc(p.location || "—")}<br>
+        SKU: ${esc(p.sku || "—")}<br>
+        Delivery: ${p.delivery_available ? "Available" : "Not available"}<br><br>
+
+        ${esc(p.description || "No description provided.")}
+      </div>
+    `
+  );
+}
+
+async function approveProduct(id){
+
+  const {error} =
+    await supabaseClient
+      .from("products")
+      .update({
+        status:"published",
+        rejection_reason:null
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Product approved and published.");
+
+  await loadProducts();
+  await loadOverview();
+}
+
+async function rejectProduct(id){
+
+  const reason =
+    prompt("Reason for rejecting this product:");
+
+  if(reason === null) return;
+
+  const {error} =
+    await supabaseClient
+      .from("products")
+      .update({
+        status:"rejected",
+        rejection_reason:reason
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Product rejected.");
+
+  await loadProducts();
+  await loadOverview();
+}
+
+async function suspendProduct(id){
+
+  if(!confirm("Suspend this product?")) return;
+
+  const {error} =
+    await supabaseClient
+      .from("products")
+      .update({
+        status:"suspended"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Product suspended.");
+  await loadProducts();
+}
+
+
+/* =========================================================
+   ORDERS
+========================================================= */
+
+async function loadOrders(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("orders")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    console.error(error);
+    showError("ordersBody",7,error.message);
+    return;
+  }
+
+  cache.orders = data || [];
+
+  const paid =
+    cache.orders.filter(x=>x.payment_status==="paid").length;
+
+  const processing =
+    cache.orders.filter(x=>x.order_status==="processing").length;
+
+  const delivered =
+    cache.orders.filter(x=>x.order_status==="delivered").length;
+
+  document.getElementById("orderTotal").textContent =
+    cache.orders.length;
+
+  document.getElementById("orderPaid").textContent =
+    paid;
+
+  document.getElementById("orderProcessing").textContent =
+    processing;
+
+  document.getElementById("orderDelivered").textContent =
+    delivered;
+
+  renderOrders();
+}
+
+function renderOrders(){
+
+  const body =
+    document.getElementById("ordersBody");
+
+  const search =
+    document.getElementById("orderSearch")
+      .value.toLowerCase();
+
+  const filter =
+    document.getElementById("orderStatusFilter")
+      .value;
+
+  const rows =
+    cache.orders.filter(o=>{
+
+      const text =
+        `${o.id} ${o.customer_id}`
+          .toLowerCase();
+
+      return (
+        (!search || text.includes(search)) &&
+        (!filter || o.order_status === filter)
+      );
+    });
+
+  if(!rows.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No orders found</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML =
+    rows.map(o=>`
+
+      <tr>
+
+        <td>
+          <strong>#${shortId(o.id)}</strong>
+        </td>
+
+        <td>
+          ${shortId(o.customer_id)}
+        </td>
+
+        <td>${money(o.total_amount)}</td>
+
+        <td>${money(o.platform_commission)}</td>
+
+        <td>${status(o.payment_status)}</td>
+
+        <td>${status(o.order_status)}</td>
+
+        <td>${date(o.created_at)}</td>
+
+      </tr>
+
+    `).join("");
+}
+
+
+/* =========================================================
+   BUSINESSES
+========================================================= */
+
+async function loadBusinesses(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("businesses")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("businessesBody",6,error.message);
+    return;
+  }
+
+  cache.businesses = data || [];
+
+  document.getElementById("businessesBody").innerHTML =
+    cache.businesses.length
+    ? cache.businesses.map(b=>`
+      <tr>
+        <td><strong>${esc(b.business_name || "Unnamed")}</strong></td>
+        <td>${esc(b.category || "—")}</td>
+        <td>${esc(b.phone || "—")}</td>
+        <td>${esc(b.location || "—")}</td>
+        <td>${status(b.verification_status)}</td>
+        <td>
+          <button
+            class="btn btn-secondary"
+            onclick="viewBusiness('${b.id}')"
+          >
+            View
+          </button>
+        </td>
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No businesses yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+function viewBusiness(id){
+
+  const b =
+    cache.businesses.find(x=>x.id===id);
+
+  if(!b) return;
+
+  showModal(
+    "Business Details",
+    `
+      <div style="line-height:1.9;font-size:12px;">
+        <strong style="font-size:18px;">
+          ${esc(b.business_name)}
+        </strong><br><br>
+
+        Category: ${esc(b.category || "—")}<br>
+        Phone: ${esc(b.phone || "—")}<br>
+        Location: ${esc(b.location || "—")}<br>
+        Verification: ${status(b.verification_status)}<br><br>
+
+        ${esc(b.description || "No description.")}
+      </div>
+    `
+  );
+}
+
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+async function loadServices(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("services")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("servicesBody",6,error.message);
+    return;
+  }
+
+  cache.services = data || [];
+
+  document.getElementById("servicesBody").innerHTML =
+    cache.services.length
+    ? cache.services.map(s=>`
+      <tr>
+        <td><strong>${esc(s.name)}</strong></td>
+        <td>${esc(s.category || "—")}</td>
+        <td>${shortId(s.provider_id)}</td>
+        <td>${money(s.price)}</td>
+        <td>${esc(s.location || "—")}</td>
+        <td>${status(s.status)}</td>
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No services yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+
+/* =========================================================
+   REVENUE
+========================================================= */
+
+async function loadRevenue(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("orders")
+      .select(
+        "total_amount,platform_commission,seller_amount,payment_status,order_status"
+      );
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  const paid =
+    (data || []).filter(
+      o=>o.payment_status==="paid"
+    );
+
+  const gross =
+    paid.reduce(
+      (sum,o)=>sum+Number(o.total_amount||0),0
+    );
+
+  const commission =
+    paid.reduce(
+      (sum,o)=>sum+Number(o.platform_commission||0),0
+    );
+
+  const seller =
+    paid.reduce(
+      (sum,o)=>sum+Number(o.seller_amount||0),0
+    );
+
+  const completed =
+    paid.filter(
+      o=>o.order_status==="delivered"
+    ).length;
+
+  document.getElementById("grossSales").textContent =
+    money(gross);
+
+  document.getElementById("commissionRevenue").textContent =
+    money(commission);
+
+  document.getElementById("sellerEarnings").textContent =
+    money(seller);
+
+  document.getElementById("completedOrders").textContent =
+    completed;
+}
+
+
+/* =========================================================
+   WITHDRAWALS
+========================================================= */
+
+async function loadWithdrawals(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("withdrawals")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("withdrawalsBody",7,error.message);
+    return;
+  }
+
+  cache.withdrawals = data || [];
+
+  const pending =
+    cache.withdrawals.filter(x=>x.status==="pending").length;
+
+  const approved =
+    cache.withdrawals.filter(x=>x.status==="approved").length;
+
+  const completed =
+    cache.withdrawals.filter(x=>x.status==="completed").length;
+
+  const amount =
+    cache.withdrawals
+      .filter(x=>x.status==="pending")
+      .reduce(
+        (sum,x)=>sum+Number(x.amount||0),0
+      );
+
+  document.getElementById("withdrawPending").textContent =
+    pending;
+
+  document.getElementById("withdrawApproved").textContent =
+    approved;
+
+  document.getElementById("withdrawCompleted").textContent =
+    completed;
+
+  document.getElementById("withdrawAmount").textContent =
+    money(amount);
+
+  renderWithdrawals();
+}
+
+function renderWithdrawals(){
+
+  const body =
+    document.getElementById("withdrawalsBody");
+
+  if(!cache.withdrawals.length){
+
+    body.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No withdrawal requests</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  body.innerHTML =
+    cache.withdrawals.map(w=>`
+
+      <tr>
+
+        <td>${shortId(w.seller_id)}</td>
+
+        <td>${money(w.amount)}</td>
+
+        <td>${esc(w.method || "—")}</td>
+
+        <td>
+          ${esc(w.account_name || "—")}<br>
+          <small style="color:var(--muted);">
+            ${esc(w.account_number || "")}
+          </small>
+        </td>
+
+        <td>${status(w.status)}</td>
+
+        <td>${date(w.created_at)}</td>
+
+        <td>
+
+          <div class="action-row">
+
+            ${
+              w.status === "pending"
+              ? `
+                <button
+                  class="btn btn-success"
+                  onclick="approveWithdrawal('${w.id}')"
+                >
+                  Approve
+                </button>
+
+                <button
+                  class="btn btn-danger"
+                  onclick="rejectWithdrawal('${w.id}')"
+                >
+                  Reject
+                </button>
+              `
+              : ""
+            }
+
+            ${
+              w.status === "approved"
+              ? `
+                <button
+                  class="btn btn-primary"
+                  onclick="completeWithdrawal('${w.id}')"
+                >
+                  Complete
+                </button>
+              `
+              : ""
+            }
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+}
+
+async function approveWithdrawal(id){
+
+  if(!confirm(
+    "Approve this withdrawal request?"
+  )) return;
+
+  const {error} =
+    await supabaseClient
+      .from("withdrawals")
+      .update({
+        status:"approved"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Withdrawal approved.");
+  await loadWithdrawals();
+}
+
+async function rejectWithdrawal(id){
+
+  const note =
+    prompt("Reason for rejecting withdrawal:");
+
+  if(note === null) return;
+
+  const {error} =
+    await supabaseClient
+      .from("withdrawals")
+      .update({
+        status:"rejected",
+        admin_note:note
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Withdrawal rejected.");
+  await loadWithdrawals();
+}
+
+async function completeWithdrawal(id){
+
+  if(!confirm(
+    "Mark this withdrawal as completed?"
+  )) return;
+
+  const {error} =
+    await supabaseClient
+      .from("withdrawals")
+      .update({
+        status:"completed"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Withdrawal marked completed.");
+  await loadWithdrawals();
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+========================================================= */
+
+async function loadTransactions(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("payments")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("transactionsBody",7,error.message);
+    return;
+  }
+
+  cache.transactions = data || [];
+
+  document.getElementById("transactionsBody").innerHTML =
+    cache.transactions.length
+    ? cache.transactions.map(t=>`
+      <tr>
+
+        <td>
+          <strong>${esc(t.transaction_reference || "—")}</strong>
+        </td>
+
+        <td>${shortId(t.order_id)}</td>
+
+        <td>${money(t.amount)}</td>
+
+        <td>${esc(t.payment_method || "—")}</td>
+
+        <td>${esc(t.provider || "—")}</td>
+
+        <td>${status(t.status)}</td>
+
+        <td>${date(t.created_at)}</td>
+
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No payment transactions yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+
+/* =========================================================
+   REVIEWS
+========================================================= */
+
+async function loadReviews(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("reviews")
+      .select(`
+        *,
+        products:product_id (
+          name
+        )
+      `)
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("reviewsBody",6,error.message);
+    return;
+  }
+
+  cache.reviews = data || [];
+
+  document.getElementById("reviewsBody").innerHTML =
+    cache.reviews.length
+    ? cache.reviews.map(r=>`
+      <tr>
+
+        <td>${esc(r.products?.name || shortId(r.product_id))}</td>
+
+        <td>
+          ${"★".repeat(Number(r.rating||0))}
+        </td>
+
+        <td>
+          ${esc(r.review_text || "")}
+        </td>
+
+        <td>${status(r.status)}</td>
+
+        <td>${date(r.created_at)}</td>
+
+        <td>
+
+          ${
+            r.status !== "published"
+            ? `
+              <button
+                class="btn btn-success"
+                onclick="publishReview('${r.id}')"
+              >
+                Publish
+              </button>
+            `
+            : ""
+          }
+
+        </td>
+
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No reviews yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+async function publishReview(id){
+
+  const {error} =
+    await supabaseClient
+      .from("reviews")
+      .update({
+        status:"published"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Review published.");
+  await loadReviews();
+}
+
+
+/* =========================================================
+   ADVERTISEMENTS
+========================================================= */
+
+async function loadAdvertising(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("advertisements")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("adsBody",7,error.message);
+    return;
+  }
+
+  cache.advertisements = data || [];
+
+  document.getElementById("adsBody").innerHTML =
+    cache.advertisements.length
+    ? cache.advertisements.map(a=>`
+      <tr>
+
+        <td><strong>${esc(a.title || "Campaign")}</strong></td>
+
+        <td>${shortId(a.seller_id)}</td>
+
+        <td>${esc(a.placement || "—")}</td>
+
+        <td>${money(a.budget)}</td>
+
+        <td>${status(a.status)}</td>
+
+        <td>
+          ${date(a.starts_at)}
+          →
+          ${date(a.ends_at)}
+        </td>
+
+        <td>
+
+          ${
+            a.status === "pending"
+            ? `
+              <button
+                class="btn btn-success"
+                onclick="approveAd('${a.id}')"
+              >
+                Approve
+              </button>
+            `
+            : ""
+          }
+
+        </td>
+
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="7">
+          <div class="empty">
+            <strong>No advertising campaigns yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+async function approveAd(id){
+
+  const {error} =
+    await supabaseClient
+      .from("advertisements")
+      .update({
+        status:"active"
+      })
+      .eq("id",id);
+
+  if(error){
+    toast(error.message);
+    return;
+  }
+
+  toast("Advertisement activated.");
+  await loadAdvertising();
+}
+
+
+/* =========================================================
+   COMPLAINTS
+========================================================= */
+
+async function loadComplaints(){
+
+  const {data,error} =
+    await supabaseClient
+      .from("complaints")
+      .select("*")
+      .order("created_at",{ascending:false});
+
+  if(error){
+    showError("complaintsBody",6,error.message);
+    return;
+  }
+
+  cache.complaints = data || [];
+
+  document.getElementById("complaintsBody").innerHTML =
+    cache.complaints.length
+    ? cache.complaints.map(c=>`
+      <tr>
+
+        <td>
+          <strong>${esc(c.subject || "Complaint")}</strong>
+        </td>
+
+        <td>${shortId(c.reporter_id)}</td>
+
+        <td>${status(c.priority || "normal")}</td>
+
+        <td>${status(c.status)}</td>
+
+        <td>${date(c.created_at)}</td>
+
+        <td>
+          <button
+            class="btn btn-secondary"
+            onclick="viewComplaint('${c.id}')"
+          >
+            View
+          </button>
+        </td>
+
+      </tr>
+    `).join("")
+    : `
+      <tr>
+        <td colspan="6">
+          <div class="empty">
+            <strong>No complaints yet</strong>
+          </div>
+        </td>
+      </tr>
+    `;
+}
+
+function viewComplaint(id){
+
+  const c =
+    cache.complaints.find(x=>x.id===id);
+
+  if(!c) return;
+
+  showModal(
+    "Complaint",
+    `
+      <div style="font-size:12px;line-height:1.9;">
+
+        <strong style="font-size:17px;">
+          ${esc(c.subject || "Complaint")}
+        </strong>
+
+        <br><br>
+
+        Priority: ${status(c.priority || "normal")}<br>
+        Status: ${status(c.status)}<br>
+        Order: ${shortId(c.order_id)}<br><br>
+
+        <strong>Description</strong><br>
+
+        ${esc(c.description || "No description.")}
+
+      </div>
+    `
+  );
+}
+
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+document.getElementById("saveSettings")
+.addEventListener("click",()=>{
+
+  const name =
+    document.getElementById("settingName").value;
+
+  const tagline =
+    document.getElementById("settingTagline").value;
+
+  const commission =
+    document.getElementById("commissionRate").value;
+
+  /*
+    These settings are currently kept in the admin interface.
+
+    If you want persistent platform settings, create a dedicated
+    settings table or secure configuration backend.
+  */
+
+  console.log({
+    name,
+    tagline,
+    commission
   });
+
+  toast("Settings saved for this session.");
+});
+
+
+/* =========================================================
+   SEARCH EVENTS
+========================================================= */
+
+document.getElementById("userSearch")
+.addEventListener("input",renderUsers);
+
+document.getElementById("userRoleFilter")
+.addEventListener("change",renderUsers);
+
+document.getElementById("sellerSearch")
+.addEventListener("input",renderSellers);
+
+document.getElementById("sellerStatusFilter")
+.addEventListener("change",renderSellers);
+
+document.getElementById("productSearch")
+.addEventListener("input",renderProducts);
+
+document.getElementById("productStatusFilter")
+.addEventListener("change",renderProducts);
+
+document.getElementById("orderSearch")
+.addEventListener("input",renderOrders);
+
+document.getElementById("orderStatusFilter")
+.addEventListener("change",renderOrders);
+
+
+/* =========================================================
+   ERROR HANDLER
+========================================================= */
+
+function showError(id,columns,message){
+
+  const body =
+    document.getElementById(id);
+
+  if(!body) return;
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="${columns}">
+        <div class="empty">
+          <strong>Unable to load data</strong>
+          ${esc(message)}
+        </div>
+      </td>
+    </tr>
+  `;
 }
 
-function viewUser(name){
-  showToast("Opening profile: "+name);
+
+/* =========================================================
+   PAGE DATA LOADER
+========================================================= */
+
+async function loadPageData(page){
+
+  if(page==="overview")
+    await loadOverview();
+
+  if(page==="users")
+    await loadUsers();
+
+  if(page==="sellers")
+    await loadSellers();
+
+  if(page==="products")
+    await loadProducts();
+
+  if(page==="orders")
+    await loadOrders();
+
+  if(page==="businesses")
+    await loadBusinesses();
+
+  if(page==="services")
+    await loadServices();
+
+  if(page==="revenue")
+    await loadRevenue();
+
+  if(page==="withdrawals")
+    await loadWithdrawals();
+
+  if(page==="transactions")
+    await loadTransactions();
+
+  if(page==="reviews")
+    await loadReviews();
+
+  if(page==="advertising")
+    await loadAdvertising();
+
+  if(page==="complaints")
+    await loadComplaints();
 }
 
-window.addEventListener("click",e=>{
 
-  document.querySelectorAll(".modal").forEach(modal=>{
+/* =========================================================
+   REFRESH
+========================================================= */
 
-    if(e.target===modal){
-      modal.classList.remove("show");
-    }
+document.getElementById("refreshBtn")
+.addEventListener("click",async()=>{
 
-  });
+  const active =
+    document.querySelector(".page.active");
+
+  if(!active) return;
+
+  const page =
+    active.id.replace("page-","");
+
+  toast("Refreshing...");
+
+  await loadPageData(page);
+
+  if(page !== "overview"){
+    await loadOverview();
+  }
+
+  toast("Dashboard updated.");
+});
+
+
+/* =========================================================
+   NOTIFICATIONS
+========================================================= */
+
+document.getElementById("notificationBtn")
+.addEventListener("click",()=>{
+
+  showModal(
+    "Admin Notifications",
+    `
+      <div style="font-size:12px;color:var(--muted);line-height:1.9;">
+        <strong style="color:white;">
+          Kaziya control center
+        </strong>
+        <br><br>
+        Use the Pending Approvals section to review
+        new products, seller businesses and withdrawal
+        requests.
+      </div>
+    `
+  );
 
 });
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+document.getElementById("logoutBtn")
+.addEventListener("click",async()=>{
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href = "../";
+});
+
+
+/* =========================================================
+   START APPLICATION
+========================================================= */
+
+(async function(){
+
+  const allowed =
+    await checkAdmin();
+
+  if(!allowed) return;
+
+  await loadOverview();
+
+})();
 
 </script>
 
