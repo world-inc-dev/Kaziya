@@ -1,1729 +1,1711 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Kaziya — Where business gets moving.</title>
-  <meta name="description" content="Kaziya — Uganda's marketplace. Shop products, discover businesses and get your orders delivered.">
-  <meta name="theme-color" content="#0b7a53">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-  <link rel="manifest" href="./manifest.json">
-  <link rel="icon" href="./icon-192.png">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    :root{
-      --green:#0b7a53;
-      --green2:#12a36f;
-      --dark:#071b14;
-      --orange:#f68b1e;
-      --bg:#f5f6f7;
-      --white:#fff;
-      --muted:#6b7280;
-      --border:#e5e7eb;
-      --danger:#dc2626;
-      --shadow:0 4px 18px rgba(0,0,0,.08);
-      --radius:12px;
-    }
-
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
-    html{
-      scroll-behavior:smooth;
-    }
-
-    body{
-      font-family:Arial,Helvetica,sans-serif;
-      background:var(--bg);
-      color:#17202a;
-      padding-bottom:75px;
-    }
-
-    button,
-    input,
-    textarea,
-    select{
-      font:inherit;
-    }
-
-    button{
-      cursor:pointer;
-      border:0;
-    }
-
-    a{
-      color:inherit;
-      text-decoration:none;
-    }
-
-    img{
-      max-width:100%;
-      display:block;
-    }
-
-    .topbar{
-      background:var(--dark);
-      color:white;
-      font-size:12px;
-      padding:8px 4%;
-      display:flex;
-      justify-content:space-between;
-      gap:15px;
-    }
-
-    .header{
-      background:var(--orange);
-      padding:13px 4%;
-      position:sticky;
-      top:0;
-      z-index:1000;
-      box-shadow:0 2px 10px rgba(0,0,0,.15);
-    }
-
-    .header-row{
-      max-width:1400px;
-      margin:auto;
-      display:flex;
-      align-items:center;
-      gap:18px;
-    }
-
-    .logo{
-      color:white;
-      font-size:27px;
-      font-weight:900;
-      letter-spacing:-1px;
-      min-width:max-content;
-    }
-
-    .tagline{
-      display:block;
-      font-size:9px;
-      font-weight:normal;
-      letter-spacing:.4px;
-      margin-top:2px;
-    }
-
-    .search{
-      flex:1;
-      display:flex;
-      background:white;
-      border-radius:5px;
-      overflow:hidden;
-      height:44px;
-    }
-
-    .search input{
-      flex:1;
-      border:0;
-      outline:0;
-      padding:0 15px;
-      font-size:14px;
-    }
-
-    .search button{
-      width:54px;
-      background:#fff;
-      font-size:20px;
-    }
-
-    .header-actions{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      color:white;
-    }
-
-    .header-action{
-      background:transparent;
-      color:white;
-      padding:7px;
-      border-radius:7px;
-      text-align:center;
-      white-space:nowrap;
-      font-size:12px;
-    }
-
-    .header-action:hover{
-      background:rgba(255,255,255,.15);
-    }
-
-    .cart-count{
-      background:var(--green);
-      color:white;
-      border-radius:50%;
-      min-width:19px;
-      height:19px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:10px;
-      margin-left:-4px;
-      vertical-align:top;
-    }
-
-    .install-btn{
-      background:var(--green);
-      color:white;
-      border-radius:6px;
-      padding:10px 13px;
-      font-weight:bold;
-      display:none;
-      white-space:nowrap;
-    }
-
-    .categories-bar{
-      background:white;
-      border-bottom:1px solid var(--border);
-      overflow-x:auto;
-      white-space:nowrap;
-    }
-
-    .categories-inner{
-      max-width:1400px;
-      margin:auto;
-      display:flex;
-      padding:10px 4%;
-      gap:8px;
-    }
-
-    .cat-btn{
-      background:#f3f4f6;
-      border:1px solid transparent;
-      padding:8px 14px;
-      border-radius:20px;
-      font-size:12px;
-      white-space:nowrap;
-    }
-
-    .cat-btn:hover,
-    .cat-btn.active{
-      background:#e7f7f0;
-      border-color:#a7dec7;
-      color:var(--green);
-      font-weight:bold;
-    }
-
-    main{
-      max-width:1400px;
-      margin:auto;
-      padding:15px 4%;
-    }
-
-    .hero{
-      background:linear-gradient(115deg,#0b7a53,#12a36f 55%,#22b77d);
-      color:white;
-      min-height:290px;
-      border-radius:var(--radius);
-      padding:35px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:25px;
-      overflow:hidden;
-      position:relative;
-      margin-bottom:20px;
-    }
-
-    .hero:after{
-      content:"";
-      position:absolute;
-      width:380px;
-      height:380px;
-      right:-100px;
-      top:-120px;
-      border-radius:50%;
-      background:rgba(255,255,255,.09);
-    }
-
-    .hero-content{
-      max-width:650px;
-      position:relative;
-      z-index:2;
-    }
-
-    .hero h1{
-      font-size:42px;
-      line-height:1.05;
-      margin-bottom:13px;
-    }
-
-    .hero p{
-      font-size:16px;
-      line-height:1.6;
-      opacity:.94;
-      margin-bottom:22px;
-    }
-
-    .hero-btn{
-      background:white;
-      color:var(--green);
-      padding:13px 20px;
-      border-radius:6px;
-      font-weight:bold;
-    }
-
-    .hero-art{
-      position:relative;
-      z-index:2;
-      font-size:110px;
-      opacity:.95;
-      min-width:180px;
-      text-align:center;
-    }
-
-    .benefits{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-      margin-bottom:22px;
-    }
-
-    .benefit{
-      background:white;
-      padding:18px;
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-
-    .benefit-icon{
-      font-size:27px;
-    }
-
-    .benefit strong{
-      display:block;
-      font-size:13px;
-      margin-bottom:4px;
-    }
-
-    .benefit span{
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .section{
-      margin-bottom:27px;
-    }
-
-    .section-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:13px;
-      gap:10px;
-    }
-
-    .section-head h2{
-      font-size:21px;
-    }
-
-    .section-head a{
-      color:var(--green);
-      font-size:13px;
-      font-weight:bold;
-    }
-
-    .category-grid{
-      display:grid;
-      grid-template-columns:repeat(6,1fr);
-      gap:12px;
-    }
-
-    .category-card{
-      background:white;
-      border-radius:var(--radius);
-      padding:20px 10px;
-      text-align:center;
-      box-shadow:var(--shadow);
-      transition:.2s;
-    }
-
-    .category-card:hover{
-      transform:translateY(-3px);
-    }
-
-    .category-card .icon{
-      font-size:35px;
-      margin-bottom:9px;
-    }
-
-    .category-card strong{
-      font-size:12px;
-    }
-
-    .flash{
-      background:#111827;
-      color:white;
-      border-radius:var(--radius);
-      padding:18px;
-    }
-
-    .flash-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:15px;
-      margin-bottom:15px;
-    }
-
-    .flash-title{
-      font-size:22px;
-      font-weight:900;
-    }
-
-    .timer{
-      display:flex;
-      gap:5px;
-      align-items:center;
-    }
-
-    .time-box{
-      background:white;
-      color:#111827;
-      border-radius:5px;
-      padding:5px 7px;
-      min-width:30px;
-      text-align:center;
-      font-weight:bold;
-      font-size:12px;
-    }
-
-    .products{
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:12px;
-    }
-
-    .product-card{
-      background:white;
-      border-radius:var(--radius);
-      overflow:hidden;
-      box-shadow:var(--shadow);
-      position:relative;
-      transition:.2s;
-    }
-
-    .product-card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 8px 25px rgba(0,0,0,.12);
-    }
-
-    .product-image{
-      height:190px;
-      background:#f3f4f6;
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-
-    .product-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .placeholder-image{
-      font-size:65px;
-      color:#c5c9cf;
-    }
-
-    .badge{
-      position:absolute;
-      top:8px;
-      left:8px;
-      background:var(--orange);
-      color:white;
-      padding:5px 7px;
-      border-radius:4px;
-      font-size:10px;
-      font-weight:bold;
-    }
-
-    .heart{
-      position:absolute;
-      top:8px;
-      right:8px;
-      width:31px;
-      height:31px;
-      border-radius:50%;
-      background:white;
-      box-shadow:0 2px 7px rgba(0,0,0,.15);
-      font-size:16px;
-    }
-
-    .heart.active{
-      color:#e11d48;
-    }
-
-    .product-info{
-      padding:12px;
-    }
-
-    .product-name{
-      font-size:14px;
-      font-weight:bold;
-      margin-bottom:7px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .product-description{
-      color:var(--muted);
-      font-size:11px;
-      min-height:28px;
-      margin-bottom:7px;
-    }
-
-    .price{
-      font-size:18px;
-      color:#111827;
-      font-weight:900;
-    }
-
-    .old-price{
-      font-size:11px;
-      color:#9ca3af;
-      text-decoration:line-through;
-      margin-left:5px;
-    }
-
-    .stock{
-      font-size:10px;
-      color:var(--green);
-      margin-top:5px;
-    }
-
-    .location{
-      color:#777;
-      font-size:10px;
-      margin-top:5px;
-    }
-
-    .product-buttons{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:7px;
-      margin-top:10px;
-    }
-
-    .btn{
-      padding:9px 7px;
-      border-radius:5px;
-      font-size:11px;
-      font-weight:bold;
-    }
-
-    .btn-primary{
-      background:var(--green);
-      color:white;
-    }
-
-    .btn-secondary{
-      background:#eef7f3;
-      color:var(--green);
-    }
-
-    .btn-orange{
-      background:var(--orange);
-      color:white;
-    }
-
-    .shop-grid{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-    }
-
-    .shop-card{
-      background:white;
-      border-radius:var(--radius);
-      overflow:hidden;
-      box-shadow:var(--shadow);
-    }
-
-    .shop-cover{
-      height:100px;
-      background:linear-gradient(120deg,#0b7a53,#12a36f);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:45px;
-      color:white;
-    }
-
-    .shop-info{
-      padding:13px;
-    }
-
-    .shop-info h3{
-      font-size:14px;
-      margin-bottom:5px;
-    }
-
-    .shop-info p{
-      color:var(--muted);
-      font-size:11px;
-    }
-
-    .services{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-    }
-
-    .service{
-      background:white;
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .service-icon{
-      font-size:35px;
-      margin-bottom:10px;
-    }
-
-    .service h3{
-      font-size:14px;
-      margin-bottom:6px;
-    }
-
-    .service p{
-      font-size:11px;
-      color:var(--muted);
-      line-height:1.5;
-    }
-
-    .empty{
-      background:white;
-      border-radius:var(--radius);
-      padding:35px;
-      text-align:center;
-      color:var(--muted);
-      grid-column:1/-1;
-    }
-
-    .error-box{
-      background:#fff7ed;
-      color:#9a3412;
-      border:1px solid #fed7aa;
-      padding:18px;
-      border-radius:10px;
-      grid-column:1/-1;
-      font-size:13px;
-    }
-
-    .loading{
-      background:white;
-      padding:30px;
-      border-radius:var(--radius);
-      text-align:center;
-      color:var(--muted);
-      grid-column:1/-1;
-    }
-
-    footer{
-      background:#071b14;
-      color:white;
-      padding:45px 4% 30px;
-      margin-top:30px;
-    }
-
-    .footer-grid{
-      max-width:1400px;
-      margin:auto;
-      display:grid;
-      grid-template-columns:2fr 1fr 1fr 1fr;
-      gap:30px;
-    }
-
-    footer h3{
-      margin-bottom:12px;
-    }
-
-    footer p,
-    footer li{
-      color:#b9c7c1;
-      font-size:12px;
-      line-height:1.8;
-    }
-
-    footer ul{
-      list-style:none;
-    }
-
-    .copyright{
-      max-width:1400px;
-      margin:30px auto 0;
-      padding-top:18px;
-      border-top:1px solid rgba(255,255,255,.1);
-      color:#8fa39a;
-      font-size:11px;
-    }
-
-    .mobile-nav{
-      display:none;
-    }
-
-    .whatsapp{
-      position:fixed;
-      right:18px;
-      bottom:85px;
-      width:56px;
-      height:56px;
-      border-radius:50%;
-      background:#25d366;
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:27px;
-      box-shadow:0 5px 20px rgba(0,0,0,.25);
-      z-index:1500;
-    }
-
-    .modal{
-      display:none;
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.6);
-      z-index:3000;
-      align-items:center;
-      justify-content:center;
-      padding:15px;
-    }
-
-    .modal.show{
-      display:flex;
-    }
-
-    .modal-box{
-      background:white;
-      border-radius:14px;
-      width:min(650px,100%);
-      max-height:92vh;
-      overflow:auto;
-      position:relative;
-    }
-
-    .modal-header{
-      padding:17px 20px;
-      border-bottom:1px solid var(--border);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .modal-header h2{
-      font-size:18px;
-    }
-
-    .close{
-      width:34px;
-      height:34px;
-      border-radius:50%;
-      background:#f3f4f6;
-      font-size:20px;
-    }
-
-    .modal-body{
-      padding:20px;
-    }
-
-    .detail-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-    }
-
-    .detail-image{
-      height:300px;
-      background:#f3f4f6;
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-    }
-
-    .detail-image img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .detail-info h2{
-      font-size:25px;
-      margin-bottom:10px;
-    }
-
-    .detail-info .big-price{
-      color:var(--green);
-      font-size:25px;
-      font-weight:900;
-      margin-bottom:15px;
-    }
-
-    .detail-info p{
-      color:#555;
-      line-height:1.6;
-      font-size:13px;
-      margin-bottom:10px;
-    }
-
-    .form-group{
-      margin-bottom:14px;
-    }
-
-    .form-group label{
-      display:block;
-      font-size:12px;
-      font-weight:bold;
-      margin-bottom:6px;
-    }
-
-    .form-control{
-      width:100%;
-      border:1px solid #d1d5db;
-      border-radius:7px;
-      padding:11px;
-      outline:0;
-    }
-
-    .form-control:focus{
-      border-color:var(--green);
-    }
-
-    .cart-item{
-      display:flex;
-      gap:12px;
-      padding:13px 0;
-      border-bottom:1px solid var(--border);
-      align-items:center;
-    }
-
-    .cart-thumb{
-      width:65px;
-      height:65px;
-      border-radius:7px;
-      background:#f3f4f6;
-      overflow:hidden;
-      flex-shrink:0;
-    }
-
-    .cart-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .cart-details{
-      flex:1;
-    }
-
-    .cart-details strong{
-      font-size:13px;
-    }
-
-    .cart-details small{
-      display:block;
-      color:var(--muted);
-      margin-top:3px;
-    }
-
-    .qty{
-      display:flex;
-      align-items:center;
-      gap:7px;
-      margin-top:7px;
-    }
-
-    .qty button{
-      width:26px;
-      height:26px;
-      background:#eef2f3;
-      border-radius:4px;
-    }
-
-    .remove{
-      color:var(--danger);
-      background:none;
-      font-size:11px;
-    }
-
-    .cart-total{
-      display:flex;
-      justify-content:space-between;
-      padding:18px 0;
-      font-size:18px;
-      font-weight:900;
-    }
-
-    .checkout-btn{
-      width:100%;
-      background:var(--green);
-      color:white;
-      padding:14px;
-      border-radius:7px;
-      font-weight:bold;
-    }
-
-    .payment-options{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-bottom:15px;
-    }
-
-    .payment-option{
-      border:2px solid #e5e7eb;
-      border-radius:8px;
-      padding:13px;
-      text-align:center;
-      font-weight:bold;
-    }
-
-    .payment-option.selected{
-      border-color:var(--green);
-      background:#effaf5;
-      color:var(--green);
-    }
-
-    .account-status{
-      background:#f0fdf4;
-      border:1px solid #bbf7d0;
-      padding:12px;
-      border-radius:8px;
-      margin-bottom:15px;
-      font-size:12px;
-    }
-
-    .order-card{
-      border:1px solid var(--border);
-      border-radius:8px;
-      padding:13px;
-      margin-bottom:10px;
-    }
-
-    .order-card strong{
-      font-size:13px;
-    }
-
-    .order-card p{
-      font-size:11px;
-      color:var(--muted);
-      margin-top:5px;
-    }
-
-    .status{
-      display:inline-block;
-      padding:4px 7px;
-      border-radius:10px;
-      font-size:9px;
-      font-weight:bold;
-      background:#dcfce7;
-      color:#166534;
-      margin-top:6px;
-    }
-
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:85px;
-      transform:translateX(-50%) translateY(100px);
-      background:#111827;
-      color:white;
-      padding:12px 18px;
-      border-radius:8px;
-      font-size:12px;
-      z-index:5000;
-      opacity:0;
-      transition:.3s;
-      max-width:90%;
-      text-align:center;
-    }
-
-    .toast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
-    }
-
-    @media(max-width:1000px){
-      .products{
-        grid-template-columns:repeat(4,1fr);
-      }
-
-      .category-grid{
-        grid-template-columns:repeat(4,1fr);
-      }
-
-      .benefits{
-        grid-template-columns:repeat(2,1fr);
-      }
-    }
-
-    @media(max-width:700px){
-      body{
-        padding-bottom:65px;
-      }
-
-      .topbar{
-        display:none;
-      }
-
-      .header{
-        padding:9px 12px;
-      }
-
-      .header-row{
-        flex-wrap:wrap;
-        gap:8px;
-      }
-
-      .logo{
-        font-size:22px;
-      }
-
-      .tagline{
-        font-size:7px;
-      }
-
-      .header-actions{
-        margin-left:auto;
-      }
-
-      .header-action{
-        font-size:0;
-      }
-
-      .header-action:first-child:before{
-        content:"👤";
-        font-size:20px;
-      }
-
-      .header-action:nth-child(2):before{
-        content:"❤️";
-        font-size:19px;
-      }
-
-      .header-action:nth-child(3):before{
-        content:"🛒";
-        font-size:20px;
-      }
-
-      .install-btn{
-        font-size:10px;
-        padding:7px;
-      }
-
-      .search{
-        order:3;
-        flex-basis:100%;
-        height:40px;
-      }
-
-      main{
-        padding:10px 10px;
-      }
-
-      .hero{
-        min-height:240px;
-        padding:25px 20px;
-      }
-
-      .hero h1{
-        font-size:30px;
-      }
-
-      .hero p{
-        font-size:13px;
-      }
-
-      .hero-art{
-        display:none;
-      }
-
-      .benefits{
-        grid-template-columns:1fr 1fr;
-        gap:7px;
-      }
-
-      .benefit{
-        padding:12px;
-      }
-
-      .benefit-icon{
-        font-size:21px;
-      }
-
-      .benefit strong{
-        font-size:10px;
-      }
-
-      .benefit span{
-        font-size:9px;
-      }
-
-      .category-grid{
-        display:flex;
-        overflow-x:auto;
-        gap:8px;
-      }
-
-      .category-card{
-        min-width:105px;
-        padding:14px 7px;
-      }
-
-      .products{
-        grid-template-columns:repeat(2,1fr);
-        gap:8px;
-      }
-
-      .product-image{
-        height:145px;
-      }
-
-      .product-info{
-        padding:9px;
-      }
-
-      .product-name{
-        font-size:12px;
-      }
-
-      .price{
-        font-size:16px;
-      }
-
-      .product-buttons{
-        grid-template-columns:1fr;
-      }
-
-      .shop-grid{
-        grid-template-columns:repeat(2,1fr);
-      }
-
-      .services{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .footer-grid{
-        grid-template-columns:1fr 1fr;
-      }
-
-      .detail-grid{
-        grid-template-columns:1fr;
-      }
-
-      .detail-image{
-        height:230px;
-      }
-
-      .mobile-nav{
-        display:flex;
-        position:fixed;
-        bottom:0;
-        left:0;
-        right:0;
-        height:62px;
-        background:white;
-        border-top:1px solid var(--border);
-        z-index:2000;
-        justify-content:space-around;
-      }
-
-      .mobile-nav button{
-        background:white;
-        color:#555;
-        font-size:10px;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        justify-content:center;
-        gap:3px;
-        min-width:55px;
-      }
-
-      .mobile-nav button.active{
-        color:var(--green);
-        font-weight:bold;
-      }
-
-      .mobile-nav span{
-        font-size:20px;
-      }
-
-      .whatsapp{
-        bottom:75px;
-        right:13px;
-        width:50px;
-        height:50px;
-        font-size:24px;
-      }
-
-      .flash-head{
-        flex-direction:column;
-        align-items:flex-start;
-      }
-
-      .timer{
-        margin-top:2px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Kaziya — Where business gets moving.</title>
+
+<meta name="description" content="Kaziya — Shop products and services from businesses across Uganda.">
+<meta name="theme-color" content="#f68b1e">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f5f5;
+  color:#222;
+}
+
+button,
+input,
+select,
+textarea{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+/* HEADER */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:#f68b1e;
+  color:white;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+.header-main{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  gap:15px;
+  padding:12px 18px;
+}
+
+.logo{
+  font-size:29px;
+  font-weight:900;
+  letter-spacing:-1px;
+  white-space:nowrap;
+}
+
+.tagline{
+  font-size:11px;
+  opacity:.9;
+  margin-top:2px;
+}
+
+.search-wrap{
+  flex:1;
+  display:flex;
+  max-width:700px;
+  margin:auto;
+}
+
+.search-wrap input{
+  width:100%;
+  border:0;
+  outline:0;
+  padding:13px 15px;
+  border-radius:5px 0 0 5px;
+  font-size:15px;
+}
+
+.search-btn{
+  border:0;
+  background:#222;
+  color:white;
+  padding:0 20px;
+  border-radius:0 5px 5px 0;
+}
+
+.header-actions{
+  display:flex;
+  gap:7px;
+}
+
+.header-btn{
+  border:0;
+  background:transparent;
+  color:white;
+  padding:8px;
+  min-width:55px;
+  font-size:12px;
+}
+
+.header-btn span{
+  display:block;
+  font-size:20px;
+  margin-bottom:2px;
+}
+
+.cart-count,
+.wish-count{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#222;
+  color:white;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  font-size:10px;
+  margin-left:-5px;
+}
+
+.install-btn{
+  border:0;
+  background:#fff;
+  color:#222;
+  border-radius:5px;
+  padding:10px 13px;
+  font-weight:bold;
+  display:none;
+}
+
+/* NAV */
+
+.category-nav{
+  background:white;
+  border-bottom:1px solid #ddd;
+  overflow-x:auto;
+}
+
+.category-inner{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  gap:4px;
+  padding:8px 15px;
+}
+
+.category-inner button{
+  white-space:nowrap;
+  border:0;
+  background:white;
+  padding:8px 13px;
+  border-radius:4px;
+  color:#444;
+}
+
+.category-inner button:hover{
+  background:#fff1e4;
+  color:#f68b1e;
+}
+
+/* MAIN */
+
+.container{
+  max-width:1400px;
+  margin:auto;
+  padding:18px;
+}
+
+.hero{
+  min-height:310px;
+  background:linear-gradient(115deg,#fff0df,#ffe1bf);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  margin-bottom:20px;
+}
+
+.hero-content{
+  padding:35px;
+  max-width:620px;
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
+
+.hero h1 span{
+  color:#f68b1e;
+}
+
+.hero p{
+  font-size:18px;
+  color:#555;
+  line-height:1.5;
+  margin-bottom:22px;
+}
+
+.primary-btn{
+  background:#f68b1e;
+  border:0;
+  color:white;
+  padding:13px 20px;
+  border-radius:5px;
+  font-weight:bold;
+}
+
+.secondary-btn{
+  background:white;
+  border:1px solid #ddd;
+  padding:12px 18px;
+  border-radius:5px;
+  font-weight:bold;
+}
+
+/* SECTIONS */
+
+.section{
+  margin:30px 0;
+}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.section-title h2{
+  font-size:22px;
+}
+
+.section-title button{
+  background:none;
+  border:0;
+  color:#f68b1e;
+  font-weight:bold;
+}
+
+/* BENEFITS */
+
+.benefits{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.benefit{
+  background:white;
+  padding:18px;
+  border-radius:7px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  border:1px solid #eee;
+}
+
+.benefit-icon{
+  font-size:28px;
+}
+
+.benefit strong{
+  display:block;
+  margin-bottom:4px;
+}
+
+.benefit small{
+  color:#777;
+}
+
+/* CATEGORIES */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+
+.category-card{
+  background:white;
+  padding:20px 10px;
+  text-align:center;
+  border-radius:7px;
+  border:1px solid #eee;
+  transition:.2s;
+}
+
+.category-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.category-card .emoji{
+  font-size:38px;
+  margin-bottom:8px;
+}
+
+/* PRODUCTS */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:14px;
+}
+
+.product-card{
+  background:white;
+  border-radius:7px;
+  overflow:hidden;
+  border:1px solid #eee;
+  position:relative;
+  transition:.2s;
+}
+
+.product-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 18px rgba(0,0,0,.1);
+}
+
+.product-image{
+  height:190px;
+  background:#f1f1f1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.image-placeholder{
+  font-size:50px;
+  color:#bbb;
+}
+
+.sale-badge{
+  position:absolute;
+  top:8px;
+  left:8px;
+  background:#e53935;
+  color:white;
+  padding:5px 7px;
+  border-radius:3px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.wish-product{
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  border:0;
+  background:white;
+  box-shadow:0 2px 7px rgba(0,0,0,.15);
+}
+
+.product-info{
+  padding:12px;
+}
+
+.product-name{
+  font-weight:bold;
+  margin-bottom:5px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.product-description{
+  color:#777;
+  font-size:12px;
+  min-height:30px;
+}
+
+.product-price{
+  color:#f68b1e;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:9px;
+}
+
+.product-meta{
+  color:#777;
+  font-size:11px;
+  margin-top:5px;
+}
+
+.product-actions{
+  display:flex;
+  gap:7px;
+  margin-top:10px;
+}
+
+.product-actions button{
+  flex:1;
+  padding:9px 5px;
+  border-radius:4px;
+  font-size:12px;
+}
+
+.add-btn{
+  background:#fff;
+  color:#f68b1e;
+  border:1px solid #f68b1e;
+}
+
+.buy-btn{
+  background:#f68b1e;
+  color:white;
+  border:1px solid #f68b1e;
+}
+
+/* SHOPS */
+
+.shop-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.shop-card{
+  background:white;
+  border-radius:7px;
+  overflow:hidden;
+  border:1px solid #eee;
+}
+
+.shop-cover{
+  height:105px;
+  background:#eee;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.shop-cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.shop-body{
+  padding:14px;
+}
+
+.shop-logo{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  margin-top:-40px;
+  background:white;
+  border:3px solid white;
+  object-fit:cover;
+}
+
+.shop-body h3{
+  margin-top:8px;
+}
+
+.shop-body small{
+  color:#777;
+}
+
+/* SERVICES */
+
+.services{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.service{
+  background:white;
+  border:1px solid #eee;
+  padding:20px;
+  border-radius:7px;
+}
+
+.service-icon{
+  font-size:35px;
+  margin-bottom:10px;
+}
+
+/* FLASH */
+
+.flash{
+  background:#222;
+  color:white;
+  border-radius:7px;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.flash strong{
+  color:#ffad50;
+}
+
+.timer{
+  font-size:20px;
+  font-weight:bold;
+}
+
+/* EMPTY / ERROR */
+
+.message{
+  background:white;
+  border:1px solid #ddd;
+  padding:30px;
+  text-align:center;
+  border-radius:7px;
+  color:#777;
+}
+
+.error-message{
+  border-left:4px solid #e53935;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:3000;
+  background:rgba(0,0,0,.55);
+  padding:20px;
+  overflow:auto;
+}
+
+.modal-box{
+  background:white;
+  max-width:650px;
+  margin:40px auto;
+  border-radius:8px;
+  overflow:hidden;
+  position:relative;
+}
+
+.modal-header{
+  padding:17px 20px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.close{
+  border:0;
+  background:none;
+  font-size:25px;
+  color:#777;
+}
+
+.modal-body{
+  padding:20px;
+}
+
+/* PRODUCT MODAL */
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.detail-image{
+  height:330px;
+  background:#f1f1f1;
+  border-radius:6px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.detail-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.detail-price{
+  color:#f68b1e;
+  font-size:27px;
+  font-weight:bold;
+  margin:12px 0;
+}
+
+.qty{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:15px 0;
+}
+
+.qty button{
+  width:35px;
+  height:35px;
+  border:1px solid #ddd;
+  background:white;
+}
+
+.qty input{
+  width:60px;
+  text-align:center;
+  padding:8px;
+  border:1px solid #ddd;
+}
+
+/* FORMS */
+
+.form-group{
+  margin-bottom:15px;
+}
+
+.form-group label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:5px;
+  outline:none;
+}
+
+.form-group textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:#f68b1e;
+}
+
+.full-btn{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:5px;
+  background:#f68b1e;
+  color:white;
+  font-weight:bold;
+}
+
+.switch-link{
+  margin-top:15px;
+  text-align:center;
+  color:#f68b1e;
+  cursor:pointer;
+  font-size:14px;
+}
+
+/* CART */
+
+.cart-item{
+  display:flex;
+  gap:12px;
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+  align-items:center;
+}
+
+.cart-item-image{
+  width:65px;
+  height:65px;
+  background:#eee;
+  border-radius:5px;
+  overflow:hidden;
+}
+
+.cart-item-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.cart-item-info{
+  flex:1;
+}
+
+.cart-item-info strong{
+  display:block;
+}
+
+.cart-item-info small{
+  color:#777;
+}
+
+.cart-controls{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.cart-controls button{
+  border:1px solid #ddd;
+  background:white;
+  width:28px;
+  height:28px;
+}
+
+.cart-total{
+  display:flex;
+  justify-content:space-between;
+  padding:18px 0;
+  font-size:19px;
+  font-weight:bold;
+}
+
+/* ACCOUNT */
+
+.account-profile{
+  background:#fff7ef;
+  padding:16px;
+  border-radius:7px;
+  margin-bottom:18px;
+}
+
+.account-avatar{
+  width:65px;
+  height:65px;
+  background:#f68b1e;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.account-menu{
+  display:grid;
+  gap:8px;
+}
+
+.account-menu button{
+  text-align:left;
+  background:white;
+  border:1px solid #ddd;
+  padding:13px;
+  border-radius:5px;
+}
+
+/* ORDERS */
+
+.order-card{
+  border:1px solid #ddd;
+  border-radius:7px;
+  padding:14px;
+  margin-bottom:12px;
+}
+
+.order-status{
+  display:inline-block;
+  background:#fff0df;
+  color:#c76500;
+  padding:5px 8px;
+  border-radius:4px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+/* PAYMENT */
+
+.payment-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.payment-option{
+  border:2px solid #ddd;
+  padding:15px;
+  border-radius:7px;
+  cursor:pointer;
+  text-align:center;
+}
+
+.payment-option.selected{
+  border-color:#f68b1e;
+  background:#fff7ef;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#222;
+  color:white;
+  padding:12px 18px;
+  border-radius:5px;
+  z-index:5000;
+  display:none;
+  max-width:90%;
+  text-align:center;
+}
+
+/* WHATSAPP */
+
+.whatsapp{
+  position:fixed;
+  right:18px;
+  bottom:75px;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#25d366;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  z-index:1500;
+  box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+
+/* FOOTER */
+
+footer{
+  background:#222;
+  color:white;
+  margin-top:50px;
+  padding:40px 18px 90px;
+}
+
+.footer-inner{
+  max-width:1400px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  margin-bottom:12px;
+}
+
+footer p,
+footer li{
+  color:#bbb;
+  line-height:1.7;
+  font-size:14px;
+}
+
+footer ul{
+  list-style:none;
+}
+
+/* MOBILE NAV */
+
+.mobile-nav{
+  display:none;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+  .product-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .category-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .benefits{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .shop-grid,
+  .services{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:760px){
+  .header-main{
+    flex-wrap:wrap;
+    padding:10px;
+  }
+
+  .logo{
+    font-size:25px;
+  }
+
+  .tagline{
+    display:none;
+  }
+
+  .header-actions{
+    margin-left:auto;
+  }
+
+  .header-btn{
+    min-width:40px;
+    padding:4px;
+  }
+
+  .header-btn span{
+    font-size:18px;
+  }
+
+  .search-wrap{
+    order:3;
+    flex-basis:100%;
+    max-width:none;
+  }
+
+  .install-btn{
+    display:none;
+  }
+
+  .container{
+    padding:10px;
+  }
+
+  .hero{
+    min-height:280px;
+  }
+
+  .hero-content{
+    padding:25px;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .hero p{
+    font-size:15px;
+  }
+
+  .product-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
+  }
+
+  .product-image{
+    height:155px;
+  }
+
+  .product-info{
+    padding:9px;
+  }
+
+  .product-price{
+    font-size:16px;
+  }
+
+  .category-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+
+  .category-card{
+    padding:13px 5px;
+    font-size:12px;
+  }
+
+  .category-card .emoji{
+    font-size:30px;
+  }
+
+  .benefits{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .benefit{
+    padding:12px;
+    font-size:12px;
+  }
+
+  .shop-grid,
+  .services{
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .detail-image{
+    height:260px;
+  }
+
+  .modal{
+    padding:8px;
+  }
+
+  .modal-box{
+    margin:20px auto;
+  }
+
+  .flash{
+    flex-direction:column;
+    gap:8px;
+    text-align:center;
+  }
+
+  .footer-inner{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .mobile-nav{
+    display:flex;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:62px;
+    background:white;
+    border-top:1px solid #ddd;
+    z-index:1400;
+    justify-content:space-around;
+  }
+
+  .mobile-nav button{
+    border:0;
+    background:white;
+    color:#555;
+    font-size:11px;
+    padding:5px;
+  }
+
+  .mobile-nav span{
+    display:block;
+    font-size:20px;
+  }
+
+  .whatsapp{
+    bottom:75px;
+    right:15px;
+  }
+}
+
+@media(max-width:430px){
+  .header-actions .header-btn:nth-child(2){
+    display:none;
+  }
+
+  .benefits{
+    grid-template-columns:1fr;
+  }
+
+  .shop-grid,
+  .services{
+    grid-template-columns:1fr;
+  }
+
+  .footer-inner{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <span>🇺🇬 Kaziya — Uganda's marketplace</span>
-    <span>Where business gets moving.</span>
-  </div>
+<!-- HEADER -->
+<header class="header">
+  <div class="header-main">
 
-  <header class="header">
-    <div class="header-row">
-
-      <a href="./" class="logo">
-        Kaziya
-        <span class="tagline">Where business gets moving.</span>
-      </a>
-
-      <div class="search">
-        <input
-          id="searchInput"
-          type="search"
-          placeholder="Search products, shops and categories..."
-          autocomplete="off"
-        >
-        <button onclick="performSearch()">🔍</button>
-      </div>
-
-      <div class="header-actions">
-
-        <button class="header-action" onclick="openAccount()">
-          👤 Account
-        </button>
-
-        <button class="header-action" onclick="openWishlist()">
-          ❤️ Wishlist
-        </button>
-
-        <button class="header-action" onclick="openCart()">
-          🛒 Cart
-          <span class="cart-count" id="cartCount">0</span>
-        </button>
-
-        <button
-          id="installBtn"
-          class="install-btn"
-          onclick="installKaziya()"
-        >
-          📲 Install App
-        </button>
-
-      </div>
+    <div>
+      <div class="logo">Kaziya</div>
+      <div class="tagline">Where business gets moving.</div>
     </div>
-  </header>
 
-  <nav class="categories-bar">
-    <div class="categories-inner" id="categoryNav">
-      <button class="cat-btn active" onclick="filterCategory('all',this)">
-        All
+    <div class="search-wrap">
+      <input
+        id="searchInput"
+        type="search"
+        placeholder="Search products, shops and services..."
+        autocomplete="off"
+      >
+      <button class="search-btn" onclick="performSearch()">🔍</button>
+    </div>
+
+    <div class="header-actions">
+
+      <button class="header-btn" onclick="openAccount()">
+        <span>👤</span>
+        Account
+      </button>
+
+      <button class="header-btn" onclick="openWishlist()">
+        <span>♡ <b class="wish-count" id="wishCount">0</b></span>
+        Wishlist
+      </button>
+
+      <button class="header-btn" onclick="openCart()">
+        <span>🛒 <b class="cart-count" id="cartCount">0</b></span>
+        Cart
+      </button>
+
+      <button
+        id="installBtn"
+        class="install-btn"
+        onclick="installKaziya()"
+      >
+        📲 Install App
+      </button>
+
+    </div>
+  </div>
+</header>
+
+<!-- CATEGORY NAV -->
+<nav class="category-nav">
+  <div class="category-inner">
+    <button onclick="filterCategory('all')">All</button>
+    <button onclick="filterCategory('Fashion')">Fashion</button>
+    <button onclick="filterCategory('Electronics')">Electronics</button>
+    <button onclick="filterCategory('Phones')">Phones</button>
+    <button onclick="filterCategory('Beauty')">Beauty</button>
+    <button onclick="filterCategory('Home')">Home & Living</button>
+    <button onclick="filterCategory('Shoes')">Shoes</button>
+    <button onclick="filterCategory('Food')">Food</button>
+    <button onclick="filterCategory('Services')">Services</button>
+  </div>
+</nav>
+
+<main class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Shop smarter with <span>Kaziya</span></h1>
+
+      <p>
+        Discover products, businesses and services from sellers across Uganda.
+        Shop conveniently and keep your business moving.
+      </p>
+
+      <button class="primary-btn" onclick="scrollToProducts()">
+        Start Shopping
       </button>
     </div>
-  </nav>
+  </section>
 
-  <main>
-
-    <section class="hero">
-      <div class="hero-content">
-        <h1>Shop smarter with Kaziya.</h1>
-        <p>
-          Discover products from Ugandan sellers, compare prices,
-          order what you need and keep your business moving.
-        </p>
-        <button class="hero-btn" onclick="scrollToProducts()">
-          Start Shopping
-        </button>
-      </div>
-
-      <div class="hero-art">🛍️</div>
-    </section>
-
-    <section class="benefits">
+  <!-- BENEFITS -->
+  <section class="section">
+    <div class="benefits">
 
       <div class="benefit">
         <div class="benefit-icon">🚚</div>
         <div>
-          <strong>Delivery Available</strong>
-          <span>Shop from sellers across Uganda.</span>
-        </div>
-      </div>
-
-      <div class="benefit">
-        <div class="benefit-icon">💳</div>
-        <div>
-          <strong>Mobile Money</strong>
-          <span>MTN & Airtel payment options.</span>
+          <strong>Delivery</strong>
+          <small>Convenient delivery options</small>
         </div>
       </div>
 
       <div class="benefit">
         <div class="benefit-icon">🔒</div>
         <div>
-          <strong>Secure Orders</strong>
-          <span>Your orders are handled securely.</span>
+          <strong>Secure Checkout</strong>
+          <small>Protected order processing</small>
         </div>
       </div>
 
       <div class="benefit">
         <div class="benefit-icon">📱</div>
         <div>
-          <strong>Install Kaziya</strong>
-          <span>Use Kaziya like an app.</span>
+          <strong>Mobile Money</strong>
+          <small>MTN & Airtel support</small>
         </div>
       </div>
 
-    </section>
-
-    <section class="section">
-
-      <div class="section-head">
-        <h2>Shop Categories</h2>
-        <a href="#" onclick="showAllCategories(event)">View all</a>
-      </div>
-
-      <div class="category-grid" id="categoryGrid">
-        <div class="loading">Loading categories...</div>
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <div class="flash">
-
-        <div class="flash-head">
-
-          <div class="flash-title">
-            ⚡ Flash Sales
-          </div>
-
-          <div class="timer">
-            <span>Ends in</span>
-            <span class="time-box" id="hours">08</span>:
-            <span class="time-box" id="minutes">00</span>:
-            <span class="time-box" id="seconds">00</span>
-          </div>
-
-        </div>
-
-        <div class="products" id="flashProducts">
-          <div class="loading">Loading products...</div>
-        </div>
-
-      </div>
-
-    </section>
-
-    <section class="section" id="productsSection">
-
-      <div class="section-head">
-        <h2>Today's Deals</h2>
-        <a href="#" onclick="scrollToProducts();return false;">View all</a>
-      </div>
-
-      <div class="products" id="productsGrid">
-        <div class="loading">Loading products...</div>
-      </div>
-
-    </section>
-
-    <section class="section">
-
-      <div class="section-head">
-        <h2>Featured Shops</h2>
-      </div>
-
-      <div class="shop-grid" id="shopsGrid">
-        <div class="empty">
-          No shops available yet.<br>
-          <small>Seller businesses will appear here when sellers create their shops.</small>
+      <div class="benefit">
+        <div class="benefit-icon">🏪</div>
+        <div>
+          <strong>Local Businesses</strong>
+          <small>Discover Ugandan sellers</small>
         </div>
       </div>
 
-    </section>
+    </div>
+  </section>
 
-    <section class="section">
+  <!-- SHOP CATEGORIES -->
+  <section class="section">
 
-      <div class="section-head">
-        <h2>Popular Products</h2>
-      </div>
+    <div class="section-title">
+      <h2>Shop Categories</h2>
+    </div>
 
-      <div class="products" id="popularProducts">
-        <div class="loading">Loading products...</div>
-      </div>
+    <div class="category-grid">
 
-    </section>
+      <button class="category-card" onclick="filterCategory('Fashion')">
+        <div class="emoji">👗</div>
+        Fashion
+      </button>
 
-    <section class="section">
+      <button class="category-card" onclick="filterCategory('Electronics')">
+        <div class="emoji">📱</div>
+        Electronics
+      </button>
 
-      <div class="section-head">
-        <h2>Recommended for You</h2>
-      </div>
+      <button class="category-card" onclick="filterCategory('Shoes')">
+        <div class="emoji">👟</div>
+        Shoes
+      </button>
 
-      <div class="products" id="recommendedProducts">
-        <div class="loading">Loading products...</div>
-      </div>
+      <button class="category-card" onclick="filterCategory('Beauty')">
+        <div class="emoji">💄</div>
+        Beauty
+      </button>
 
-    </section>
+      <button class="category-card" onclick="filterCategory('Home')">
+        <div class="emoji">🏠</div>
+        Home
+      </button>
 
-    <section class="section">
+      <button class="category-card" onclick="filterCategory('Food')">
+        <div class="emoji">🍔</div>
+        Food
+      </button>
 
-      <div class="section-head">
-        <h2>Kaziya Services</h2>
-      </div>
+    </div>
+  </section>
 
-      <div class="services">
+  <!-- FLASH SALES -->
+  <section class="section">
 
-        <div class="service">
-          <div class="service-icon">🛒</div>
-          <h3>Online Shopping</h3>
-          <p>
-            Find products from local sellers and order directly.
-          </p>
-        </div>
-
-        <div class="service">
-          <div class="service-icon">🏪</div>
-          <h3>Seller Marketplace</h3>
-          <p>
-            Businesses can showcase their products on Kaziya.
-          </p>
-        </div>
-
-        <div class="service">
-          <div class="service-icon">🚚</div>
-          <h3>Delivery</h3>
-          <p>
-            Shop products that support delivery to your location.
-          </p>
-        </div>
-
-        <div class="service">
-          <div class="service-icon">💬</div>
-          <h3>Customer Support</h3>
-          <p>
-            Need help? Contact the Kaziya team on WhatsApp.
-          </p>
-        </div>
-
-      </div>
-
-    </section>
-
-  </main>
-
-  <footer>
-
-    <div class="footer-grid">
-
+    <div class="flash">
       <div>
-        <h3>Kaziya</h3>
-        <p>
-          Where business gets moving.
-          Kaziya connects customers and businesses through
-          a modern Ugandan marketplace.
-        </p>
+        <strong>⚡ FLASH SALES</strong>
+        <span> Limited-time deals</span>
       </div>
 
-      <div>
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="#" onclick="scrollToProducts();return false;">Products</a></li>
-          <li><a href="#" onclick="showAllCategories(event)">Categories</a></li>
-          <li><a href="#" onclick="openWishlist()">Wishlist</a></li>
-          <li><a href="#" onclick="openCart()">Cart</a></li>
-        </ul>
-      </div>
+      <div class="timer" id="flashTimer">00:00:00</div>
+    </div>
 
-      <div>
-        <h3>Account</h3>
-        <ul>
-          <li><a href="#" onclick="openAccount()">My Account</a></li>
-          <li><a href="#" onclick="openOrders()">My Orders</a></li>
-          <li><a href="#" onclick="openAccount()">Sign In</a></li>
-        </ul>
-      </div>
+    <div id="flashProducts" class="product-grid"></div>
 
-      <div>
-        <h3>Support</h3>
-        <ul>
-          <li><a href="https://wa.me/256746673971" target="_blank">WhatsApp</a></li>
-          <li>Uganda 🇺🇬</li>
-          <li>Secure Shopping</li>
-        </ul>
+  </section>
+
+  <!-- ALL / POPULAR PRODUCTS -->
+  <section class="section" id="productsSection">
+
+    <div class="section-title">
+      <h2 id="productsTitle">Popular Products</h2>
+      <button onclick="filterCategory('all')">View All</button>
+    </div>
+
+    <div id="productsGrid" class="product-grid">
+
+      <div class="message">
+        Loading products...
       </div>
 
     </div>
 
-    <div class="copyright">
-      © <span id="year"></span> Kaziya. All rights reserved.
+  </section>
+
+  <!-- FEATURED SHOPS -->
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Featured Shops</h2>
     </div>
 
-  </footer>
+    <div id="shopsGrid" class="shop-grid">
 
-  <a
-    class="whatsapp"
-    href="https://wa.me/256746673971?text=Hello%20Kaziya%2C%20I%20need%20help"
-    target="_blank"
-    aria-label="Contact Kaziya on WhatsApp"
-  >
-    💬
-  </a>
-
-  <nav class="mobile-nav">
-
-    <button class="active" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-      <span>🏠</span>
-      Home
-    </button>
-
-    <button onclick="scrollToProducts()">
-      <span>🔎</span>
-      Shop
-    </button>
-
-    <button onclick="openCart()">
-      <span>🛒</span>
-      Cart
-    </button>
-
-    <button onclick="openWishlist()">
-      <span>❤️</span>
-      Wishlist
-    </button>
-
-    <button onclick="openAccount()">
-      <span>👤</span>
-      Account
-    </button>
-
-  </nav>
-
-
-  <!-- PRODUCT MODAL -->
-
-  <div class="modal" id="productModal">
-
-    <div class="modal-box">
-
-      <div class="modal-header">
-        <h2>Product Details</h2>
-        <button class="close" onclick="closeModal('productModal')">×</button>
+      <div class="message">
+        Loading shops...
       </div>
 
-      <div class="modal-body" id="productDetails"></div>
+    </div>
+
+  </section>
+
+  <!-- RECOMMENDED -->
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Recommended for You</h2>
+    </div>
+
+    <div id="recommendedGrid" class="product-grid"></div>
+
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section">
+
+    <div class="section-title">
+      <h2>Services</h2>
+    </div>
+
+    <div class="services">
+
+      <div class="service">
+        <div class="service-icon">💇</div>
+        <h3>Beauty & Salon</h3>
+        <p>Discover beauty professionals and salon services.</p>
+      </div>
+
+      <div class="service">
+        <div class="service-icon">🔧</div>
+        <h3>Professional Services</h3>
+        <p>Find people and businesses offering useful services.</p>
+      </div>
+
+      <div class="service">
+        <div class="service-icon">🚗</div>
+        <h3>Transport</h3>
+        <p>Explore transport-related services.</p>
+      </div>
+
+      <div class="service">
+        <div class="service-icon">🏢</div>
+        <h3>Business Services</h3>
+        <p>Connect with businesses for your needs.</p>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-inner">
+
+    <div>
+      <h3>Kaziya</h3>
+      <p>
+        Where business gets moving.
+        Kaziya connects customers, sellers and service providers
+        through one marketplace.
+      </p>
+    </div>
+
+    <div>
+      <h3>Customer</h3>
+      <ul>
+        <li>My Account</li>
+        <li>My Orders</li>
+        <li>Wishlist</li>
+        <li>Shopping Cart</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Marketplace</h3>
+      <ul>
+        <li>Products</li>
+        <li>Businesses</li>
+        <li>Services</li>
+        <li>Deals</li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Contact</h3>
+      <p>WhatsApp: +256 746 673 971</p>
+      <p>Uganda</p>
+    </div>
+
+  </div>
+</footer>
+
+<!-- MOBILE NAV -->
+
+<nav class="mobile-nav">
+
+  <button onclick="window.scrollTo({top:0,behavior:'smooth'})">
+    <span>🏠</span>
+    Home
+  </button>
+
+  <button onclick="scrollToProducts()">
+    <span>🛍️</span>
+    Shop
+  </button>
+
+  <button onclick="openWishlist()">
+    <span>♡</span>
+    Wishlist
+  </button>
+
+  <button onclick="openCart()">
+    <span>🛒</span>
+    Cart
+  </button>
+
+  <button onclick="openAccount()">
+    <span>👤</span>
+    Account
+  </button>
+
+</nav>
+
+<!-- WHATSAPP -->
+
+<a
+  class="whatsapp"
+  href="https://wa.me/256746673971"
+  target="_blank"
+  rel="noopener"
+  aria-label="Contact Kaziya on WhatsApp"
+>
+  💬
+</a>
+
+<!-- PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <strong>Product Details</strong>
+      <button class="close" onclick="closeModal('productModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="detail-grid">
+
+        <div class="detail-image" id="detailImage"></div>
+
+        <div>
+
+          <h2 id="detailName"></h2>
+
+          <div class="detail-price" id="detailPrice"></div>
+
+          <p id="detailDescription"></p>
+
+          <p id="detailLocation" class="product-meta"></p>
+
+          <p id="detailStock" class="product-meta"></p>
+
+          <div class="qty">
+
+            <button onclick="changeDetailQty(-1)">−</button>
+
+            <input
+              id="detailQty"
+              type="number"
+              value="1"
+              min="1"
+            >
+
+            <button onclick="changeDetailQty(1)">+</button>
+
+          </div>
+
+          <div class="product-actions">
+
+            <button
+              class="add-btn"
+              onclick="addDetailToCart()"
+            >
+              Add to Cart
+            </button>
+
+            <button
+              class="buy-btn"
+              onclick="buyDetailNow()"
+            >
+              Buy Now
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- CART MODAL -->
+<!-- CART MODAL -->
 
-  <div class="modal" id="cartModal">
+<div class="modal" id="cartModal">
 
-    <div class="modal-box">
+  <div class="modal-box">
 
-      <div class="modal-header">
-        <h2>🛒 Your Cart</h2>
-        <button class="close" onclick="closeModal('cartModal')">×</button>
+    <div class="modal-header">
+      <strong>Shopping Cart</strong>
+      <button class="close" onclick="closeModal('cartModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="cartItems"></div>
+
+      <div class="cart-total">
+        <span>Total</span>
+        <span id="cartTotal">UGX 0</span>
       </div>
 
-      <div class="modal-body">
-
-        <div id="cartItems"></div>
-
-        <div class="cart-total">
-          <span>Total</span>
-          <span id="cartTotal">UGX 0</span>
-        </div>
-
-        <button class="checkout-btn" onclick="openCheckout()">
-          Proceed to Checkout
-        </button>
-
-      </div>
+      <button class="full-btn" onclick="startCheckout()">
+        Proceed to Checkout
+      </button>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- CHECKOUT MODAL -->
+<!-- CHECKOUT MODAL -->
 
-  <div class="modal" id="checkoutModal">
+<div class="modal" id="checkoutModal">
 
-    <div class="modal-box">
+  <div class="modal-box">
 
-      <div class="modal-header">
-        <h2>Checkout</h2>
-        <button class="close" onclick="closeModal('checkoutModal')">×</button>
+    <div class="modal-header">
+      <strong>Checkout</strong>
+      <button class="close" onclick="closeModal('checkoutModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="checkoutLoginNotice"></div>
+
+      <div class="form-group">
+        <label>Customer Phone Number</label>
+        <input
+          id="checkoutPhone"
+          type="tel"
+          placeholder="e.g. 0771234567"
+        >
       </div>
 
-      <div class="modal-body">
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea
+          id="checkoutAddress"
+          placeholder="Enter your delivery address"
+        ></textarea>
+      </div>
 
-        <div class="form-group">
-          <label>Customer phone number</label>
-          <input
-            class="form-control"
-            id="customerPhone"
-            type="tel"
-            placeholder="07XXXXXXXX"
+      <div class="form-group">
+
+        <label>Payment Method</label>
+
+        <div class="payment-options">
+
+          <div
+            class="payment-option"
+            id="mtnPayment"
+            onclick="selectPayment('mtn')"
           >
-        </div>
+            📱<br>
+            <strong>MTN Mobile Money</strong>
+          </div>
 
-        <div class="form-group">
-          <label>Delivery address</label>
-          <textarea
-            class="form-control"
-            id="deliveryAddress"
-            rows="3"
-            placeholder="Enter your delivery address"
-          ></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Payment method</label>
-
-          <div class="payment-options">
-
-            <button
-              class="payment-option selected"
-              id="mtnOption"
-              onclick="selectPayment('mtn')"
-            >
-              🟡 MTN Mobile Money
-            </button>
-
-            <button
-              class="payment-option"
-              id="airtelOption"
-              onclick="selectPayment('airtel')"
-            >
-              🔴 Airtel Money
-            </button>
-
+          <div
+            class="payment-option"
+            id="airtelPayment"
+            onclick="selectPayment('airtel')"
+          >
+            📱<br>
+            <strong>Airtel Money</strong>
           </div>
 
         </div>
 
-        <div class="cart-total">
-          <span>Amount</span>
-          <span id="checkoutTotal">UGX 0</span>
-        </div>
+      </div>
 
-        <button class="checkout-btn" onclick="placeOrder()">
-          Place Order
-        </button>
+      <div class="cart-total">
+        <span>Order Total</span>
+        <span id="checkoutTotal">UGX 0</span>
+      </div>
 
-        <p
-          id="checkoutMessage"
-          style="font-size:12px;margin-top:12px;text-align:center;"
-        ></p>
+      <button
+        id="placeOrderBtn"
+        class="full-btn"
+        onclick="placeOrder()"
+      >
+        Place Order
+      </button>
 
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ACCOUNT MODAL -->
+
+<div class="modal" id="accountModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <strong>My Kaziya Account</strong>
+      <button class="close" onclick="closeModal('accountModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="accountContent"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- WISHLIST MODAL -->
+
+<div class="modal" id="wishlistModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <strong>My Wishlist</strong>
+      <button class="close" onclick="closeModal('wishlistModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="wishlistItems" class="product-grid"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ORDERS MODAL -->
+
+<div class="modal" id="ordersModal">
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+      <strong>My Orders</strong>
+      <button class="close" onclick="closeModal('ordersModal')">×</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div id="ordersList">
+        Loading orders...
       </div>
 
     </div>
 
   </div>
 
+</div>
 
-  <!-- ACCOUNT MODAL -->
+<!-- TOAST -->
 
-  <div class="modal" id="accountModal">
-
-    <div class="modal-box">
-
-      <div class="modal-header">
-        <h2>👤 Kaziya Account</h2>
-        <button class="close" onclick="closeModal('accountModal')">×</button>
-      </div>
-
-      <div class="modal-body">
-
-        <div id="accountContent"></div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- WISHLIST MODAL -->
-
-  <div class="modal" id="wishlistModal">
-
-    <div class="modal-box">
-
-      <div class="modal-header">
-        <h2>❤️ Wishlist</h2>
-        <button class="close" onclick="closeModal('wishlistModal')">×</button>
-      </div>
-
-      <div class="modal-body">
-
-        <div class="products" id="wishlistGrid"></div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ORDERS MODAL -->
-
-  <div class="modal" id="ordersModal">
-
-    <div class="modal-box">
-
-      <div class="modal-header">
-        <h2>📦 My Orders</h2>
-        <button class="close" onclick="closeModal('ordersModal')">×</button>
-      </div>
-
-      <div class="modal-body" id="ordersContent">
-        Loading...
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="toast" id="toast"></div>
-
+<div class="toast" id="toast"></div>
 
 <script>
+
 /* =========================================================
    KAZIYA CONFIGURATION
 ========================================================= */
@@ -1731,12 +1713,6 @@
 const SUPABASE_URL =
   "https://jrwbywbivylecguadesi.supabase.co";
 
-/*
-  This is your Supabase publishable/anon key.
-
-  IMPORTANT:
-  Never put a Supabase service_role/secret key here.
-*/
 const SUPABASE_ANON_KEY =
   "sb_publishable_WXxtVv4gdr7bl_AGj5f8kA_QC5Rmztz";
 
@@ -1750,39 +1726,115 @@ const supabaseClient =
 
 
 /* =========================================================
-   APP STATE
+   GLOBAL STATE
 ========================================================= */
 
 let products = [];
-let categories = [];
 let businesses = [];
+let cart = [];
+let wishlist = [];
 
-let cart = JSON.parse(
-  localStorage.getItem("kaziya_cart") || "[]"
-);
-
-let wishlist = JSON.parse(
-  localStorage.getItem("kaziya_wishlist") || "[]"
-);
-
-let selectedPayment = "mtn";
+let currentProduct = null;
+let selectedPayment = null;
 let deferredInstallPrompt = null;
+let currentUser = null;
+let authMode = "login";
 
 
 /* =========================================================
-   HELPERS
+   LOCAL STORAGE
 ========================================================= */
 
-function money(value){
+function loadLocalData(){
 
-  const number = Number(value || 0);
+  try{
+    cart =
+      JSON.parse(localStorage.getItem("kaziya_cart") || "[]");
 
-  return "UGX " +
-    number.toLocaleString("en-UG",{
-      maximumFractionDigits:0
-    });
+    wishlist =
+      JSON.parse(localStorage.getItem("kaziya_wishlist") || "[]");
+
+  }catch(e){
+
+    cart = [];
+    wishlist = [];
+
+  }
+
+  updateCartCount();
+  updateWishlistCount();
 }
 
+
+function saveLocalData(){
+
+  localStorage.setItem(
+    "kaziya_cart",
+    JSON.stringify(cart)
+  );
+
+  localStorage.setItem(
+    "kaziya_wishlist",
+    JSON.stringify(wishlist)
+  );
+
+  updateCartCount();
+  updateWishlistCount();
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(() => {
+      toast.style.display = "none";
+    }, 3000);
+}
+
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+function openModal(id){
+  document.getElementById(id).style.display = "block";
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(id){
+  document.getElementById(id).style.display = "none";
+  document.body.style.overflow = "";
+}
+
+
+/* =========================================================
+   FORMAT MONEY
+========================================================= */
+
+function formatUGX(value){
+
+  return "UGX " +
+    Number(value || 0)
+      .toLocaleString("en-UG");
+
+}
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHTML(value){
 
@@ -1792,111 +1844,39 @@ function escapeHTML(value){
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
+
 }
 
 
-function showToast(message){
-
-  const toast =
-    document.getElementById("toast");
-
-  toast.textContent = message;
-
-  toast.classList.add("show");
-
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },3000);
-}
-
-
-function openModal(id){
-  document.getElementById(id).classList.add("show");
-}
-
-
-function closeModal(id){
-  document.getElementById(id).classList.remove("show");
-}
-
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
 
 function getProductImage(product){
 
-  if(
-    Array.isArray(product.image_urls) &&
-    product.image_urls.length > 0
-  ){
-    return product.image_urls[0];
+  let urls = product.image_urls;
+
+  if(!urls){
+    return null;
   }
 
-  if(typeof product.image_urls === "string"){
+  if(typeof urls === "string"){
+
     try{
-      const parsed =
-        JSON.parse(product.image_urls);
-
-      if(Array.isArray(parsed) && parsed.length){
-        return parsed[0];
-      }
-    }catch(e){}
-
-    if(product.image_urls.trim()){
-      return product.image_urls;
+      urls = JSON.parse(urls);
+    }catch{
+      urls = [urls];
     }
+
   }
 
-  return "";
-}
+  if(Array.isArray(urls) && urls.length){
 
+    return urls[0];
 
-function productBusinessName(product){
-
-  /*
-    business_id may currently be NULL.
-    We therefore NEVER require a business relationship.
-  */
-
-  if(product.business_name){
-    return product.business_name;
   }
 
-  if(product.seller_name){
-    return product.seller_name;
-  }
-
-  return "Kaziya Seller";
-}
-
-
-function saveCart(){
-
-  localStorage.setItem(
-    "kaziya_cart",
-    JSON.stringify(cart)
-  );
-
-  updateCartCount();
-}
-
-
-function saveWishlist(){
-
-  localStorage.setItem(
-    "kaziya_wishlist",
-    JSON.stringify(wishlist)
-  );
-}
-
-
-function updateCartCount(){
-
-  const count =
-    cart.reduce(
-      (total,item)=>total + Number(item.quantity || 0),
-      0
-    );
-
-  document.getElementById("cartCount").textContent =
-    count;
+  return null;
 }
 
 
@@ -1906,109 +1886,64 @@ function updateCartCount(){
 
 async function loadProducts(){
 
-  const containers = [
-    "productsGrid",
-    "flashProducts",
-    "popularProducts",
-    "recommendedProducts"
-  ];
+  const grid =
+    document.getElementById("productsGrid");
 
-  containers.forEach(id=>{
-    document.getElementById(id).innerHTML =
-      `<div class="loading">Loading products...</div>`;
-  });
+  try{
 
-  /*
-    IMPORTANT:
-    We intentionally select ONLY columns that exist
-    in the products table you showed us.
+    const {data,error} =
+      await supabaseClient
+        .from("products")
+        .select(`
+          id,
+          seller_id,
+          business_id,
+          category_id,
+          name,
+          description,
+          price,
+          stock,
+          sku,
+          location,
+          image_urls,
+          delivery_available,
+          delivery_fee,
+          status,
+          rejection_reason,
+          featured,
+          created_at,
+          updated_at
+        `)
+        .eq("status","published")
+        .order("created_at",{ascending:false});
 
-    We do NOT join businesses here.
-    That means a product with business_id = NULL
-    can still appear.
-  */
+    if(error){
+      console.error(error);
+      throw error;
+    }
 
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("products")
-    .select(`
-      id,
-      seller_id,
-      business_id,
-      category_id,
-      name,
-      description,
-      price,
-      stock,
-      sku,
-      location,
-      image_urls,
-      delivery_available,
-      delivery_fee,
-      status,
-      rejection_reason,
-      featured,
-      created_at,
-      updated_at
-    `)
-    .eq("status","published")
-    .order("created_at",{
-      ascending:false
-    });
+    products = data || [];
 
-  if(error){
+    renderProducts(products);
+    renderFlashProducts();
+    renderRecommended();
 
-    console.error(
-      "Kaziya products error:",
-      error
-    );
+  }catch(error){
 
-    const errorHTML = `
-      <div class="error-box">
-        <strong>Products could not be loaded.</strong><br><br>
-        Supabase returned:<br>
-        ${escapeHTML(error.message)}
-        <br><br>
-        Check your products SELECT policy in Supabase.
+    console.error("Product loading error:",error);
+
+    grid.innerHTML = `
+      <div class="message error-message">
+        Products could not be loaded.
+        Please check your Supabase products table and RLS policies.
       </div>
     `;
 
-    containers.forEach(id=>{
-      document.getElementById(id).innerHTML =
-        errorHTML;
-    });
+    document.getElementById("flashProducts").innerHTML =
+      `<div class="message">Products are currently unavailable.</div>`;
 
-    return;
   }
 
-  products = data || [];
-
-  console.log(
-    "Kaziya products loaded:",
-    products.length
-  );
-
-  renderProducts(products,"productsGrid");
-
-  const flash =
-    products.slice(0,10);
-
-  renderProducts(
-    flash,
-    "flashProducts"
-  );
-
-  renderProducts(
-    products.slice(0,10),
-    "popularProducts"
-  );
-
-  renderProducts(
-    products.slice(0,10),
-    "recommendedProducts"
-  );
 }
 
 
@@ -2021,112 +1956,81 @@ function productCard(product){
   const image =
     getProductImage(product);
 
-  const liked =
+  const isWishlisted =
     wishlist.includes(product.id);
 
-  const stock =
-    Number(product.stock || 0);
-
-  const imageHTML = image
-    ? `<img
-         src="${escapeHTML(image)}"
-         alt="${escapeHTML(product.name)}"
-         loading="lazy"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-       >
-       <div class="placeholder-image" style="display:none;">🛍️</div>`
-    : `<div class="placeholder-image">🛍️</div>`;
-
   return `
-    <article class="product-card">
+    <article
+      class="product-card"
+      data-product-id="${escapeHTML(product.id)}"
+    >
 
-      <div
-        class="product-image"
-        onclick="openProduct('${product.id}')"
-        style="cursor:pointer"
+      ${
+        product.featured
+        ? `<div class="sale-badge">FEATURED</div>`
+        : ""
+      }
+
+      <button
+        class="wish-product"
+        onclick="event.stopPropagation(); toggleWishlist('${product.id}')"
       >
+        ${isWishlisted ? "❤️" : "♡"}
+      </button>
 
-        ${imageHTML}
+      <div class="product-image">
 
         ${
-          product.featured
-          ? `<span class="badge">FEATURED</span>`
-          : ""
+          image
+          ? `<img
+              src="${escapeHTML(image)}"
+              alt="${escapeHTML(product.name)}"
+              loading="lazy"
+            >`
+          : `<div class="image-placeholder">🛍️</div>`
         }
-
-        <button
-          class="heart ${liked ? "active" : ""}"
-          onclick="event.stopPropagation();toggleWishlist('${product.id}')"
-          aria-label="Wishlist"
-        >
-          ${liked ? "❤️" : "♡"}
-        </button>
 
       </div>
 
       <div class="product-info">
 
-        <div
-          class="product-name"
-          title="${escapeHTML(product.name)}"
-        >
+        <div class="product-name">
           ${escapeHTML(product.name)}
         </div>
 
         <div class="product-description">
-          ${escapeHTML(
-            product.description || "Quality product"
-          )}
+          ${escapeHTML(product.description || "")}
         </div>
 
-        <div class="price">
-          ${money(product.price)}
+        <div class="product-price">
+          ${formatUGX(product.price)}
         </div>
 
-        ${
-          product.delivery_fee &&
-          Number(product.delivery_fee) > 0
-          ? `<div class="old-price">
-               Delivery ${money(product.delivery_fee)}
-             </div>`
-          : ""
-        }
-
-        <div class="stock">
-          ${
-            stock > 0
-            ? `✓ ${stock} in stock`
+        <div class="product-meta">
+          ${product.stock > 0
+            ? `${escapeHTML(product.stock)} available`
             : "Out of stock"
+          }
+          ${product.location
+            ? ` • ${escapeHTML(product.location)}`
+            : ""
           }
         </div>
 
-        ${
-          product.location
-          ? `<div class="location">
-               📍 ${escapeHTML(product.location)}
-             </div>`
-          : ""
-        }
-
-        <div class="product-buttons">
+        <div class="product-actions">
 
           <button
-            class="btn btn-secondary"
-            onclick="openProduct('${product.id}')"
+            class="add-btn"
+            onclick="event.stopPropagation(); addToCart('${product.id}',1)"
           >
-            View
+            Add to Cart
           </button>
 
           <button
-            class="btn btn-primary"
-            ${
-              stock <= 0
-              ? "disabled"
-              : ""
-            }
-            onclick="addToCart('${product.id}')"
+            class="buy-btn"
+            onclick="event.stopPropagation(); buyNow('${product.id}')"
           >
-            ${stock > 0 ? "Add to Cart" : "Out of Stock"}
+            Buy Now
           </button>
 
         </div>
@@ -2135,914 +2039,136 @@ function productCard(product){
 
     </article>
   `;
-}
 
-
-function renderProducts(
-  list,
-  containerId
-){
-
-  const container =
-    document.getElementById(containerId);
-
-  if(!container) return;
-
-  if(!list || !list.length){
-
-    container.innerHTML = `
-      <div class="empty">
-        No products available yet.
-      </div>
-    `;
-
-    return;
-  }
-
-  container.innerHTML =
-    list.map(productCard).join("");
 }
 
 
 /* =========================================================
-   PRODUCT DETAILS
+   RENDER PRODUCTS
 ========================================================= */
 
-function openProduct(id){
-
-  const product =
-    products.find(
-      item => String(item.id) === String(id)
-    );
-
-  if(!product) return;
-
-  const image =
-    getProductImage(product);
-
-  const imageHTML = image
-    ? `<img
-         src="${escapeHTML(image)}"
-         alt="${escapeHTML(product.name)}"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-       >
-       <div class="placeholder-image" style="display:none;">🛍️</div>`
-    : `<div class="placeholder-image">🛍️</div>`;
-
-  document.getElementById("productDetails").innerHTML = `
-
-    <div class="detail-grid">
-
-      <div class="detail-image">
-        ${imageHTML}
-      </div>
-
-      <div class="detail-info">
-
-        <h2>
-          ${escapeHTML(product.name)}
-        </h2>
-
-        <div class="big-price">
-          ${money(product.price)}
-        </div>
-
-        <p>
-          ${escapeHTML(
-            product.description ||
-            "Quality product available on Kaziya."
-          )}
-        </p>
-
-        <p>
-          <strong>Seller:</strong>
-          ${escapeHTML(
-            productBusinessName(product)
-          )}
-        </p>
-
-        <p>
-          <strong>Location:</strong>
-          ${escapeHTML(
-            product.location || "Uganda"
-          )}
-        </p>
-
-        <p>
-          <strong>Stock:</strong>
-          ${Number(product.stock || 0)}
-        </p>
-
-        <p>
-          <strong>SKU:</strong>
-          ${escapeHTML(product.sku || "N/A")}
-        </p>
-
-        <p>
-          ${
-            product.delivery_available
-            ? "🚚 Delivery available"
-            : "📦 Delivery availability depends on seller"
-          }
-        </p>
-
-        <button
-          class="checkout-btn"
-          onclick="addToCart('${product.id}');closeModal('productModal')"
-          ${
-            Number(product.stock || 0) <= 0
-            ? "disabled"
-            : ""
-          }
-        >
-          🛒 Add to Cart
-        </button>
-
-      </div>
-
-    </div>
-  `;
-
-  openModal("productModal");
-}
-
-
-/* =========================================================
-   CART
-========================================================= */
-
-function addToCart(id){
-
-  const product =
-    products.find(
-      item => String(item.id) === String(id)
-    );
-
-  if(!product) return;
-
-  if(Number(product.stock || 0) <= 0){
-    showToast("This product is out of stock.");
-    return;
-  }
-
-  const existing =
-    cart.find(
-      item => String(item.id) === String(id)
-    );
-
-  if(existing){
-
-    if(
-      existing.quantity >=
-      Number(product.stock)
-    ){
-      showToast("You have reached the available stock.");
-      return;
-    }
-
-    existing.quantity++;
-
-  }else{
-
-    cart.push({
-      id:product.id,
-      quantity:1
-    });
-
-  }
-
-  saveCart();
-
-  showToast(
-    `${product.name} added to cart.`
-  );
-}
-
-
-function cartProductData(){
-
-  return cart
-    .map(item=>{
-
-      const product =
-        products.find(
-          p => String(p.id) === String(item.id)
-        );
-
-      if(!product) return null;
-
-      return {
-        ...product,
-        quantity:Number(item.quantity || 1)
-      };
-
-    })
-    .filter(Boolean);
-}
-
-
-function cartTotal(){
-
-  return cartProductData()
-    .reduce(
-      (total,item)=>
-        total +
-        Number(item.price || 0) *
-        Number(item.quantity || 1),
-      0
-    );
-}
-
-
-function openCart(){
-
-  renderCart();
-
-  openModal("cartModal");
-}
-
-
-function renderCart(){
-
-  const container =
-    document.getElementById("cartItems");
-
-  const items =
-    cartProductData();
-
-  if(!items.length){
-
-    container.innerHTML = `
-      <div class="empty">
-        🛒<br><br>
-        Your cart is empty.
-      </div>
-    `;
-
-  }else{
-
-    container.innerHTML =
-      items.map(item=>{
-
-        const image =
-          getProductImage(item);
-
-        return `
-          <div class="cart-item">
-
-            <div class="cart-thumb">
-              ${
-                image
-                ? `<img src="${escapeHTML(image)}" alt="">`
-                : "🛍️"
-              }
-            </div>
-
-            <div class="cart-details">
-
-              <strong>
-                ${escapeHTML(item.name)}
-              </strong>
-
-              <small>
-                ${money(item.price)}
-              </small>
-
-              <div class="qty">
-
-                <button
-                  onclick="changeQuantity('${item.id}',-1)"
-                >
-                  −
-                </button>
-
-                <span>
-                  ${item.quantity}
-                </span>
-
-                <button
-                  onclick="changeQuantity('${item.id}',1)"
-                >
-                  +
-                </button>
-
-                <button
-                  class="remove"
-                  onclick="removeFromCart('${item.id}')"
-                >
-                  Remove
-                </button>
-
-              </div>
-
-            </div>
-
-          </div>
-        `;
-
-      }).join("");
-
-  }
-
-  document.getElementById("cartTotal").textContent =
-    money(cartTotal());
-}
-
-
-function changeQuantity(id,change){
-
-  const item =
-    cart.find(
-      x => String(x.id) === String(id)
-    );
-
-  const product =
-    products.find(
-      x => String(x.id) === String(id)
-    );
-
-  if(!item || !product) return;
-
-  item.quantity += change;
-
-  if(item.quantity <= 0){
-
-    cart =
-      cart.filter(
-        x => String(x.id) !== String(id)
-      );
-
-  }else if(
-    item.quantity >
-    Number(product.stock || 0)
-  ){
-
-    item.quantity =
-      Number(product.stock || 0);
-
-    showToast("Maximum available stock reached.");
-  }
-
-  saveCart();
-  renderCart();
-}
-
-
-function removeFromCart(id){
-
-  cart =
-    cart.filter(
-      item => String(item.id) !== String(id)
-    );
-
-  saveCart();
-  renderCart();
-}
-
-
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-function openCheckout(){
-
-  if(!cart.length){
-    showToast("Your cart is empty.");
-    return;
-  }
-
-  closeModal("cartModal");
-
-  document.getElementById("checkoutTotal")
-    .textContent =
-    money(cartTotal());
-
-  openModal("checkoutModal");
-}
-
-
-function selectPayment(provider){
-
-  selectedPayment = provider;
-
-  document.getElementById("mtnOption")
-    .classList.toggle(
-      "selected",
-      provider === "mtn"
-    );
-
-  document.getElementById("airtelOption")
-    .classList.toggle(
-      "selected",
-      provider === "airtel"
-    );
-}
-
-
-async function placeOrder(){
-
-  const phone =
-    document.getElementById("customerPhone")
-      .value.trim();
-
-  const address =
-    document.getElementById("deliveryAddress")
-      .value.trim();
-
-  const message =
-    document.getElementById("checkoutMessage");
-
-  message.textContent =
-    "Checking your account...";
-
-  if(!phone){
-
-    message.textContent =
-      "Please enter your phone number.";
-
-    return;
-  }
-
-  if(!address){
-
-    message.textContent =
-      "Please enter your delivery address.";
-
-    return;
-  }
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-  if(!user){
-
-    message.innerHTML =
-      `Please sign in before placing an order.`;
-
-    return;
-  }
-
-  const items =
-    cartProductData();
-
-  if(!items.length){
-
-    message.textContent =
-      "Your cart is empty.";
-
-    return;
-  }
-
-  /*
-    This uses your existing secure order RPC.
-    Prices are calculated server-side.
-  */
-
-  const rpcItems =
-    items.map(item=>({
-      product_id:item.id,
-      quantity:item.quantity
-    }));
-
-  message.textContent =
-    "Creating your order...";
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.rpc(
-      "create_kaziya_order",
-      {
-        p_items:rpcItems,
-        p_delivery_address:address,
-        p_customer_phone:phone
-      }
-    );
-
-  if(error){
-
-    console.error(error);
-
-    message.textContent =
-      error.message ||
-      "Unable to create order.";
-
-    return;
-  }
-
-  const order =
-    Array.isArray(data)
-    ? data[0]
-    : data;
-
-  if(!order || !order.id){
-
-    message.textContent =
-      "Order was not created. Please try again.";
-
-    return;
-  }
-
-  message.textContent =
-    "Order created. Starting payment...";
-
-  /*
-    Call your existing Supabase Edge Function.
-  */
-
-  try{
-
-    const {
-      data:{
-        session
-      }
-    } =
-      await supabaseClient.auth.getSession();
-
-    if(!session){
-
-      message.textContent =
-        "Order created. Please sign in to continue payment.";
-
-      return;
-    }
-
-    const response =
-      await fetch(
-        `${SUPABASE_URL}/functions/v1/initiate-payment`,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json",
-            "Authorization":
-              `Bearer ${session.access_token}`,
-            "apikey":
-              SUPABASE_ANON_KEY
-          },
-
-          body:JSON.stringify({
-            order_id:order.id,
-            provider:selectedPayment,
-            phone_number:phone
-          })
-        }
-      );
-
-    const result =
-      await response.json();
-
-    if(!response.ok){
-
-      console.error(result);
-
-      message.textContent =
-        result.error ||
-        result.message ||
-        "Payment could not be initiated.";
-
-      return;
-    }
-
-    /*
-      Important:
-      Your Edge Function is responsible for
-      talking to MTN/Airtel.
-    */
-
-    message.innerHTML =
-      `
-      <strong>Order created successfully.</strong><br><br>
-      Payment request sent using
-      ${selectedPayment === "mtn"
-        ? "MTN Mobile Money"
-        : "Airtel Money"}.
-      <br><br>
-      Check your phone for the payment prompt.
-      `;
-
-    cart = [];
-
-    saveCart();
-
-    setTimeout(()=>{
-      closeModal("checkoutModal");
-      openOrders();
-    },3500);
-
-  }catch(error){
-
-    console.error(error);
-
-    message.textContent =
-      "Order created, but payment connection failed. Please contact Kaziya support.";
-  }
-}
-
-
-/* =========================================================
-   WISHLIST
-========================================================= */
-
-function toggleWishlist(id){
-
-  const index =
-    wishlist.findIndex(
-      item => String(item) === String(id)
-    );
-
-  if(index >= 0){
-
-    wishlist.splice(index,1);
-
-    showToast("Removed from wishlist.");
-
-  }else{
-
-    wishlist.push(id);
-
-    showToast("Added to wishlist.");
-
-  }
-
-  saveWishlist();
-
-  renderProducts(products,"productsGrid");
-  renderProducts(products.slice(0,10),"popularProducts");
-  renderProducts(products.slice(0,10),"recommendedProducts");
-
-  if(
-    document.getElementById("wishlistModal")
-      .classList.contains("show")
-  ){
-    renderWishlist();
-  }
-}
-
-
-function openWishlist(){
-
-  renderWishlist();
-
-  openModal("wishlistModal");
-}
-
-
-function renderWishlist(){
-
-  const list =
-    products.filter(
-      product =>
-        wishlist.some(
-          id =>
-            String(id) === String(product.id)
-        )
-    );
-
-  renderProducts(
-    list,
-    "wishlistGrid"
-  );
-}
-
-
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
-async function loadCategories(){
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("categories")
-      .select("*")
-      .order("name");
-
-  if(error){
-
-    console.error(
-      "Categories error:",
-      error
-    );
-
-    return;
-  }
-
-  categories =
-    data || [];
-
-  renderCategories();
-}
-
-
-function categoryIcon(name){
-
-  const n =
-    String(name || "").toLowerCase();
-
-  if(n.includes("fashion") || n.includes("clothes"))
-    return "👕";
-
-  if(n.includes("shoe"))
-    return "👟";
-
-  if(n.includes("phone") || n.includes("electronic"))
-    return "📱";
-
-  if(n.includes("beauty"))
-    return "💄";
-
-  if(n.includes("home"))
-    return "🏠";
-
-  if(n.includes("food"))
-    return "🍔";
-
-  if(n.includes("car") || n.includes("auto"))
-    return "🚗";
-
-  if(n.includes("computer"))
-    return "💻";
-
-  if(n.includes("sport"))
-    return "⚽";
-
-  return "🛍️";
-}
-
-
-function renderCategories(){
+function renderProducts(list){
 
   const grid =
-    document.getElementById("categoryGrid");
+    document.getElementById("productsGrid");
 
-  const nav =
-    document.getElementById("categoryNav");
+  if(!list.length){
 
-  if(!categories.length){
-
-    grid.innerHTML = `
-      <div class="empty">
-        Categories will appear here.
-      </div>
-    `;
+    grid.innerHTML =
+      `<div class="message">No products found.</div>`;
 
     return;
   }
 
   grid.innerHTML =
-    categories
-      .slice(0,12)
-      .map(category=>`
+    list.map(productCard).join("");
 
-        <button
-          class="category-card"
-          onclick="filterCategory('${category.id}',null)"
-        >
-
-          <div class="icon">
-            ${categoryIcon(category.name)}
-          </div>
-
-          <strong>
-            ${escapeHTML(category.name || "Category")}
-          </strong>
-
-        </button>
-
-      `).join("");
-
-  nav.innerHTML = `
-    <button
-      class="cat-btn active"
-      onclick="filterCategory('all',this)"
-    >
-      All
-    </button>
-
-    ${
-      categories
-        .slice(0,20)
-        .map(category=>`
-          <button
-            class="cat-btn"
-            onclick="filterCategory('${category.id}',this)"
-          >
-            ${escapeHTML(category.name || "Category")}
-          </button>
-        `)
-        .join("")
-    }
-  `;
-}
-
-
-function filterCategory(categoryId,button){
-
-  if(button){
-
-    document
-      .querySelectorAll(".cat-btn")
-      .forEach(btn=>
-        btn.classList.remove("active")
-      );
-
-    button.classList.add("active");
-  }
-
-  if(categoryId === "all"){
-
-    renderProducts(
-      products,
-      "productsGrid"
-    );
-
-  }else{
-
-    const filtered =
-      products.filter(
-        product =>
-          String(product.category_id) ===
-          String(categoryId)
-      );
-
-    renderProducts(
-      filtered,
-      "productsGrid"
-    );
-
-    document
-      .getElementById("productsSection")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
-  }
-}
-
-
-function showAllCategories(event){
-
-  if(event){
-    event.preventDefault();
-  }
-
-  document
-    .getElementById("categoryGrid")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
 }
 
 
 /* =========================================================
-   BUSINESSES / SHOPS
+   FLASH PRODUCTS
 ========================================================= */
 
-async function loadBusinesses(){
+function renderFlashProducts(){
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("businesses")
-      .select(`
-        id,
-        business_name,
-        category,
-        phone,
-        location,
-        logo_url,
-        cover_url
-      `)
-      .order("created_at",{
-        ascending:false
-      });
+  const grid =
+    document.getElementById("flashProducts");
 
-  if(error){
+  const list =
+    products.slice(0,5);
 
-    console.error(
-      "Businesses error:",
-      error
-    );
+  if(!list.length){
+
+    grid.innerHTML =
+      `<div class="message">No flash-sale products yet.</div>`;
 
     return;
   }
 
-  businesses =
-    data || [];
+  grid.innerHTML =
+    list.map(productCard).join("");
 
-  renderBusinesses();
 }
 
+
+/* =========================================================
+   RECOMMENDED
+========================================================= */
+
+function renderRecommended(){
+
+  const grid =
+    document.getElementById("recommendedGrid");
+
+  const list =
+    products.slice(0,5);
+
+  if(!list.length){
+
+    grid.innerHTML =
+      `<div class="message">No recommendations available yet.</div>`;
+
+    return;
+  }
+
+  grid.innerHTML =
+    list.map(productCard).join("");
+
+}
+
+
+/* =========================================================
+   LOAD BUSINESSES
+========================================================= */
+
+async function loadBusinesses(){
+
+  const grid =
+    document.getElementById("shopsGrid");
+
+  try{
+
+    const {data,error} =
+      await supabaseClient
+        .from("businesses")
+        .select(`
+          id,
+          business_name,
+          category,
+          phone,
+          location,
+          logo_url,
+          cover_url
+        `)
+        .order("created_at",{ascending:false});
+
+    if(error){
+      console.error(error);
+      throw error;
+    }
+
+    businesses = data || [];
+
+    renderBusinesses();
+
+  }catch(error){
+
+    console.error("Business loading error:",error);
+
+    grid.innerHTML =
+      `<div class="message">
+        Shops could not be loaded.
+      </div>`;
+
+  }
+
+}
+
+
+/* =========================================================
+   BUSINESS CARDS
+========================================================= */
 
 function renderBusinesses(){
 
@@ -3051,80 +2177,125 @@ function renderBusinesses(){
 
   if(!businesses.length){
 
-    grid.innerHTML = `
-      <div class="empty">
-
-        🏪<br><br>
-
+    grid.innerHTML =
+      `<div class="message">
         No shops available yet.
-
-        <br>
-
-        <small>
-          Seller businesses will appear here when sellers create their shops.
-        </small>
-
-      </div>
-    `;
+        Seller businesses will appear here.
+      </div>`;
 
     return;
   }
 
   grid.innerHTML =
-    businesses
-      .slice(0,12)
-      .map(shop=>{
+    businesses.slice(0,8).map(shop => {
 
-        const cover =
-          shop.cover_url ||
-          shop.logo_url;
+      const cover =
+        shop.cover_url ||
+        "";
 
-        return `
-          <div class="shop-card">
+      const logo =
+        shop.logo_url ||
+        "";
 
-            <div
-              class="shop-cover"
-              ${
-                cover
-                ? `style="background-image:url('${escapeHTML(cover)}');background-size:cover;background-position:center;"`
-                : ""
-              }
-            >
-              ${
-                cover
-                ? ""
-                : "🏪"
-              }
-            </div>
+      return `
+        <div class="shop-card">
 
-            <div class="shop-info">
+          <div class="shop-cover">
 
-              <h3>
-                ${escapeHTML(
-                  shop.business_name ||
-                  "Kaziya Seller"
-                )}
-              </h3>
-
-              <p>
-                ${escapeHTML(
-                  shop.category ||
-                  "Marketplace seller"
-                )}
-              </p>
-
-              ${
-                shop.location
-                ? `<p>📍 ${escapeHTML(shop.location)}</p>`
-                : ""
-              }
-
-            </div>
+            ${
+              cover
+              ? `<img
+                  src="${escapeHTML(cover)}"
+                  alt="${escapeHTML(shop.business_name)}"
+                >`
+              : "🏪"
+            }
 
           </div>
-        `;
 
-      }).join("");
+          <div class="shop-body">
+
+            ${
+              logo
+              ? `<img
+                  class="shop-logo"
+                  src="${escapeHTML(logo)}"
+                  alt=""
+                >`
+              : `<div
+                  class="shop-logo"
+                  style="display:flex;align-items:center;justify-content:center;"
+                >🏪</div>`
+            }
+
+            <h3>
+              ${escapeHTML(shop.business_name)}
+            </h3>
+
+            <small>
+              ${escapeHTML(shop.category || "Business")}
+            </small>
+
+            <br>
+
+            <small>
+              ${escapeHTML(shop.location || "Uganda")}
+            </small>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   FILTER CATEGORY
+========================================================= */
+
+function filterCategory(category){
+
+  if(category === "all"){
+
+    document.getElementById("productsTitle").textContent =
+      "Popular Products";
+
+    renderProducts(products);
+
+    scrollToProducts();
+
+    return;
+  }
+
+  const search =
+    category.toLowerCase();
+
+  const filtered =
+    products.filter(product => {
+
+      const text =
+        (
+          product.name +
+          " " +
+          (product.description || "") +
+          " " +
+          (product.location || "")
+        ).toLowerCase();
+
+      return text.includes(search);
+
+    });
+
+  document.getElementById("productsTitle").textContent =
+    category + " Products";
+
+  renderProducts(filtered);
+
+  scrollToProducts();
+
 }
 
 
@@ -3143,148 +2314,929 @@ function performSearch(){
 
   if(!query){
 
-    renderProducts(
-      products,
-      "productsGrid"
-    );
-
+    renderProducts(products);
     return;
+
   }
 
   const filtered =
-    products.filter(product=>{
+    products.filter(product => {
 
-      const name =
-        String(product.name || "")
-          .toLowerCase();
+      const text =
+        (
+          product.name +
+          " " +
+          (product.description || "") +
+          " " +
+          (product.location || "")
+        ).toLowerCase();
 
-      const description =
-        String(product.description || "")
-          .toLowerCase();
+      return text.includes(query);
 
-      const location =
-        String(product.location || "")
-          .toLowerCase();
-
-      const sku =
-        String(product.sku || "")
-          .toLowerCase();
-
-      return (
-        name.includes(query) ||
-        description.includes(query) ||
-        location.includes(query) ||
-        sku.includes(query)
-      );
     });
 
-  renderProducts(
-    filtered,
-    "productsGrid"
-  );
+  document.getElementById("productsTitle").textContent =
+    `Search results for "${query}"`;
 
-  document
-    .getElementById("productsSection")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
+  renderProducts(filtered);
 
-  showToast(
-    `${filtered.length} product${filtered.length === 1 ? "" : "s"} found.`
-  );
+  scrollToProducts();
+
 }
 
 
 document
   .getElementById("searchInput")
-  .addEventListener(
-    "keydown",
-    function(event){
+  .addEventListener("keydown",function(event){
 
-      if(event.key === "Enter"){
-        performSearch();
-      }
-
+    if(event.key === "Enter"){
+      performSearch();
     }
-  );
+
+  });
 
 
 /* =========================================================
-   AUTH / ACCOUNT
+   PRODUCT DETAILS
 ========================================================= */
 
-async function openAccount(){
+function openProduct(productId){
+
+  const product =
+    products.find(p => p.id === productId);
+
+  if(!product){
+    return;
+  }
+
+  currentProduct = product;
+
+  const image =
+    getProductImage(product);
+
+  document.getElementById("detailImage").innerHTML =
+    image
+    ? `<img
+        src="${escapeHTML(image)}"
+        alt="${escapeHTML(product.name)}"
+      >`
+    : `<div class="image-placeholder">🛍️</div>`;
+
+  document.getElementById("detailName").textContent =
+    product.name;
+
+  document.getElementById("detailPrice").textContent =
+    formatUGX(product.price);
+
+  document.getElementById("detailDescription").textContent =
+    product.description || "No description provided.";
+
+  document.getElementById("detailLocation").textContent =
+    product.location
+    ? `📍 ${product.location}`
+    : "";
+
+  document.getElementById("detailStock").textContent =
+    `Stock: ${product.stock}`;
+
+  document.getElementById("detailQty").value = 1;
+
+  openModal("productModal");
+
+}
+
+
+/* =========================================================
+   DETAIL QUANTITY
+========================================================= */
+
+function changeDetailQty(change){
+
+  const input =
+    document.getElementById("detailQty");
+
+  let value =
+    Number(input.value || 1) + change;
+
+  if(value < 1){
+    value = 1;
+  }
+
+  if(currentProduct && value > currentProduct.stock){
+    value = currentProduct.stock;
+  }
+
+  input.value = value;
+
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+function addToCart(productId,quantity){
+
+  const product =
+    products.find(p => p.id === productId);
+
+  if(!product){
+    return;
+  }
+
+  if(Number(product.stock) <= 0){
+
+    showToast("This product is out of stock.");
+    return;
+
+  }
+
+  quantity =
+    Math.max(
+      1,
+      Math.min(
+        Number(quantity) || 1,
+        Number(product.stock)
+      )
+    );
+
+  const existing =
+    cart.find(item => item.id === productId);
+
+  if(existing){
+
+    existing.quantity =
+      Math.min(
+        existing.quantity + quantity,
+        Number(product.stock)
+      );
+
+  }else{
+
+    cart.push({
+      id:product.id,
+      quantity:quantity
+    });
+
+  }
+
+  saveLocalData();
+
+  showToast("Added to your cart.");
+
+}
+
+
+/* =========================================================
+   PRODUCT DETAIL CART
+========================================================= */
+
+function addDetailToCart(){
+
+  if(!currentProduct){
+    return;
+  }
+
+  const quantity =
+    Number(
+      document.getElementById("detailQty").value
+    ) || 1;
+
+  addToCart(
+    currentProduct.id,
+    quantity
+  );
+
+  closeModal("productModal");
+
+}
+
+
+/* =========================================================
+   BUY NOW
+========================================================= */
+
+function buyNow(productId){
+
+  const product =
+    products.find(p => p.id === productId);
+
+  if(!product){
+    return;
+  }
+
+  cart = [
+    {
+      id:product.id,
+      quantity:1
+    }
+  ];
+
+  saveLocalData();
+
+  startCheckout();
+
+}
+
+
+/* =========================================================
+   DETAIL BUY NOW
+========================================================= */
+
+function buyDetailNow(){
+
+  if(!currentProduct){
+    return;
+  }
+
+  const quantity =
+    Number(
+      document.getElementById("detailQty").value
+    ) || 1;
+
+  cart = [
+    {
+      id:currentProduct.id,
+      quantity:quantity
+    }
+  ];
+
+  saveLocalData();
+
+  closeModal("productModal");
+
+  startCheckout();
+
+}
+
+
+/* =========================================================
+   CART COUNT
+========================================================= */
+
+function updateCartCount(){
+
+  const count =
+    cart.reduce(
+      (total,item) =>
+        total + Number(item.quantity || 0),
+      0
+    );
+
+  document.getElementById("cartCount").textContent =
+    count;
+
+}
+
+
+/* =========================================================
+   WISHLIST COUNT
+========================================================= */
+
+function updateWishlistCount(){
+
+  document.getElementById("wishCount").textContent =
+    wishlist.length;
+
+}
+
+
+/* =========================================================
+   WISHLIST
+========================================================= */
+
+function toggleWishlist(productId){
+
+  const index =
+    wishlist.indexOf(productId);
+
+  if(index >= 0){
+
+    wishlist.splice(index,1);
+
+    showToast("Removed from wishlist.");
+
+  }else{
+
+    wishlist.push(productId);
+
+    showToast("Added to wishlist.");
+
+  }
+
+  saveLocalData();
+
+  renderProducts(products);
+  renderFlashProducts();
+  renderRecommended();
+
+}
+
+
+/* =========================================================
+   OPEN WISHLIST
+========================================================= */
+
+function openWishlist(){
+
+  const container =
+    document.getElementById("wishlistItems");
+
+  const items =
+    products.filter(
+      product =>
+        wishlist.includes(product.id)
+    );
+
+  if(!items.length){
+
+    container.innerHTML =
+      `<div class="message">
+        Your wishlist is empty.
+      </div>`;
+
+  }else{
+
+    container.innerHTML =
+      items.map(productCard).join("");
+
+  }
+
+  openModal("wishlistModal");
+
+}
+
+
+/* =========================================================
+   OPEN CART
+========================================================= */
+
+function openCart(){
+
+  renderCart();
+
+  openModal("cartModal");
+
+}
+
+
+/* =========================================================
+   RENDER CART
+========================================================= */
+
+function renderCart(){
+
+  const container =
+    document.getElementById("cartItems");
+
+  if(!cart.length){
+
+    container.innerHTML =
+      `<div class="message">
+        Your cart is empty.
+      </div>`;
+
+    document.getElementById("cartTotal").textContent =
+      "UGX 0";
+
+    return;
+  }
+
+  let total = 0;
+
+  container.innerHTML =
+    cart.map(item => {
+
+      const product =
+        products.find(p => p.id === item.id);
+
+      if(!product){
+        return "";
+      }
+
+      const subtotal =
+        Number(product.price) *
+        Number(item.quantity);
+
+      total += subtotal;
+
+      const image =
+        getProductImage(product);
+
+      return `
+        <div class="cart-item">
+
+          <div class="cart-item-image">
+
+            ${
+              image
+              ? `<img
+                  src="${escapeHTML(image)}"
+                  alt=""
+                >`
+              : "🛍️"
+            }
+
+          </div>
+
+          <div class="cart-item-info">
+
+            <strong>
+              ${escapeHTML(product.name)}
+            </strong>
+
+            <small>
+              ${formatUGX(product.price)}
+            </small>
+
+          </div>
+
+          <div class="cart-controls">
+
+            <button
+              onclick="changeCartQuantity('${product.id}',-1)"
+            >
+              −
+            </button>
+
+            <span>
+              ${item.quantity}
+            </span>
+
+            <button
+              onclick="changeCartQuantity('${product.id}',1)"
+            >
+              +
+            </button>
+
+          </div>
+
+          <button
+            onclick="removeFromCart('${product.id}')"
+            style="border:0;background:none;color:#e53935;"
+          >
+            🗑️
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+  document.getElementById("cartTotal").textContent =
+    formatUGX(total);
+
+}
+
+
+/* =========================================================
+   CHANGE CART QUANTITY
+========================================================= */
+
+function changeCartQuantity(productId,change){
+
+  const item =
+    cart.find(i => i.id === productId);
+
+  const product =
+    products.find(p => p.id === productId);
+
+  if(!item || !product){
+    return;
+  }
+
+  item.quantity += change;
+
+  if(item.quantity <= 0){
+
+    removeFromCart(productId);
+    return;
+
+  }
+
+  if(item.quantity > Number(product.stock)){
+
+    item.quantity =
+      Number(product.stock);
+
+  }
+
+  saveLocalData();
+
+  renderCart();
+
+}
+
+
+/* =========================================================
+   REMOVE CART
+========================================================= */
+
+function removeFromCart(productId){
+
+  cart =
+    cart.filter(
+      item =>
+        item.id !== productId
+    );
+
+  saveLocalData();
+
+  renderCart();
+
+}
+
+
+/* =========================================================
+   CART TOTAL
+========================================================= */
+
+function getCartTotal(){
+
+  return cart.reduce(
+    (total,item) => {
+
+      const product =
+        products.find(
+          p => p.id === item.id
+        );
+
+      if(!product){
+        return total;
+      }
+
+      return total +
+        Number(product.price) *
+        Number(item.quantity);
+
+    },
+    0
+  );
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+async function startCheckout(){
+
+  if(!cart.length){
+
+    showToast("Your cart is empty.");
+    return;
+
+  }
+
+  closeModal("cartModal");
+
+  selectedPayment = null;
+
+  document
+    .getElementById("mtnPayment")
+    .classList.remove("selected");
+
+  document
+    .getElementById("airtelPayment")
+    .classList.remove("selected");
+
+  document.getElementById("checkoutTotal").textContent =
+    formatUGX(getCartTotal());
+
+  if(currentUser){
+
+    const {data} =
+      await supabaseClient
+        .from("profiles")
+        .select("full_name,phone")
+        .eq("id",currentUser.id)
+        .maybeSingle();
+
+    if(data && data.phone){
+
+      document.getElementById("checkoutPhone").value =
+        data.phone;
+
+    }
+
+    document.getElementById("checkoutLoginNotice").innerHTML =
+      `
+        <div class="account-profile">
+          <strong>Signed in as</strong><br>
+          ${escapeHTML(
+            currentUser.user_metadata?.full_name ||
+            currentUser.email ||
+            "Kaziya customer"
+          )}
+        </div>
+      `;
+
+  }else{
+
+    document.getElementById("checkoutLoginNotice").innerHTML =
+      `
+        <div class="message" style="margin-bottom:15px;">
+          Please sign in or create a Kaziya account before placing your order.
+        </div>
+      `;
+
+  }
+
+  openModal("checkoutModal");
+
+}
+
+
+/* =========================================================
+   PAYMENT SELECTION
+========================================================= */
+
+function selectPayment(provider){
+
+  selectedPayment = provider;
+
+  document
+    .getElementById("mtnPayment")
+    .classList.toggle(
+      "selected",
+      provider === "mtn"
+    );
+
+  document
+    .getElementById("airtelPayment")
+    .classList.toggle(
+      "selected",
+      provider === "airtel"
+    );
+
+}
+
+
+/* =========================================================
+   PLACE ORDER
+========================================================= */
+
+async function placeOrder(){
+
+  if(!currentUser){
+
+    closeModal("checkoutModal");
+
+    showToast(
+      "Please create an account or sign in before ordering."
+    );
+
+    setTimeout(
+      () => openAccount(),
+      500
+    );
+
+    return;
+
+  }
+
+  if(!cart.length){
+
+    showToast("Your cart is empty.");
+    return;
+
+  }
+
+  const phone =
+    document
+      .getElementById("checkoutPhone")
+      .value
+      .trim();
+
+  const address =
+    document
+      .getElementById("checkoutAddress")
+      .value
+      .trim();
+
+  if(!phone){
+
+    showToast("Please enter your phone number.");
+    return;
+
+  }
+
+  if(!address){
+
+    showToast("Please enter your delivery address.");
+    return;
+
+  }
+
+  if(!selectedPayment){
+
+    showToast("Please select MTN or Airtel Money.");
+    return;
+
+  }
+
+  const button =
+    document.getElementById("placeOrderBtn");
+
+  button.disabled = true;
+  button.textContent = "Creating order...";
+
+  try{
+
+    const items =
+      cart.map(item => ({
+        product_id:item.id,
+        quantity:Number(item.quantity)
+      }));
+
+    /*
+      Secure database RPC.
+      The database calculates the real product prices
+      and creates the order.
+    */
+
+    const {data,error} =
+      await supabaseClient.rpc(
+        "create_kaziya_order",
+        {
+          p_items:items,
+          p_delivery_address:address,
+          p_customer_phone:phone
+        }
+      );
+
+    if(error){
+      throw error;
+    }
+
+    const order =
+      Array.isArray(data)
+      ? data[0]
+      : data;
+
+    if(!order || !order.id){
+
+      throw new Error(
+        "The order was not created correctly."
+      );
+
+    }
+
+    /*
+      Save/update phone in the customer's profile.
+    */
+
+    await supabaseClient
+      .from("profiles")
+      .update({
+        phone:phone
+      })
+      .eq("id",currentUser.id);
+
+    /*
+      Start payment through the secure Edge Function.
+      The browser does NOT mark the payment as successful.
+    */
+
+    button.textContent =
+      "Starting payment...";
+
+    const {
+      data:paymentData,
+      error:paymentError
+    } =
+      await supabaseClient.functions.invoke(
+        "initiate-payment",
+        {
+          body:{
+            order_id:order.id,
+            provider:selectedPayment,
+            phone_number:phone
+          }
+        }
+      );
+
+    if(paymentError){
+
+      console.error(paymentError);
+
+      showToast(
+        "Order created, but payment could not be started. Please contact support."
+      );
+
+    }else{
+
+      console.log(
+        "Payment response:",
+        paymentData
+      );
+
+      showToast(
+        "Order created. Follow the payment instructions if prompted."
+      );
+
+    }
+
+    cart = [];
+
+    saveLocalData();
+
+    closeModal("checkoutModal");
+
+    button.disabled = false;
+    button.textContent = "Place Order";
+
+    setTimeout(
+      () => openOrders(),
+      800
+    );
+
+  }catch(error){
+
+    console.error("Order error:",error);
+
+    showToast(
+      error.message ||
+      "Unable to create your order."
+    );
+
+    button.disabled = false;
+    button.textContent = "Place Order";
+
+  }
+
+}
+
+
+/* =========================================================
+   ACCOUNT
+========================================================= */
+
+function openAccount(){
+
+  renderAccount();
 
   openModal("accountModal");
+
+}
+
+
+/* =========================================================
+   RENDER ACCOUNT
+========================================================= */
+
+function renderAccount(){
 
   const container =
     document.getElementById("accountContent");
 
-  container.innerHTML =
-    "Checking account...";
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-  if(user){
+  if(!currentUser){
 
     container.innerHTML = `
 
-      <div class="account-status">
+      <h2 style="margin-bottom:8px;">
+        ${authMode === "login"
+          ? "Sign in to Kaziya"
+          : "Create your Kaziya account"
+        }
+      </h2>
 
-        <strong>✓ You are signed in</strong>
-
-        <br><br>
-
-        ${escapeHTML(
-          user.email || "Kaziya customer"
-        )}
-
-      </div>
-
-      <button
-        class="checkout-btn"
-        onclick="openOrders();closeModal('accountModal')"
-      >
-        📦 My Orders
-      </button>
-
-      <br><br>
-
-      <button
-        class="btn"
-        style="width:100%;background:#fee2e2;color:#991b1b"
-        onclick="signOut()"
-      >
-        Sign Out
-      </button>
-
-    `;
-
-  }else{
-
-    container.innerHTML = `
-
-      <p
-        style="font-size:13px;color:#666;margin-bottom:15px"
-      >
-        Sign in or create a Kaziya customer account
-        to place and manage orders.
+      <p style="color:#777;margin-bottom:18px;">
+        ${
+          authMode === "login"
+          ? "Access your orders, account and marketplace features."
+          : "Create an account to shop and manage your orders."
+        }
       </p>
+
+      ${
+        authMode === "signup"
+        ? `
+          <div class="form-group">
+
+            <label>Full Name</label>
+
+            <input
+              id="signupName"
+              type="text"
+              placeholder="Your full name"
+            >
+
+          </div>
+        `
+        : ""
+      }
 
       <div class="form-group">
 
-        <label>Email</label>
+        <label>Email Address</label>
 
         <input
-          class="form-control"
           id="authEmail"
           type="email"
           placeholder="you@example.com"
+          autocomplete="email"
         >
 
       </div>
@@ -3294,145 +3246,338 @@ async function openAccount(){
         <label>Password</label>
 
         <input
-          class="form-control"
           id="authPassword"
           type="password"
-          placeholder="Minimum 6 characters"
+          placeholder="At least 6 characters"
+          autocomplete="${
+            authMode === "signup"
+            ? "new-password"
+            : "current-password"
+          }"
         >
 
       </div>
 
       <button
-        class="checkout-btn"
-        onclick="signIn()"
+        class="full-btn"
+        onclick="${
+          authMode === "login"
+          ? "loginCustomer()"
+          : "signupCustomer()"
+        }"
       >
-        Sign In
+        ${
+          authMode === "login"
+          ? "Sign In"
+          : "Create Account"
+        }
       </button>
 
-      <br><br>
-
-      <button
-        class="btn btn-secondary"
-        style="width:100%"
-        onclick="signUp()"
+      <div
+        class="switch-link"
+        onclick="toggleAuthMode()"
       >
-        Create Account
-      </button>
-
-      <p
-        id="authMessage"
-        style="font-size:12px;text-align:center;margin-top:12px"
-      ></p>
+        ${
+          authMode === "login"
+          ? "Don't have an account? Create one"
+          : "Already have an account? Sign in"
+        }
+      </div>
 
     `;
+
+    return;
+
   }
+
+
+  const fullName =
+    currentUser.user_metadata?.full_name ||
+    currentUser.email?.split("@")[0] ||
+    "Customer";
+
+  const firstLetter =
+    fullName.charAt(0).toUpperCase();
+
+  container.innerHTML = `
+
+    <div class="account-profile">
+
+      <div class="account-avatar">
+        ${escapeHTML(firstLetter)}
+      </div>
+
+      <h2>
+        ${escapeHTML(fullName)}
+      </h2>
+
+      <p style="color:#777;">
+        ${escapeHTML(currentUser.email || "")}
+      </p>
+
+    </div>
+
+    <div class="account-menu">
+
+      <button onclick="openOrders()">
+        📦 &nbsp; My Orders
+      </button>
+
+      <button onclick="openWishlist();closeModal('accountModal')">
+        ❤️ &nbsp; My Wishlist
+      </button>
+
+      <button onclick="openCart();closeModal('accountModal')">
+        🛒 &nbsp; Shopping Cart
+      </button>
+
+      <button onclick="startCheckout();closeModal('accountModal')">
+        💳 &nbsp; Checkout
+      </button>
+
+      <button onclick="signOutCustomer()">
+        🚪 &nbsp; Sign Out
+      </button>
+
+    </div>
+
+  `;
+
 }
 
 
-async function signIn(){
+/* =========================================================
+   TOGGLE AUTH MODE
+========================================================= */
 
-  const email =
-    document.getElementById("authEmail")
-      .value.trim();
+function toggleAuthMode(){
 
-  const password =
-    document.getElementById("authPassword")
-      .value;
+  authMode =
+    authMode === "login"
+    ? "signup"
+    : "login";
 
-  const message =
-    document.getElementById("authMessage");
+  renderAccount();
 
-  if(!email || !password){
-
-    message.textContent =
-      "Enter your email and password.";
-
-    return;
-  }
-
-  const {
-    error
-  } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  if(error){
-
-    message.textContent =
-      error.message;
-
-    return;
-  }
-
-  message.textContent =
-    "Signed in successfully.";
-
-  setTimeout(
-    openAccount,
-    700
-  );
 }
 
 
-async function signUp(){
+/* =========================================================
+   SIGN UP CUSTOMER
+========================================================= */
+
+async function signupCustomer(){
+
+  const name =
+    document
+      .getElementById("signupName")
+      .value
+      .trim();
 
   const email =
-    document.getElementById("authEmail")
-      .value.trim();
+    document
+      .getElementById("authEmail")
+      .value
+      .trim();
 
   const password =
-    document.getElementById("authPassword")
+    document
+      .getElementById("authPassword")
       .value;
 
-  const message =
-    document.getElementById("authMessage");
+  if(!name){
 
-  if(!email || !password){
-
-    message.textContent =
-      "Enter your email and password.";
-
+    showToast("Please enter your full name.");
     return;
+
+  }
+
+  if(!email){
+
+    showToast("Please enter your email.");
+    return;
+
   }
 
   if(password.length < 6){
 
-    message.textContent =
-      "Password must contain at least 6 characters.";
+    showToast(
+      "Password must contain at least 6 characters."
+    );
 
     return;
+
   }
 
-  const {
-    error
-  } =
-    await supabaseClient.auth.signUp({
-      email,
-      password
-    });
+  try{
 
-  if(error){
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signUp({
 
-    message.textContent =
-      error.message;
+        email:email,
 
-    return;
+        password:password,
+
+        options:{
+          data:{
+            full_name:name
+          }
+        }
+
+      });
+
+    if(error){
+      throw error;
+    }
+
+    /*
+      The database trigger created earlier automatically
+      creates public.profiles using the Auth user's ID.
+    */
+
+    if(data.session){
+
+      currentUser =
+        data.user;
+
+      showToast(
+        "Kaziya account created successfully."
+      );
+
+      renderAccount();
+
+    }else{
+
+      showToast(
+        "Account created. Please check your email to confirm your account."
+      );
+
+      authMode = "login";
+
+      renderAccount();
+
+    }
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Unable to create account."
+    );
+
   }
 
-  message.textContent =
-    "Account created. Check your email if confirmation is enabled.";
 }
 
 
-async function signOut(){
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginCustomer(){
+
+  const email =
+    document
+      .getElementById("authEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("authPassword")
+      .value;
+
+  if(!email || !password){
+
+    showToast(
+      "Enter your email and password."
+    );
+
+    return;
+
+  }
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.signInWithPassword({
+        email:email,
+        password:password
+      });
+
+    if(error){
+      throw error;
+    }
+
+    currentUser =
+      data.user;
+
+    showToast("Welcome back to Kaziya.");
+
+    renderAccount();
+
+  }catch(error){
+
+    console.error(error);
+
+    showToast(
+      error.message ||
+      "Unable to sign in."
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SIGN OUT
+========================================================= */
+
+async function signOutCustomer(){
 
   await supabaseClient.auth.signOut();
+
+  currentUser = null;
 
   closeModal("accountModal");
 
   showToast("You have been signed out.");
+
+}
+
+
+/* =========================================================
+   GET CURRENT USER
+========================================================= */
+
+async function checkAuth(){
+
+  const {
+    data
+  } =
+    await supabaseClient.auth.getSession();
+
+  currentUser =
+    data.session?.user || null;
+
+  supabaseClient.auth.onAuthStateChange(
+    (_event,session) => {
+
+      currentUser =
+        session?.user || null;
+
+    }
+  );
+
 }
 
 
@@ -3442,103 +3587,220 @@ async function signOut(){
 
 async function openOrders(){
 
-  openModal("ordersModal");
+  if(!currentUser){
 
-  const container =
-    document.getElementById("ordersContent");
+    closeModal("accountModal");
 
-  container.innerHTML =
-    "Loading your orders...";
+    showToast(
+      "Please sign in to view your orders."
+    );
 
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-  if(!user){
-
-    container.innerHTML = `
-      <div class="empty">
-        Please sign in to view your orders.
-      </div>
-    `;
+    setTimeout(
+      () => openAccount(),
+      500
+    );
 
     return;
+
   }
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("orders")
-      .select("*")
-      .eq("customer_id",user.id)
-      .order("created_at",{
-        ascending:false
-      });
+  closeModal("accountModal");
 
-  if(error){
+  const container =
+    document.getElementById("ordersList");
+
+  container.innerHTML =
+    `<div class="message">Loading your orders...</div>`;
+
+  openModal("ordersModal");
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("orders")
+        .select("*")
+        .eq("customer_id",currentUser.id)
+        .order("created_at",{ascending:false});
+
+    if(error){
+      throw error;
+    }
+
+    if(!data || !data.length){
+
+      container.innerHTML =
+        `
+          <div class="message">
+            You have not placed any orders yet.
+          </div>
+        `;
+
+      return;
+
+    }
+
+    container.innerHTML =
+      data.map(order => {
+
+        return `
+          <div class="order-card">
+
+            <strong>
+              Order #${escapeHTML(
+                String(order.id).slice(0,8)
+              )}
+            </strong>
+
+            <p style="margin:7px 0;">
+              Total:
+              <strong>
+                ${formatUGX(order.total_amount)}
+              </strong>
+            </p>
+
+            <span class="order-status">
+              ${escapeHTML(
+                order.status || "pending"
+              )}
+            </span>
+
+            <p
+              style="margin-top:8px;color:#777;font-size:12px;"
+            >
+              ${escapeHTML(
+                order.created_at
+                ? new Date(order.created_at)
+                    .toLocaleString()
+                : ""
+              )}
+            </p>
+
+          </div>
+        `;
+
+      }).join("");
+
+  }catch(error){
 
     console.error(error);
 
-    container.innerHTML = `
-      <div class="error-box">
-        Unable to load orders.<br>
-        ${escapeHTML(error.message)}
-      </div>
-    `;
+    container.innerHTML =
+      `
+        <div class="message error-message">
+          Unable to load your orders.
+        </div>
+      `;
 
-    return;
   }
 
-  if(!data || !data.length){
+}
 
-    container.innerHTML = `
-      <div class="empty">
-        📦<br><br>
-        You don't have any orders yet.
-      </div>
-    `;
 
-    return;
+/* =========================================================
+   SCROLL
+========================================================= */
+
+function scrollToProducts(){
+
+  document
+    .getElementById("productsSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+
+/* =========================================================
+   PRODUCT CLICK
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    const card =
+      event.target.closest(".product-card");
+
+    if(!card){
+      return;
+    }
+
+    if(
+      event.target.closest("button") ||
+      event.target.closest("a")
+    ){
+      return;
+    }
+
+    const id =
+      card.dataset.productId;
+
+    if(id){
+      openProduct(id);
+    }
+
+  }
+);
+
+
+/* =========================================================
+   FLASH TIMER
+========================================================= */
+
+function startFlashTimer(){
+
+  function update(){
+
+    const now =
+      new Date();
+
+    const tomorrow =
+      new Date();
+
+    tomorrow.setHours(
+      24,0,0,0
+    );
+
+    const diff =
+      tomorrow - now;
+
+    const hours =
+      Math.floor(diff / 3600000);
+
+    const minutes =
+      Math.floor(
+        (diff % 3600000) /
+        60000
+      );
+
+    const seconds =
+      Math.floor(
+        (diff % 60000) /
+        1000
+      );
+
+    document.getElementById("flashTimer")
+      .textContent =
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
   }
 
-  container.innerHTML =
-    data.map(order=>`
+  update();
 
-      <div class="order-card">
+  setInterval(
+    update,
+    1000
+  );
 
-        <strong>
-          Order #${escapeHTML(
-            String(order.id).slice(0,8)
-          )}
-        </strong>
-
-        <p>
-          ${new Date(
-            order.created_at
-          ).toLocaleString("en-UG")}
-        </p>
-
-        <p>
-          Total:
-          <strong>
-            ${money(order.total_amount)}
-          </strong>
-        </p>
-
-        <span class="status">
-          ${escapeHTML(
-            order.status || "pending"
-          )}
-        </span>
-
-      </div>
-
-    `).join("");
 }
 
 
@@ -3548,15 +3810,17 @@ async function openOrders(){
 
 window.addEventListener(
   "beforeinstallprompt",
-  event=>{
+  event => {
 
     event.preventDefault();
 
     deferredInstallPrompt =
       event;
 
-    document.getElementById("installBtn")
-      .style.display =
+    const button =
+      document.getElementById("installBtn");
+
+    button.style.display =
       "block";
 
   }
@@ -3572,9 +3836,7 @@ async function installKaziya(){
     const result =
       await deferredInstallPrompt.userChoice;
 
-    if(
-      result.outcome === "accepted"
-    ){
+    if(result.outcome === "accepted"){
 
       showToast(
         "Kaziya is being installed."
@@ -3585,56 +3847,37 @@ async function installKaziya(){
     deferredInstallPrompt = null;
 
     document.getElementById("installBtn")
-      .style.display =
-      "none";
+      .style.display = "none";
 
     return;
+
   }
 
   /*
-    iPhone/iPad does not use the same
-    beforeinstallprompt event.
+    iPhone/iPad fallback.
   */
 
-  const isIOS =
-    /iphone|ipad|ipod/i.test(
-      navigator.userAgent
-    );
-
-  if(isIOS){
-
-    showToast(
-      "Tap Share in Safari, then choose Add to Home Screen."
-    );
-
-    return;
-  }
-
-  if(
-    window.matchMedia(
-      "(display-mode: standalone)"
-    ).matches
-  ){
-
-    showToast(
-      "Kaziya is already installed."
-    );
-
-    return;
-  }
-
   showToast(
-    "Open your browser menu and choose Install app or Add to Home Screen."
+    "On iPhone: tap Share, then Add to Home Screen."
   );
+
 }
 
 
 window.addEventListener(
   "appinstalled",
-  ()=>{
+  () => {
+
     showToast(
-      "Kaziya has been installed successfully."
+      "Kaziya has been installed."
     );
+
+    const button =
+      document.getElementById("installBtn");
+
+    button.style.display =
+      "none";
+
   }
 );
 
@@ -3647,25 +3890,27 @@ if("serviceWorker" in navigator){
 
   window.addEventListener(
     "load",
-    ()=>{
+    () => {
+
       navigator.serviceWorker
         .register("./service-worker.js")
         .then(
-          registration=>{
+          registration => {
             console.log(
-              "Kaziya service worker registered:",
-              registration.scope
+              "Kaziya service worker registered.",
+              registration
             );
           }
         )
         .catch(
-          error=>{
-            console.warn(
+          error => {
+            console.log(
               "Service worker registration failed:",
               error
             );
           }
         );
+
     }
   );
 
@@ -3673,133 +3918,48 @@ if("serviceWorker" in navigator){
 
 
 /* =========================================================
-   FLASH SALE TIMER
+   CLOSE MODAL WHEN CLICKING BACKGROUND
 ========================================================= */
 
-let flashSeconds =
-  (8 * 60 * 60);
+document.addEventListener(
+  "click",
+  event => {
 
-function updateTimer(){
+    if(event.target.classList.contains("modal")){
 
-  if(flashSeconds <= 0){
-    flashSeconds =
-      8 * 60 * 60;
+      event.target.style.display =
+        "none";
+
+      document.body.style.overflow =
+        "";
+
+    }
+
   }
-
-  const hours =
-    Math.floor(
-      flashSeconds / 3600
-    );
-
-  const minutes =
-    Math.floor(
-      (flashSeconds % 3600) / 60
-    );
-
-  const seconds =
-    flashSeconds % 60;
-
-  document.getElementById("hours")
-    .textContent =
-    String(hours).padStart(2,"0");
-
-  document.getElementById("minutes")
-    .textContent =
-    String(minutes).padStart(2,"0");
-
-  document.getElementById("seconds")
-    .textContent =
-    String(seconds).padStart(2,"0");
-
-  flashSeconds--;
-}
-
-setInterval(
-  updateTimer,
-  1000
 );
-
-updateTimer();
-
-
-/* =========================================================
-   SCROLL
-========================================================= */
-
-function scrollToProducts(){
-
-  document
-    .getElementById("productsSection")
-    .scrollIntoView({
-      behavior:"smooth"
-    });
-}
-
-
-/* =========================================================
-   CLOSE MODALS WHEN CLICKING OUTSIDE
-========================================================= */
-
-document
-  .querySelectorAll(".modal")
-  .forEach(modal=>{
-
-    modal.addEventListener(
-      "click",
-      function(event){
-
-        if(event.target === modal){
-          modal.classList.remove("show");
-        }
-
-      }
-    );
-
-  });
 
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-document.getElementById("year")
-  .textContent =
-  new Date().getFullYear();
+async function initializeKaziya(){
 
-updateCartCount();
+  loadLocalData();
 
-Promise.all([
-  loadProducts(),
-  loadCategories(),
-  loadBusinesses()
-])
-.then(()=>{
-  console.log(
-    "Kaziya marketplace initialized."
-  );
-})
-.catch(error=>{
-  console.error(
-    "Kaziya initialization error:",
-    error
-  );
-});
+  startFlashTimer();
+
+  await checkAuth();
+
+  await Promise.all([
+    loadProducts(),
+    loadBusinesses()
+  ]);
+
+}
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-supabaseClient.auth.onAuthStateChange(
-  (event,session)=>{
-
-    console.log(
-      "Kaziya auth:",
-      event
-    );
-
-  }
-);
+initializeKaziya();
 
 </script>
 
